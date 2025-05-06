@@ -1,3 +1,12 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Made for RAG](https://img.shields.io/badge/RAG-Ready-blueviolet)
+![Powered by Ollama](https://img.shields.io/badge/Ollama-Compatible-blue)
+![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
+![Built with ❤️ by Matthew Craig](https://img.shields.io/badge/built%20with-%E2%9D%A4%EF%B8%8F%20by%20Matthew%20Craig-orange)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Made for RAG](https://img.shields.io/badge/RAG-Ready-blueviolet)
+![Powered by Ollama](https://img.shields.io/badge/Ollama-Compatible-blue)
+
 # 🧠 Python Design Patterns for RAG Systems
 
 This repository contains a structured, AI-enhanced collection of Python code examples for major software design patterns — formatted and optimized for use in **Retrieval-Augmented Generation (RAG)** systems, such as those powered by **Open WebUI + Ollama**.
