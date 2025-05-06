@@ -3,9 +3,6 @@
 ![Powered by Ollama](https://img.shields.io/badge/Ollama-Compatible-blue)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Built with ❤️ by Matthew Craig](https://img.shields.io/badge/built%20with-%E2%9D%A4%EF%B8%8F%20by%20Matthew%20Craig-orange)
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
-![Made for RAG](https://img.shields.io/badge/RAG-Ready-blueviolet)
-![Powered by Ollama](https://img.shields.io/badge/Ollama-Compatible-blue)
 
 # 🧠 Python Design Patterns for RAG Systems
 
@@ -118,6 +115,14 @@ Contributions are welcome! You can:
 Open issues or pull requests for improvements.
 
 ---
+
+## 🙏 Acknowledgments
+
+This project was created and maintained by Matthew Craig with assistance from OpenAI's ChatGPT (powered by GPT-4). Contributions from the AI included scaffolding, documentation, and refinement recommendations.
+
+This project also relies on:
+- [Ollama](https://ollama.com) for running local LLMs
+- [Code Llama](https://ollama.com/library/codellama) by Meta for AI-based docstring and summary generation with assistance from OpenAI's ChatGPT (powered by GPT-4). Contributions from the AI included scaffolding, documentation, and refinement recommendations.
 
 ## 📄 License
 
