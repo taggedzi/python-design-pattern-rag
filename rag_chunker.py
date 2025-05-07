@@ -1,170 +1,123 @@
-
-import os
-import ast
-import re
-import time
-import logging
+import sys
 import argparse
+import logging
+import time
+import json
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Tuple, Optional
 
 try:
     import ollama
 except ImportError:
     ollama = None
 
-logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
-log = logging.getLogger(__name__)
+# Setup logging
+def setup_logging():
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s] %(levelname)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+    return logging.getLogger("rag_chunker_practical")
 
-def extract_code_from_file(file_path: Path) -> str:
-    """Extract all top-level class/function definitions as one combined string."""
-    try:
-        source = file_path.read_text(encoding='utf-8')
-        tree = ast.parse(source)
-    except Exception as e:
-        log.warning(f"Skipping {file_path}: {e}")
-        return ""
+logger = setup_logging()
 
-    code_blocks = []
-    for node in tree.body:
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            try:
-                code = ast.unparse(node)
-                code_blocks.append(code.strip())
-            except Exception as e:
-                log.warning(f"Failed to unparse node in {file_path}: {e}")
-    return '\n\n'.join(code_blocks)
+# System prompt for structured JSON output
+def get_system_prompt() -> str:
+    return (
+        "You are a professional Python code summarizer. "
+        "Given the Python source code, return a JSON object with two keys: "
+        "`summary` (a 1-2 sentence summary) and `docstrings` (a list of strings, each representing a suggested docstring for a class or function). "
+        "Respond with valid JSON only, no additional text."
+    )
 
-def enhance_with_ollama(code: str, model: str = 'codellama', retries: int = 3, delay: float = 2.0) -> Optional[str]:
-    if not ollama:
-        raise RuntimeError("The `ollama` Python package is not installed.")
-
-
-    for attempt in range(retries):
+# Call Ollama to get summary and docstrings
+def annotate_code(code: str, model: str, retries: int, delay: float) -> Optional[Tuple[str, List[str]]]:
+    if ollama is None or not hasattr(ollama, 'chat'):
+        logger.error("Ollama package with chat API is required.")
+        return None
+    prompt = get_system_prompt()
+    for attempt in range(1, retries + 1):
         try:
-            # response = ollama.chat(model=model, messages=[{"role": "user", "content": prompt}])
-            response = ollama.chat(
+            resp = ollama.chat(
                 model=model,
                 messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You are a professional Python code annotator.\n"
-                            "Return exactly the following sections:\n"
-                            "1. A full enhanced Python code block with docstrings\n"
-                            "2. ## Summary\n"
-                            "3. ## Docstrings\n"
-                            "No commentary or extra explanation."
-                        )
-                    },
-                    {
-                        "role": "user",
-                        "content": code.strip()
-                    }
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": code}
                 ]
             )
-            return response['message']['content']
+            content = resp.get('message', {}).get('content', '').strip()
+            # Extract JSON substring if extra text present
+            if not content.startswith('{'):
+                start = content.find('{')
+                end = content.rfind('}')
+                if start != -1 and end != -1:
+                    content = content[start:end+1]
+            data = json.loads(content)
+            summary = data.get('summary', '').strip()
+            docstrings = [d.strip() for d in data.get('docstrings', []) if d.strip()]
+            return summary, docstrings
+        except json.JSONDecodeError as jde:
+            logger.warning(f"JSON parse failed (attempt {attempt}): {jde}")
         except Exception as e:
-            log.warning(f"Ollama error (attempt {attempt+1}/{retries}): {e}")
-            time.sleep(delay * (2 ** attempt))
+            logger.warning(f"Annotation attempt {attempt} failed: {e}")
+        time.sleep(delay)
+    logger.error("All annotation attempts failed.")
     return None
 
-def parse_pattern_from_path(path: Path) -> Optional[str]:
-    parts = path.parts
-    for part in parts:
-        if part.lower() in {'singleton', 'factory', 'builder', 'adapter', 'observer', 'decorator', 'strategy', 'command', 'facade'}:
-            return part.capitalize()
-    return None
+# Write markdown chunk
+def write_chunk(file_path: Path, summary: str, docstrings: List[str], output_dir: Path) -> None:
+    rel = file_path.relative_to(args.source_dir)
+    chunk_name = rel.with_suffix('').as_posix().replace('/', '_').replace('\\', '_') + '.md'
+    out_path = output_dir / chunk_name
+    front = f"---\nfile: {rel.as_posix()}\nchunk: {chunk_name}\n---\n\n"
+    code_block = f"```python\n{file_path.read_text(encoding='utf-8')}\n```\n\n"
+    summary_md = f"## Summary\n{summary}\n\n"
+    doc_md = "## Docstrings\n" + ''.join([f"- {d}\n" for d in docstrings]) + "\n"
+    out_path.write_text(front + code_block + summary_md + doc_md, encoding='utf-8')
+    logger.info(f"Wrote chunk: {out_path}")
 
-def write_chunk(output_dir: Path, metadata: Dict[str, str], original_code: str, enhanced: Optional[str], keep_original: bool):
-    chunk_path = output_dir / metadata['filename']
-
-    with open(chunk_path, "w", encoding="utf-8") as f:
-        f.write("---\n")
-        for key, value in metadata.items():
-            if key != "filename":
-                f.write(f"{key}: {value}\n")
-        f.write("---\n\n")
-
-        if keep_original:
-            f.write("```python\n" + original_code.strip() + "\n```\n\n")
-
-        if enhanced:
-            f.write("---\n\n" + enhanced.strip() + "\n")
-
-def clean_and_chunk_repo(source_dir, output_dir, enhance=False, keep_original=False, skip_enhanced=False, model="codellama"):
-    source_dir = Path(source_dir)
-    files_to_process = []
-
-    if source_dir.is_file() and source_dir.suffix == ".py":
-        files_to_process = [source_dir]
-        use_rel_path = False
-    else:
-        files_to_process = list(source_dir.rglob("*.py"))
-        use_rel_path = True
-
-
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    count = 0
-
-    for file_path in files_to_process:
-        print(f"🔍 Processing {file_path}")
-        
-        if use_rel_path:
-            rel_path = file_path.relative_to(source_dir)
-        else:
-            rel_path = file_path.name  # just the filename
-
-        base_name = (
-            rel_path.with_suffix('').as_posix().replace('/', '_').replace('\\', '_')
-            if isinstance(rel_path, Path)
-            else Path(rel_path).stem
-        )
-        pattern = parse_pattern_from_path(file_path)
-
-        code_block = extract_code_from_file(file_path)
-        if not code_block.strip():
-            continue
-
-        chunk_filename = f"{base_name}.md"
-        chunk_file = output_dir / chunk_filename
-
-        if skip_enhanced and chunk_file.exists():
-            if "## Summary" in chunk_file.read_text(encoding="utf-8"):
-                log.info(f"Skipping already enhanced: {chunk_filename}")
-                continue
-
-        enhanced = enhance_with_ollama(code_block, model=model) if enhance else None
-
-        metadata = {
-            "file": str(rel_path),
-            "chunk": base_name,
-            "filename": chunk_filename
-        }
-        if pattern:
-            metadata["pattern"] = pattern
-
-        write_chunk(output_dir, metadata, code_block, enhanced, keep_original)
-        count += 1
-
-    log.info(f"\n✅ {count} chunks written to: {output_dir.resolve()} (Enhance: {enhance}, Keep original: {keep_original})")
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Chunk and optionally enhance Python files for RAG ingestion.")
-    parser.add_argument("source", help="Path to the Python project directory or single file")
-    parser.add_argument("output", help="Directory to write Markdown chunks")
-    parser.add_argument("--enhance", action="store_true", help="Use Ollama to add docstrings and summaries")
-    parser.add_argument("--model", default="pattern-rag-gen:latest", help="Ollama model name (default: codellama)")
-    parser.add_argument("--keep-original", action="store_true", help="Include the original code in the output")
-    parser.add_argument("--skip-enhanced", action="store_true", help="Skip files already enhanced with a summary")
-
+# Main processing
+def main():
+    global args
+    parser = argparse.ArgumentParser(description="Practical RAG chunker: extracts code + structured annotations.")
+    parser.add_argument('source', help='.py file or directory to process')
+    parser.add_argument('output', help='Output directory for .md chunks')
+    parser.add_argument('--model', default='pattern-rag-gen:latest', help='Ollama model name')
+    parser.add_argument('--retries', type=int, default=2, help='Number of annotation retries')
+    parser.add_argument('--delay', type=float, default=1.0, help='Delay between retries')
     args = parser.parse_args()
-    clean_and_chunk_repo(
-        args.source,
-        args.output,
-        enhance=args.enhance,
-        keep_original=args.keep_original,
-        skip_enhanced=args.skip_enhanced,
-        model=args.model
-    )
+
+    source = Path(args.source)
+    output_dir = Path(args.output)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    args.source_dir = source  # store for write_chunk
+
+    # Gather Python files
+    if source.is_file() and source.suffix == '.py':
+        files = [source]
+    else:
+        files = list(source.rglob('*.py'))
+    logger.info(f"Found {len(files)} Python file(s) to process.")
+
+    failures = []
+    for f in files:
+        logger.info(f"Annotating {f}")
+        result = annotate_code(f.read_text(encoding='utf-8'), args.model, args.retries, args.delay)
+        if result:
+            summary, docstrings = result
+            write_chunk(f, summary, docstrings, output_dir)
+        else:
+            failures.append(f)
+
+    if failures:
+        log_file = output_dir / 'failed_chunks.log'
+        with log_file.open('w', encoding='utf-8') as lf:
+            for f in failures:
+                lf.write(f"{f.as_posix()}\n")
+        logger.warning(f"{len(failures)} failure(s). See {log_file}")
+    else:
+        logger.info("All files processed successfully.")
+
+if __name__ == '__main__':
+    main()
