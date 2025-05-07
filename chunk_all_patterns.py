@@ -7,7 +7,7 @@ import time
 import datetime
 
 source_dir = Path("patterns")
-chunk_dir = Path("chunks")
+chunk_dir = Path("docs")
 model = "pattern-rag-gen:latest"
 index_file = Path("summary_index.json")
 log_file = Path("failed_chunks.log")
