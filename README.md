@@ -20,13 +20,30 @@ All pattern implementations have been:
 
 ```
 python-design-pattern-rag/
-├── chunks/                  # All pattern code chunks in Markdown format
+├── chunks/                      # All pattern code chunks in Markdown format
 │   ├── builder_Builder.md
 │   ├── factory_SimpleFactory.md
 │   └── ...
-├── summary_index.json      # Indexed metadata + summaries for each chunk
-├── rag_chunker.py          # Script to chunk + enhance Python source files
-├── summary_index_generator.py # Script to extract summary metadata from chunks
+├── patterns/                    # All pattern code examples
+│   ├── creational/              # Creational patterns (e.g. Builder)
+│   |   ├── abstract_factory.py
+│   |   ├── builder.py
+│   |   └── ...
+│   ├── structural/              # Structural patterns (e.g. Factory)
+│   |   ├── adapter.py
+│   |   ├── decorator.py
+│   |   └── ...
+│   └── behavioral/              # Behavioral patterns (e.g. Observer)
+│       ├── observer.py
+│       ├── memento.py
+│       └── ...
+├── ollama/                      # Ollama related files
+│       ├── ModelFile            # Modelfile for Ollama 
+|       └── README.md            # Instructions on configuration for Ollama
+├── summary_index.json           # Indexed metadata + summaries for each chunk
+├── rag_chunker.py               # Script to chunk + enhance Python source files
+├── chunk_all_patterns.py        # Script to chunk all patterns in `patterns/`
+├── summary_index_generator.py   # Script to extract summary metadata from chunks
 └── README.md
 ```
 
