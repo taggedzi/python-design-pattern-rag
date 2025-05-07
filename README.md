@@ -23,34 +23,36 @@ All pattern implementations have been:
 
 ```text
 python-design-pattern-rag/
-├── chunks/                      # All pattern code chunks in Markdown format
+├── chunks/                            # All pattern code chunks in Markdown format
 │   ├── builder_Builder.md
 │   ├── factory_SimpleFactory.md
 │   └── ...
-├── docs/                        # All pattern code chunks in Markdown format
-│   ├── builder_Builder.html
-│   ├── factory_SimpleFactory.html
+├── docs/                              # All pattern code chunks in Markdown format
+│   ├── builder_Builder.md
+│   ├── factory_SimpleFactory.md
+│   ├── index.md
 │   └── ...
-├── patterns/                    # All pattern code examples
-│   ├── creational/              # Creational patterns (e.g. Builder)
+├── patterns/                          # All pattern code examples
+│   ├── creational/                    # Creational patterns (e.g. Builder)
 │   |   ├── abstract_factory.py
 │   |   ├── builder.py
 │   |   └── ...
-│   ├── structural/              # Structural patterns (e.g. Factory)
+│   ├── structural/                    # Structural patterns (e.g. Factory)
 │   |   ├── adapter.py
 │   |   ├── decorator.py
 │   |   └── ...
-│   └── behavioral/              # Behavioral patterns (e.g. Observer)
+│   └── behavioral/                    # Behavioral patterns (e.g. Observer)
 │       ├── observer.py
 │       ├── memento.py
 │       └── ...
-├── ollama/                      # Ollama related files
-│       ├── ModelFile            # Modelfile for Ollama 
-|       └── README.md            # Instructions on configuration for Ollama
-├── summary_index.json           # Indexed metadata + summaries for each chunk
-├── rag_chunker.py               # Script to chunk + enhance Python source files
-├── chunk_all_patterns.py        # Script to chunk all patterns in `patterns/`
-├── summary_index_generator.py   # Script to extract summary metadata from chunks
+├── ollama/                            # Ollama related files
+│       ├── lesson-planner.ModelFile   # Modelfile for Ollama 
+│       ├── pattern-rag-gen.ModelFile  # Modelfile for Ollama 
+|       └── README.md                  # Instructions on configuration for Ollama
+├── summary_index.json                 # Indexed metadata + summaries for each chunk
+├── rag_chunker.py                     # Script to chunk + enhance Python source files
+├── chunk_all_patterns.py              # Script to chunk all patterns in `patterns/`
+├── summary_index_generator.py         # Script to extract summary metadata from chunks
 └── README.md
 ```
 
@@ -58,9 +60,9 @@ python-design-pattern-rag/
 
 ## 💡 Features
 
-- ✂️ **File-Level Chunking**: Related classes/functions in each `.py` file are preserved as a single chunk
-- 🧠 **Ollama Integration**: Enhancements use [Falcon 3](https://ollama.com/library/falcon3) or other local models to add docstrings + summaries
-- 🗃️ **Front Matter Metadata**: Every chunk includes pattern name, file source, and identifiers for easy indexing
+- 🏫 **Generated Examples of Python Patterns**: Each file is a complete example of a python pattern. See the [patterns](patterns/) folder.
+- 🏫 **Educational Documentation**: Each python pattern has a generated lesson plan for easy learning and understanding. [Docs](https://taggedzi.github.io/python-design-pattern-rag/)
+- 📦 **RAG File Generation**: Files in the `chunks/` are enhanced with docstrings and summaries and formatted to be consumed by RAG systems.
 - 🔍 **Summary Index**: Machine-readable JSON index to power GUIs or search
 
 ---
@@ -109,7 +111,7 @@ Use the `summary_index.json` to:
 - ✅ Command
 - ✅ Facade
 
-> New patterns can be added by running `rag_chunker.py` on new source files.
+> New patterns can be added in the `patterns` folder. Then running `invoke build-all` in the root directory of this repo will generate all the Docs, Chunks, and summary_index.json file. Please note EVERY time you run a build comman it will generate all the docs and chunks from scratch using a local LLM so each time the documents for all files will be slightly different. Please only commit files that are relevant to the pattern you're adding.  Despite the large amount of automation there is still a lot of manual work involved in building the docs and chunks. Any commits that modify all the files will probably be denied.
 
 ---
 
@@ -127,65 +129,40 @@ Contributions are welcome! You can:
 
 Open issues or pull requests for improvements.
 
-## Setup
+## Setup if you want to contribute or build RAG files yourself
 
 1. Verify you have Python and pip installed. The project runs on python Python 3.10+ and pip. See [Python.org](https://www.python.org/) for installation instructions.
 
-2. Use git to clone this repository. `git clone https://github.com/taggedzi/python-design-pattern-rag.git` or download the zip archive and extract it to your desired location.
+2. Install Ollama and run it locally. Files can be downloaded from [ollama.com](https://ollama.com/download) for thier download options.
 
-3. Navigate to the project root directory and run `pip install -r requirements.txt`.
+3. Use git to clone this repository. `git clone https://github.com/taggedzi/python-design-pattern-rag.git` or download the zip archive and extract it to your desired location.
 
-4. Install Ollama and run it locally. Files can be downloaded from [ollama.com](https://ollama.com/download) for thier download options.
+4. Navigate to the project root directory and run `invoke venv` to setup the virtial environment, pull down dependancies, and get your envionment ready to go.
 
-5. Download the `falcon3:7b` model locally. See [Falcon 3](https://ollama.com/library/falcon3) for more information.
-
-6. Use Ollama to create the custom model locally. See [ollama/README.md](./ollama/README.md) for more information.
-
-7. To build ALL all the Markdown files run:
+5. To build ALL all the lessons and index:
    ```bash
-   python chunk_all_patterns.py
+      invoke build-lessons
    ```
 
-8. To build a single file run:
+6. To build all the RAG files:
    ```bash
-    python rag_chunker.py ./patterns/<type>/<pattern>.py chunks --enhance
+      invoke build-chunks
    ```
 
----
-
-## 🚀 Scripts
-
-### `rag_chunker.py`
-
-- Chunk Python files into `.md`
-- Optionally enhance using a local Ollama model
-
-**Usage:**
-
-```bash
-python rag_chunker.py ./patterns/<type>/<pattern>.py ./chunks --enhance
-```
-
-For more information on this script, please refer to the source code, or call the script itself with the `--help` option.
-
-### `summary_index_generator.py`
-
-- Generate the `summary_index.json` from your `.md` chunks folder.
-
-**Usage:**
-
-```bash
-python summary_index_generator.py ./chunks ./summary_index.json
-```
+7. To build everything:
+   ```bash
+      invoke build-all
+   ```
 
 ## 🙏 Acknowledgments
 
-This project was created and maintained by Matthew Craig with assistance from OpenAI's ChatGPT (powered by GPT-4). Contributions from the AI included scaffolding, documentation, and refinement recommendations.
+This project was created and maintained by Matthew Craig (TaggedZi) with assistance from OpenAI's ChatGPT (powered by GPT-4). Contributions from the AI included scaffolding, documentation, and refinement recommendations.
 
 This project also relies on:
 
 - [Ollama](https://ollama.com) for running local LLMs
 - [Falcon 3](https://ollama.com/library/falcon3) by [TII](https://www.tii.ae/ai-and-digital-science) for AI-based contributions including scaffolding, documentation, and refinement recommendations.
+- [Deepseek Coder](https://ollama.com/library/deepseek-coder) by DeepSeek for AI-based contributsions producing the lesson files.
 
 ## 📄 License
 
