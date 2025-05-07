@@ -1,3 +1,23 @@
-# Python Design Patterns
+# Documentation Index
 
-Welcome to the documentation site. The contents are automatically built from the Python source using `mkdocstrings`.
+- [Behavioral Chain Of Responsibility](behavioral_chain_of_responsibility.md)
+- [Behavioral Command](behavioral_command.md)
+- [Behavioral Interpreter](behavioral_interpreter.md)
+- [Behavioral Memento](behavioral_memento.md)
+- [Behavioral Observer](behavioral_observer.md)
+- [Behavioral State](behavioral_state.md)
+- [Behavioral Strategy](behavioral_strategy.md)
+- [Behavioral Template Method](behavioral_template_method.md)
+- [Behavioral Visitor](behavioral_visitor.md)
+- [Creational Abstract Factory](creational_abstract_factory.md)
+- [Creational Builder](creational_builder.md)
+- [Creational Factory](creational_factory.md)
+- [Creational Prototype](creational_prototype.md)
+- [Creational Singleton](creational_singleton.md)
+- [Structural Adapter](structural_adapter.md)
+- [Structural Bridge](structural_bridge.md)
+- [Structural Composite](structural_composite.md)
+- [Structural Decorator](structural_decorator.md)
+- [Structural Facade](structural_facade.md)
+- [Structural Flyweight](structural_flyweight.md)
+- [Structural Proxy](structural_proxy.md)

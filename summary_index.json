@@ -1,1 +1,128 @@
-[]
+[
+  {
+    "file": "behavioral/chain_of_responsibility.py",
+    "chunk": "behavioral_chain_of_responsibility.md",
+    "pattern": "",
+    "summary": "Implementation of the Chain of Responsibility pattern in Python."
+  },
+  {
+    "file": "behavioral/command.py",
+    "chunk": "behavioral_command.md",
+    "pattern": "",
+    "summary": "Implementation of the Command Design Pattern in Python"
+  },
+  {
+    "file": "behavioral/interpreter.py",
+    "chunk": "behavioral_interpreter.md",
+    "pattern": "",
+    "summary": "This code defines a simple interpreter for a basic arithmetic language using the Interpreter pattern."
+  },
+  {
+    "file": "behavioral/memento.py",
+    "chunk": "behavioral_memento.md",
+    "pattern": "",
+    "summary": "Implements the Memento design pattern for a text editor, allowing state restoration and undo functionality."
+  },
+  {
+    "file": "behavioral/observer.py",
+    "chunk": "behavioral_observer.md",
+    "pattern": "",
+    "summary": "This code implements the Observer design pattern using Python. It defines an interface for observing state changes, a subject that maintains a list of observers and notifies them of state changes, and concrete observers that implement the update method to react to notifications."
+  },
+  {
+    "file": "behavioral/state.py",
+    "chunk": "behavioral_state.md",
+    "pattern": "",
+    "summary": "Implementation of the State behavioral pattern in Python."
+  },
+  {
+    "file": "behavioral/strategy.py",
+    "chunk": "behavioral_strategy.md",
+    "pattern": "",
+    "summary": "This code demonstrates the Strategy pattern in Python, showcasing how different sorting strategies can be implemented and selected at runtime."
+  },
+  {
+    "file": "behavioral/template_method.py",
+    "chunk": "behavioral_template_method.md",
+    "pattern": "",
+    "summary": "This code demonstrates the Template Method design pattern using Python's ABC module. It defines an abstract base class with a template method that outlines the structure of an algorithm, leaving some steps to be implemented by subclasses."
+  },
+  {
+    "file": "behavioral/visitor.py",
+    "chunk": "behavioral_visitor.md",
+    "pattern": "",
+    "summary": "This code implements the Visitor design pattern to process different types of elements (ElementA and ElementB) without modifying their classes."
+  },
+  {
+    "file": "creational/abstract_factory.py",
+    "chunk": "creational_abstract_factory.md",
+    "pattern": "",
+    "summary": "Abstract Factory pattern implementation in Python for creating GUI components."
+  },
+  {
+    "file": "creational/builder.py",
+    "chunk": "creational_builder.md",
+    "pattern": "",
+    "summary": "Implementation of the Builder creational design pattern in Python."
+  },
+  {
+    "file": "creational/factory.py",
+    "chunk": "creational_factory.md",
+    "pattern": "",
+    "summary": "Implementation of the Factory Method design pattern in Python."
+  },
+  {
+    "file": "creational/prototype.py",
+    "chunk": "creational_prototype.md",
+    "pattern": "",
+    "summary": "Implements the Prototype design pattern to create new objects by copying a prototype object."
+  },
+  {
+    "file": "creational/singleton.py",
+    "chunk": "creational_singleton.md",
+    "pattern": "",
+    "summary": "This code implements the Singleton design pattern using a metaclass to ensure that only one instance of a class exists and provides a global point of access to it."
+  },
+  {
+    "file": "structural/adapter.py",
+    "chunk": "structural_adapter.md",
+    "pattern": "",
+    "summary": "Adapter Pattern Implementation in Python"
+  },
+  {
+    "file": "structural/bridge.py",
+    "chunk": "structural_bridge.md",
+    "pattern": "",
+    "summary": "This code demonstrates the Bridge design pattern, decoupling the rendering of shapes from their implementation. It includes abstract classes for Renderer and Shape, with concrete implementations for VectorRenderer and RasterRenderer. The Circle class is a refined abstraction that uses these renderers to draw shapes."
+  },
+  {
+    "file": "structural/composite.py",
+    "chunk": "structural_composite.md",
+    "pattern": "",
+    "summary": "Implementation of the Composite Design Pattern in Python"
+  },
+  {
+    "file": "structural/decorator.py",
+    "chunk": "structural_decorator.md",
+    "pattern": "",
+    "summary": "Implementation of the Decorator Design Pattern in Python"
+  },
+  {
+    "file": "structural/facade.py",
+    "chunk": "structural_facade.md",
+    "pattern": "",
+    "summary": "This code demonstrates the Facade design pattern, providing a simplified interface to complex subsystems."
+  },
+  {
+    "file": "structural/flyweight.py",
+    "chunk": "structural_flyweight.md",
+    "pattern": "",
+    "summary": "Implementation of the Flyweight Design Pattern in Python to minimize memory usage by sharing common state among similar objects."
+  },
+  {
+    "file": "structural/proxy.py",
+    "chunk": "structural_proxy.md",
+    "pattern": "",
+    "summary": "Implementation of the Proxy design pattern in Python."
+  }
+]

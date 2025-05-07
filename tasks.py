@@ -51,29 +51,37 @@ def create_lessons_model(c):
 def build_chunks(c):
     """Run chunk_all_patterns script."""
     logging.info("🧩 Starting to chunk all patterns...")
-    c.run(r".\\venv\\Scripts\\python scripts/chunk_all_patterns.py")
+    c.run(r".\\venv\\Scripts\\python scripts/rag_chunker.py --source patterns --output chunks")
     logging.info("✅ Chunks generated successfully!")
 
 @task
 def build_lessons(c, model="lesson-planner:latest"):
     """Generate Markdown lessons."""
     logging.info("📚 Starting to generate lessons...")
-    c.run(rf".\\venv\\Scripts\\python scripts/generate_lessons.py patterns/ docs/ --model {model}")
+    c.run(rf".\\venv\\Scripts\\python scripts/generate_lessons.py --source patterns --output docs --model {model}")
     logging.info("✅ Lessons generated successfully!")
+    build_doc_index(c)
 
 @task
-def build_index(c):
+def build_search_index(c):
     """Generate summary index."""
     logging.info("🟢 Starting to generate summary index...")
     c.run(r".\\venv\\Scripts\\python scripts/summary_index_generator.py chunks/")
     logging.info("✅ Summary index generated successfully!")
+    
+@task
+def build_doc_index(c):
+    """Generate the index.md file for the docs folder."""
+    logging.info("🟢 Starting to generate docs index...")
+    c.run(rf".\\venv\\Scripts\\python scripts/build_doc_index.py --docs docs --output index.md")
+    logging.info("✅ Docs index generated successfully!")
 
 @task
 def build_all(c):
     """Run the build pipeline."""
     build_chunks(c)
+    build_search_index(c)
     build_lessons(c)
-    build_index(c)
 
 @task
 def full(c):
