@@ -63,10 +63,5 @@ Desktop.ini
 *.pth
 *.pt
 
-# Generated chunks
-chunks/
-summary_index.json
-
-
 # Environment files
 venv/

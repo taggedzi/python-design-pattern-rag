@@ -1,0 +1,38 @@
+[
+  {
+    "category": "Creational",
+    "patterns": [
+      "Singleton",
+      "Factory Method",
+      "Builder",
+      "Abstract Factory",
+      "Prototype"
+    ]
+  },
+  {
+    "category": "Structural",
+    "patterns": [
+      "Adapter",
+      "Decorator",
+      "Facade",
+      "Composite",
+      "Proxy",
+      "Bridge",
+      "Flyweight"
+    ]
+  },
+  {
+    "category": "Behavioral",
+    "patterns": [
+      "Strategy",
+      "Observer",
+      "Command",
+      "State",
+      "Memento",
+      "Template Method",
+      "Chain of Responsibility",
+      "Visitor",
+      "Interpreter"
+    ]
+  }
+]
