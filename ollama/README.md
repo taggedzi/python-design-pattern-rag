@@ -1,24 +1,50 @@
-# Local config and setup.
+# 🔧 Local Setup for a custom Model in Ollama for Design Pattern RAG
 
-- Make sure you already have Ollama installed. Make sure you have already created your virtual envronment with either venv or conda.  Make sure you have installed the python ollama library and other dependencies in the `requirements.txt` file located in the root of the depo.
+This guide walks you through configuring a custom Ollama model and using it to enhance Python code with docstrings and summaries for use in a Retrieval-Augmented Generation (RAG) pipeline.
 
-- Download the model of your choosing. So far for this task (after MUCH testing) I have discoverd that on my local system `falcon3:7b` has given the best output results in a decent amount of time.
-  ```bash
-    C:\ollama pull falcon3:7b
-  ```
+---
 
-- After installing navigate to a directory of your choosing and place the ModelFile.
+## 📦 Prerequisites
 
-- Then navigate to the Modelfile in the repo. IF you chose a different model please replace the name used by Ollama in the FROM section with the name of the model you wish to use before running the following command.
-  ```bash
-    C:\python-design-pattern-rag\ollama create pattern-rag-gen -f Modelfile
-  ```
-  This will create a model for the sole purpose of mapping out and processing these files.
+Before proceeding, ensure the following are installed:
 
-- Now you can navigate back up to the project root directory and run:
-  ```bash
-    (venv) C:\python-design-pattern-rag\python .\chunk_all_patterns.py
-  ```
-  This will take some time.
+- [Ollama](https://ollama.com/)
+- Python 3.10+  
+- A virtual environment (via `venv` or `conda`)
+- Python dependencies from the project's `requirements.txt`
 
-- Once this is done your chunks directory in the root should be filled with markdown files named by the pattern they present. You will also find a json index in the root directory of the project.
+```bash
+# Example setup with venv
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+## 🧠 Choose & Download a Model
+
+Download an Ollama-compatible model. After testing several options, we recommend:
+
+```bash
+ollama pull falcon3:7b
+```
+
+> ✅ Note: `falcon3:7b` strikes a good balance of quality and speed for structured code summarization. It has yeilded the best results after several rounds of testing.
+
+---
+
+## ⚙️ Build a Custom Ollama Model
+
+1. Navigate to the directory containing your `Modelfile`.
+2. If you choose a different model, update the `FROM` line in the `Modelfile` accordingly:
+   ```dockerfile
+   FROM <your-model-here>
+   ```
+
+3. Create the custom model:
+   ```bash
+   ollama create pattern-rag-gen -f Modelfile
+   ```
+
+This model will specialize in summarizing and annotating code for the design pattern RAG project.
