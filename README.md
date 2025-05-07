@@ -21,11 +21,15 @@ All pattern implementations have been:
 
 ## 📦 Project Structure
 
-```bash
+```text
 python-design-pattern-rag/
-├── docs/                      # All pattern code chunks in Markdown format
+├── chunks/                      # All pattern code chunks in Markdown format
 │   ├── builder_Builder.md
 │   ├── factory_SimpleFactory.md
+│   └── ...
+├── docs/                        # All pattern code chunks in Markdown format
+│   ├── builder_Builder.html
+│   ├── factory_SimpleFactory.html
 │   └── ...
 ├── patterns/                    # All pattern code examples
 │   ├── creational/              # Creational patterns (e.g. Builder)
@@ -69,7 +73,7 @@ In Open WebUI:
 
 - Go to the **"Knowledge"** tab
 - Click **"New Knowledge Base"**
-- Choose **Folder** and upload the `docs/` directory
+- Choose **Folder** and upload the `chunks/` directory
 
 ### 2. **Query with Context Awareness**
 
@@ -144,7 +148,7 @@ Open issues or pull requests for improvements.
 
 8. To build a single file run:
    ```bash
-    python rag_chunker.py ./patterns/<type>/<pattern>.py docs --enhance
+    python rag_chunker.py ./patterns/<type>/<pattern>.py chunks --enhance
    ```
 
 ---
@@ -159,19 +163,19 @@ Open issues or pull requests for improvements.
 **Usage:**
 
 ```bash
-python rag_chunker.py ./patterns/<type>/<pattern>.py ./docs --enhance
+python rag_chunker.py ./patterns/<type>/<pattern>.py ./chunks --enhance
 ```
 
 For more information on this script, please refer to the source code, or call the script itself with the `--help` option.
 
 ### `summary_index_generator.py`
 
-- Generate the `summary_index.json` from your `.md` docs folder.
+- Generate the `summary_index.json` from your `.md` chunks folder.
 
 **Usage:**
 
 ```bash
-python summary_index_generator.py ./docs ./summary_index.json
+python summary_index_generator.py ./chunks ./summary_index.json
 ```
 
 ## 🙏 Acknowledgments

@@ -15,7 +15,7 @@ parser.add_argument("--retries", type=int, default=3, help="Number of retries if
 args = parser.parse_args()
 
 source_file = args.source_file.resolve()
-chunk_dir = Path("docs")
+chunk_dir = Path("chunks")
 model = args.model
 retries = args.retries
 
