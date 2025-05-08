@@ -11,6 +11,7 @@
 - [Behavioral Template Method](behavioral_template_method.md)
 - [Behavioral Visitor](behavioral_visitor.md)
 - [Creational Abstract Factory](creational_abstract_factory.md)
+- [Creational Borg](creational_borg.md)
 - [Creational Builder](creational_builder.md)
 - [Creational Factory](creational_factory.md)
 - [Creational Prototype](creational_prototype.md)
