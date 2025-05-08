@@ -126,6 +126,12 @@
     "summary": "This code demonstrates the Global Object Pattern, showcasing a shared configuration object accessible across modules."
   },
   {
+    "file": "structural/prebound_method.py",
+    "chunk": "structural_prebound_method.md",
+    "pattern": "",
+    "summary": "Demonstrates the Prebound Method pattern in Python to improve clarity, performance, and decouple method lookup. Compares calling methods with and without prebinding within a loop."
+  },
+  {
     "file": "structural/proxy.py",
     "chunk": "structural_proxy.md",
     "pattern": "",

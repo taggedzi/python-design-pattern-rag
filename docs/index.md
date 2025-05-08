@@ -21,4 +21,5 @@
 - [Structural Facade](structural_facade.md)
 - [Structural Flyweight](structural_flyweight.md)
 - [Structural Global Object](structural_global_object.md)
+- [Structural Prebound Method](structural_prebound_method.md)
 - [Structural Proxy](structural_proxy.md)
