@@ -24,3 +24,4 @@
 - [Structural Global Object](structural_global_object.md)
 - [Structural Prebound Method](structural_prebound_method.md)
 - [Structural Proxy](structural_proxy.md)
+- [Structural Three Tier](structural_three_tier.md)
