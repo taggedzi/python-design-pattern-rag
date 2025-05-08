@@ -2,139 +2,139 @@
   {
     "file": "behavioral/chain_of_responsibility.py",
     "chunk": "behavioral_chain_of_responsibility.md",
-    "pattern": "",
+    "pattern": "Chain Of Responsibility",
     "summary": "Implementation of the Chain of Responsibility pattern in Python."
   },
   {
     "file": "behavioral/command.py",
     "chunk": "behavioral_command.md",
-    "pattern": "",
+    "pattern": "Command",
     "summary": "Implementation of the Command Design Pattern in Python"
   },
   {
     "file": "behavioral/interpreter.py",
     "chunk": "behavioral_interpreter.md",
-    "pattern": "",
+    "pattern": "Interpreter",
     "summary": "This code defines a simple interpreter for a basic arithmetic language using the Interpreter pattern."
   },
   {
     "file": "behavioral/memento.py",
     "chunk": "behavioral_memento.md",
-    "pattern": "",
+    "pattern": "Memento",
     "summary": "Implements the Memento design pattern for a text editor, allowing state restoration and undo functionality."
   },
   {
     "file": "behavioral/observer.py",
     "chunk": "behavioral_observer.md",
-    "pattern": "",
+    "pattern": "Observer",
     "summary": "This code implements the Observer design pattern using Python. It defines an interface for observing state changes, a subject that maintains a list of observers and notifies them of state changes, and concrete observers that implement the update method to react to notifications."
   },
   {
     "file": "behavioral/state.py",
     "chunk": "behavioral_state.md",
-    "pattern": "",
+    "pattern": "State",
     "summary": "Implementation of the State behavioral pattern in Python."
   },
   {
     "file": "behavioral/strategy.py",
     "chunk": "behavioral_strategy.md",
-    "pattern": "",
+    "pattern": "Strategy",
     "summary": "This code demonstrates the Strategy pattern in Python, showcasing how different sorting strategies can be implemented and selected at runtime."
   },
   {
     "file": "behavioral/template_method.py",
     "chunk": "behavioral_template_method.md",
-    "pattern": "",
+    "pattern": "Template Method",
     "summary": "This code demonstrates the Template Method design pattern using Python's ABC module. It defines an abstract base class with a template method that outlines the structure of an algorithm, leaving some steps to be implemented by subclasses."
   },
   {
     "file": "behavioral/visitor.py",
     "chunk": "behavioral_visitor.md",
-    "pattern": "",
+    "pattern": "Visitor",
     "summary": "This code implements the Visitor design pattern to process different types of elements (ElementA and ElementB) without modifying their classes."
   },
   {
     "file": "creational/abstract_factory.py",
     "chunk": "creational_abstract_factory.md",
-    "pattern": "",
+    "pattern": "Abstract Factory",
     "summary": "Abstract Factory pattern implementation in Python for creating GUI components."
   },
   {
     "file": "creational/builder.py",
     "chunk": "creational_builder.md",
-    "pattern": "",
+    "pattern": "Builder",
     "summary": "Implementation of the Builder creational design pattern in Python."
   },
   {
     "file": "creational/factory.py",
     "chunk": "creational_factory.md",
-    "pattern": "",
+    "pattern": "Factory",
     "summary": "Implementation of the Factory Method design pattern in Python."
   },
   {
     "file": "creational/prototype.py",
     "chunk": "creational_prototype.md",
-    "pattern": "",
+    "pattern": "Prototype",
     "summary": "Implements the Prototype design pattern to create new objects by copying a prototype object."
   },
   {
     "file": "creational/singleton.py",
     "chunk": "creational_singleton.md",
-    "pattern": "",
+    "pattern": "Singleton",
     "summary": "This code implements the Singleton design pattern using a metaclass to ensure that only one instance of a class exists and provides a global point of access to it."
   },
   {
     "file": "structural/adapter.py",
     "chunk": "structural_adapter.md",
-    "pattern": "",
+    "pattern": "Adapter",
     "summary": "Adapter Pattern Implementation in Python"
   },
   {
     "file": "structural/bridge.py",
     "chunk": "structural_bridge.md",
-    "pattern": "",
+    "pattern": "Bridge",
     "summary": "This code demonstrates the Bridge design pattern, decoupling the rendering of shapes from their implementation. It includes abstract classes for Renderer and Shape, with concrete implementations for VectorRenderer and RasterRenderer. The Circle class is a refined abstraction that uses these renderers to draw shapes."
   },
   {
     "file": "structural/composite.py",
     "chunk": "structural_composite.md",
-    "pattern": "",
+    "pattern": "Composite",
     "summary": "Implementation of the Composite Design Pattern in Python"
   },
   {
     "file": "structural/decorator.py",
     "chunk": "structural_decorator.md",
-    "pattern": "",
+    "pattern": "Decorator",
     "summary": "Implementation of the Decorator Design Pattern in Python"
   },
   {
     "file": "structural/facade.py",
     "chunk": "structural_facade.md",
-    "pattern": "",
+    "pattern": "Facade",
     "summary": "This code demonstrates the Facade design pattern, providing a simplified interface to complex subsystems."
   },
   {
     "file": "structural/flyweight.py",
     "chunk": "structural_flyweight.md",
-    "pattern": "",
+    "pattern": "Flyweight",
     "summary": "Implementation of the Flyweight Design Pattern in Python to minimize memory usage by sharing common state among similar objects."
   },
   {
     "file": "structural/global_object.py",
     "chunk": "structural_global_object.md",
-    "pattern": "",
+    "pattern": "Global Object",
     "summary": "This code demonstrates the Global Object Pattern, showcasing a shared configuration object accessible across modules."
   },
   {
     "file": "structural/prebound_method.py",
     "chunk": "structural_prebound_method.md",
-    "pattern": "",
+    "pattern": "Prebound Method",
     "summary": "Demonstrates the Prebound Method pattern in Python to improve clarity, performance, and decouple method lookup. Compares calling methods with and without prebinding within a loop."
   },
   {
     "file": "structural/proxy.py",
     "chunk": "structural_proxy.md",
-    "pattern": "",
+    "pattern": "Proxy",
     "summary": "Implementation of the Proxy design pattern in Python."
   }
 ]
