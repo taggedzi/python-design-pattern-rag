@@ -2,7 +2,7 @@
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Powered by Ollama](https://img.shields.io/badge/Ollama-Compatible-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
-![Built with ❤️ by Matthew Craig](https://img.shields.io/badge/built%20with-%E2%9D%A4%EF%B8%8F%20by%20TaggedZi-orange)
+![Built with ❤️ by TaggedZi](https://img.shields.io/badge/built%20with-%E2%9D%A4%EF%B8%8F%20by%20TaggedZi-orange)
 
 # 🧠 Python Design Patterns and RAG files for Retrieval-Augmented Generation (RAG) in other AI systems
 
