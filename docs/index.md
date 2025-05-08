@@ -5,6 +5,7 @@
 - [Behavioral Interpreter](behavioral_interpreter.md)
 - [Behavioral Memento](behavioral_memento.md)
 - [Behavioral Observer](behavioral_observer.md)
+- [Behavioral Sentinel](behavioral_sentinel.md)
 - [Behavioral State](behavioral_state.md)
 - [Behavioral Strategy](behavioral_strategy.md)
 - [Behavioral Template Method](behavioral_template_method.md)
