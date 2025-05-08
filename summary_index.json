@@ -30,6 +30,12 @@
     "summary": "This code implements the Observer design pattern using Python. It defines an interface for observing state changes, a subject that maintains a list of observers and notifies them of state changes, and concrete observers that implement the update method to react to notifications."
   },
   {
+    "file": "behavioral/sentinel.py",
+    "chunk": "behavioral_sentinel.md",
+    "pattern": "Sentinel",
+    "summary": "Demonstration of the Sentinel Object Pattern in Python."
+  },
+  {
     "file": "behavioral/state.py",
     "chunk": "behavioral_state.md",
     "pattern": "State",
