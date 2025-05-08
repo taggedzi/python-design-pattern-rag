@@ -58,7 +58,8 @@ class PizzaDecorator(Pizza):
 
 # Concrete decorators
 class Mozzarella(PizzaDecorator):
-    def __init__(self, pizza: Pizza) -<｜begin▁of▁sentence｜>uper().__init__(pizza)
+    def __init__(self, pizza: Pizza) 
+        super().__init__(pizza)
 
     def get_cost(self):
         return self.pizza.get_cost() + 5
