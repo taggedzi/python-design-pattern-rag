@@ -120,6 +120,12 @@
     "summary": "Implementation of the Flyweight Design Pattern in Python to minimize memory usage by sharing common state among similar objects."
   },
   {
+    "file": "structural/global_object.py",
+    "chunk": "structural_global_object.md",
+    "pattern": "",
+    "summary": "This code demonstrates the Global Object Pattern, showcasing a shared configuration object accessible across modules."
+  },
+  {
     "file": "structural/proxy.py",
     "chunk": "structural_proxy.md",
     "pattern": "",
