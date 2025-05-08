@@ -88,32 +88,6 @@ python-design-pattern-rag/
 
 ---
 
-## ✅ Supported Patterns (so far)
-
-* Abstract Factory
-* Adapter
-* Bridge
-* Builder
-* Chain of Responsibility
-* Command
-* Composite
-* Decorator
-* Facade
-* Factory
-* Flyweight
-* Interpreter
-* Memento
-* Observer
-* Prototype
-* Proxy
-* Singleton
-* State
-* Strategy
-* Template Method
-* Visitor
-
----
-
 ### 👩‍💻 Developers & Contributors
 
 If you’d like to build, extend, or contribute to this project, check out our [Developer Guide](CONTRIBUTING.md) for setup instructions and contribution tips.
