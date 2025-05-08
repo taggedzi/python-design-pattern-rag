@@ -136,5 +136,11 @@
     "chunk": "structural_proxy.md",
     "pattern": "Proxy",
     "summary": "Implementation of the Proxy design pattern in Python."
+  },
+  {
+    "file": "structural/three_tier.py",
+    "chunk": "structural_three_tier.md",
+    "pattern": "Three Tier",
+    "summary": "A self-contained demonstration of the 3-Tier Architecture pattern in Python, showcasing data, logic, and presentation layers."
   }
 ]
