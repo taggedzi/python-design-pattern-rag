@@ -1,4 +1,5 @@
 """The task file for the proect, to be used by invoke"""
+# pylint: disable=line-too-long
 import logging
 from pathlib import Path
 from invoke import task
@@ -14,7 +15,7 @@ def venv(c):
         logging.info("  ✅ Virtual environment created successfully!")
     else:
         logging.info("  ⏭️  Virtual environment already exists, skipping creation.")
-    
+
     logging.info("  📥 Starting to install dependencies...")
     c.run(r".\\venv\\Scripts\\pip install -r requirements.txt")
     logging.info("  ✅ Dependencies installed successfully!")
@@ -31,7 +32,7 @@ def create_rag_model(c):
     logging.info("📥 Downloading model for rag generation...")
     c.run("ollama pull deepseek-coder:6.7b")
     logging.info("✅ Model downloaded successfully!")
-    
+
     logging.info("🛠️ Starting to create the custom model...")
     c.run("ollama create pattern-rag-gen -f ollama/pattern-rag-gen.Modelfile")
     logging.info("✅ Custom model created successfully!")
@@ -42,7 +43,7 @@ def create_lessons_model(c):
     logging.info("📥 Downloading model for lesson creation...")
     c.run("ollama pull falcon3:7b")
     logging.info("✅ Model downloaded successfully!")
-    
+
     logging.info("🛠️ Starting to create the custom model...")
     c.run("ollama create lesson-planner -f ollama/lesson-planner.Modelfile")
     logging.info("✅ Custom model created successfully!")
@@ -68,12 +69,12 @@ def build_search_index(c):
     logging.info("🟢 Starting to generate summary index...")
     c.run(r".\\venv\\Scripts\\python scripts/summary_index_generator.py chunks/")
     logging.info("✅ Summary index generated successfully!")
-    
+
 @task
 def build_doc_index(c):
     """Generate the index.md file for the docs folder."""
     logging.info("🟢 Starting to generate docs index...")
-    c.run(rf".\\venv\\Scripts\\python scripts/build_doc_index.py --docs docs --output index.md")
+    c.run(r".\\venv\\Scripts\\python scripts/build_doc_index.py --docs docs --output index.md")
     logging.info("✅ Docs index generated successfully!")
 
 @task
