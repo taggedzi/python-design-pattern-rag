@@ -52,14 +52,14 @@ def create_lessons_model(c):
 def build_chunks(c):
     """Run chunk_all_patterns script."""
     logging.info("🧩 Starting to chunk all patterns...")
-    c.run(r".\\venv\\Scripts\\python scripts/rag_chunker.py --source patterns --output chunks")
+    c.run(r".\\venv\\Scripts\\python scripts/rag_chunker.py")
     logging.info("✅ Chunks generated successfully!")
 
 @task
 def build_lessons(c, model="lesson-planner:latest"):
     """Generate Markdown lessons."""
     logging.info("📚 Starting to generate lessons...")
-    c.run(rf".\\venv\\Scripts\\python scripts/generate_lessons.py --source patterns --output docs --model {model}")
+    c.run(rf".\\venv\\Scripts\\python scripts/generate_lessons.py")
     logging.info("✅ Lessons generated successfully!")
     build_doc_index(c)
 
@@ -67,7 +67,7 @@ def build_lessons(c, model="lesson-planner:latest"):
 def build_search_index(c):
     """Generate summary index."""
     logging.info("🟢 Starting to generate summary index...")
-    c.run(r".\\venv\\Scripts\\python scripts/summary_index_generator.py chunks/")
+    c.run(r".\\venv\\Scripts\\python scripts/summary_index_generator.py chunks/ ./summary_index.json")
     logging.info("✅ Summary index generated successfully!")
 
 @task
