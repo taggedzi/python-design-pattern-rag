@@ -2,58 +2,68 @@
 
 ## Intent
 
-Minimizes memory usage by sharing as much data as possible with similar objects. Used when many objects share common state that can be externalized.
+The Flyweight pattern is used to minimize memory usage or computational expenses by sharing as much data as possible with similar objects. It's particularly useful when a large number of objects are being created, and the cost of creating these objects is high.
 
 ## Problem It Solves
 
-It addresses the problem of optimizing an application's performance and resource usage by minimizing the number of objects created, which is especially beneficial in applications dealing with a large number of objects.
+This design pattern addresses the problem of over-usage of RAM resources in applications where an application requires a huge number of objects which consume a lot of memory space. The Flyweight pattern aims to reduce such overhead by sharing as much data as possible with similar objects, rather than creating new object for each separate occurrence.
 
 ## When to Use It
 
-When there are many similar objects that share common state within an application. This pattern can be applied when:
-- The program needs to create a large number of objects and this leads to high memory usage or slow performance.
-- The object's state is immutable, meaning it doesn’t change after the object is created.
+The Flyweight pattern is best used when:
+
+1. An application uses a large number of objects which consume a lot of memory space.
+2. The creation of these objects is costly in terms of computational resources or time.
+3. Most group of these objects are identical, and only few state differences exist between them.
+4. A part of the object's state can be shared across multiple objects instead of being duplicated for each object.
 
 ## When NOT to Use It
 
-When the shared state changes frequently or when the objects are meant to be unique (i.e., they have different states). Also, if the program requires a high number of individual objects that don't share much with each other, Flyweight pattern might not be suitable as it reduces memory usage at the cost of increased complexity.
+The Flyweight pattern should not be used in situations where:
+
+1. Objects have a lot of intrinsic (unique) state that cannot be shared with other objects.
+2. The number of distinct classes is small and fixed, so the overhead of managing them can't be justified.
+3. You need to create new object for each separate occurrence of an object.
+4. Sharing data between objects will cause unnecessary complexity in your code.
 
 ## How It Works
 
-The key classes/functions and their interaction are:
-- `Flyweight` class contains shared state (intrinsic state) and has a method for handling unique state.
-- `FlyweightFactory` manages flyweights, ensuring that flyweights are reused as much as possible. When a client requests a Flyweight, the Flyweight Factory supplies existing objects if they meet the required criteria; otherwise it creates new ones.
+The Flyweight pattern involves a `Flyweight` class, which contains the shared state and a `ConcreteFlyweight` class that extends the `Flyweight` base class and adds any additional state management required by the application. The `FlyweightFactory` class is responsible for creating and managing flyweight objects.
 
 ## Real-World Analogy
 
-Think of the Flyweight pattern like a library: books (objects) can be shared among many readers (clients), but each reader has their own unique state (borrowing date, return status etc.). The library is responsible for creating and managing these shared books.
+You can think of the Flyweight pattern as a library of books, where each book (object) has common characteristics like title, author etc., that are shared across multiple instances. Each instance (book copy), however, may have unique characteristics like page number, borrower's name etc. The Flyweight pattern helps to manage these shared and unique characteristics efficiently.
 
 ## Simplified Example
 
+Here is a simplified example of the Flyweight pattern:
+
 ```python
-class Book:  # Flyweight class
-    def __init__(self, title):
-        self._title = title
+class Flyweight:  # Shared state (Flyweight)
+    def __init__(self, shared_state):
+        self._shared_state = shared_state
 
-    def borrow(self, user):  # operation with unique state
-        print(f"{user} is reading {self._title}")
+    def operation(self, unique_state):
+        print(f"Shared State: {self._shared_state} | Unique State: {unique_state}")
 
-library = {}  # FlyweightFactory
-def get_book(title):
-    if title not in library:
-        print(f"Adding new book to the library: {title}")
-        library[title] = Book(title)
-    return library[title]
+class FlyweightFactory:  # Manages flyweights and ensures their reuse
+    _flyweights = {}
 
-# Example usage
-book1 = get_book("Harry Potter and the Philosopher's Stone")  # Creates a new book
-book1.borrow("John Doe")  # Uses an existing book
-book2 = get_book("Harry Potter and the Philosopher's Stone")  # Reuses an existing book
-book2.borrow("Jane Smith")  # Uses another existing book
+    def __new__(cls, shared_state):
+        key = hash(shared_state)
+        if not cls._flyweights.get(key):
+            cls._flyweights[key] = super().__new__(cls)
+        return cls._flyweights[key]
+
+    def __init__(self, shared_state):
+        Flyweight.__init__(self, shared_state)
+
+# Usage:
+factory = FlyweightFactory("Shared State")
+flyweight1 = factory.get_flyweight("Unique State 1")
+flyweight2 = factory.get_flyweight("Unique State 2")
 ```
 
 ## See Also
 
-[Flyweight pattern Python file](https://github.<｜begin▁of▁sentence｜>/python-design-patterns/structural/flyweight.py)
-
-This lesson is based on the Flyweight design pattern, which can be found in many textbooks and online resources about software engineering and programming patterns.
+The corresponding Python file for the Flyweight pattern can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/flyweight.py)

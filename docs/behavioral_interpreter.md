@@ -2,34 +2,46 @@
 
 ## Intent
 
-The Interpreter pattern provides a way to execute an expression language where the grammar is defined in terms of classes and objects. It is used to define a grammatical representation for a language, and to interpret sentences in the language.
+The Interpreter pattern provides a way to implement business logic by creating a language interpreter that uses an object-oriented approach. It is used when there is a language to interpret and the grammar is simple enough such that it can be implemented with a finite state machine.
 
 ## Problem It Solves
 
-This design pattern addresses the problem of how to parse expressions written in a formal language, like a programming language or a specialized domain-specific language. The pattern provides an interpreter that uses the representation to interpret sentences in the language. 
+This pattern addresses the problem of how to handle complex grammars, especially where the syntax is not complicated but the semantics are complicated. This makes the code hard to maintain and understand. The Interpreter pattern provides an efficient way to evaluate sentences in a language.
 
 ## When to Use It
 
-The Interpreter pattern is useful when you need to evaluate simple expressions, where the grammar of the expression is known at compile time and does not change during execution.
+The Interpreter pattern should be used when there's a need for:
+
+1. Evaluating simple or complex expressions representing languages.
+2. Implementing a specialized domain-specific language (DSL).
+3. Avoiding the overhead of parsing with a parser generator tool.
+4. When efficiency is not a critical concern, as it can add complexity to your design.
 
 ## When NOT to Use It
 
-It's not a good idea to use the Interpreter pattern if:
+The Interpreter pattern should not be used when:
 
-- The grammar of your language changes frequently or isn't known until runtime.
-- Your expressions are complex, with many different types of nodes and nonterminals. 
+1. The language's grammar is too complex and cannot be implemented with a finite state machine.
+2. Efficiency is a crucial concern, as the overhead of parsing can become significant.
+3. For simple expressions where you could use an expression tree or similar simpler constructs.
 
 ## How It Works
 
-The Interpreter pattern works by defining classes for terminal symbols (like variables) and nonterminal symbols (like addition and subtraction). Each class implements an `interpret` method that interprets the expression in its own way. The context provides input for interpretation.
+The Interpreter pattern consists of:
+
+1. Abstract Syntax Tree (AST) for representing sentences in the language.
+2. Context object to hold variables and their values.
+3. Terminal Expressions represent individual elements of the language, like variables.
+4. Non-terminal expressions combine terminal expressions and form larger structures.
+5. The `interpret()` method is used to interpret the sentence or expression.
 
 ## Real-World Analogy
 
-You can think of the Interpreter pattern as a kind of translator, where each word or symbol is interpreted differently based on its context. For example, if you're reading a book and see a word that you don't know, you might look it up in a dictionary to understand what it means.
+Imagine you are a librarian who has books on different subjects but they all follow a common structure. You can use the Interpreter pattern to search for specific information in these books without knowing what each book contains, just like how an interpreter works with sentences in a language.
 
 ## Simplified Example
 
-Here's a simplified example:
+Consider the following Python code:
 
 ```python
 context = Context({"x": 10, "y": 5})
@@ -37,8 +49,8 @@ expr = Add(Variable("x"), Subtract(Variable("y"), Variable("z")))   # x + (y - z
 print("Result:", expr.interpret(context))
 ```
 
-In this example, `Add` and `Subtract` are non-terminal expressions that interpret their operands in different ways. The variables "x", "y" and "z" are terminal expressions that interpret themselves based on the values they hold in the given context.
+In this example, `Add` and `Subtract` are non-terminal expressions that combine terminal expressions like `Variable` to form larger structures. The `interpret()` method is used to interpret the sentence or expression by returning the result of the addition or subtraction operation.
 
 ## See Also
 
-You can find more information about this pattern in the Python code provided [here]](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/interpreter.py).
+You can find the full implementation of this pattern in its corresponding Python file [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/interpreter.py).

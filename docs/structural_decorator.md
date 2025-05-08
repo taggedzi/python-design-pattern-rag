@@ -1,63 +1,74 @@
 # The Decorator Pattern (Structural)
 
 ## Intent
-The Decorator pattern allows behavior to be added to individual objects, dynamically, without affecting the behavior of other objects from the same class. This is useful for adhering to the Open/Closed Principle.
+
+The decorator pattern allows behavior to be added to an individual object, either statically or dynamically, without affecting the behavior of other objects from the same class. It's useful for adhering to the Open/Closed Principle.
 
 ## Problem It Solves
-Without changing the original object's code, we can extend its functionality by wrapping it with an additional wrapper that contains the added behavior.
+
+Imagine you have a component that needs some additional functionality. You could subclass it and add the new functionality, but this can lead to a lot of code duplication if you need many variations on the same functionality. The decorator pattern allows you to add such functionality without having to modify the original object or subclasses.
 
 ## When to Use It
-This pattern should be used when you want to add new behavior to objects without affecting other instances of the same class. It is also useful in situations where many different combinations of optional behaviors are needed at runtime, for example, UI components with different decorators applied.
+
+The decorator pattern is useful in situations where you want to add responsibilities to objects dynamically and transparently, that is, without affecting other objects of a class. For example, when you need to add logging, caching, or transactional behavior to individual objects at run-time.
 
 ## When NOT to Use It
-The Decorator pattern may not be suitable if the added responsibilities are too numerous or complex, and it's better to create a new subclass just for that purpose. Also, avoid using this pattern when you want to remove some behavior from an object at runtime.
+
+The decorator pattern should be used sparingly as it can make code more complex and harder to understand if overused or misapplied. Avoid using the pattern when you want to add responsibilities that are orthogonal, unrelated, or not expected in advance.
 
 ## How It Works
-In the Decorator pattern, there are three main components: 
-1. Component interface with abstract method `operation()`.
-2. Concrete component class implementing the operation method.
-3. Base decorator class which wraps a component and implements the same interface as the wrapped object. The base decorator forwards all requests to its component.
-4. Concrete decorators, extending the base decorator, adding new behavior before or after forwarding the request to the wrapped object.
+
+In the Decorator pattern, there's a base component class with an operation() method. This is the object we want to add additional behavior to. There's also a decorator class that has a reference to a Component and implements the same interface. The concrete decorators (DecoratorA and DecoratorB) are examples of these, adding specific behaviors to the objects they decorate.
 
 ## Real-World Analogy
-Imagine a pizza ordering system where you can add extra toppings like cheese, olives etc., without changing the basic pizza dough. Each additional topping is a decorator that adds its own behavior while still maintaining the interface of the base pizza (component).
+
+Imagine you have a pizza place where you can add different toppings to your pizza. Each topping is like a decorator - it adds an extra bit of functionality (like cheese or pepperoni) without affecting the base pizza itself. The same concept applies in software development: each additional piece of functionality is like a decorator, adding behavior that's orthogonal and unrelated to other behaviors.
 
 ## Simplified Example
-Here's a simplified example:
+
+Here's a simplified example of how this might look:
+
 ```python
-class Pizza:  # Component Interface
+# Component interface
+class Pizza:
     def get_cost(self):
         pass
 
-    def get_ingredients(self):
+    def get_description(self):
         pass
 
-class Margherita(Pizza):  # Concrete component
+# Concrete component
+class Margherita(Pizza):
     def get_cost(self):
         return 10
 
-    def get_ingredients(self):
-        return ['mozzarella', 'tomatoes']
+    def get_description(self):
+        return "Margherita"
 
-class PizzaDecorator(Pizza):  # Base Decorator
-    def __init__(self, pizza):
+# Base Decorator
+class PizzaDecorator(Pizza):
+    def __init__(self, pizza: Pizza) -> None:
         self.pizza = pizza
 
     def get_cost(self):
         return self.pizza.get_cost()
 
-    def get_ingredients(self):
-        return self.pizza.get_ingredients()
+    def get_description(self):
+        return self.pizza.get_description()
 
-class ExtraCheese(PizzaDecorator):  # Concrete decorators
-    def __init__(self, pizza):
-        super().__init__(pizza)
+# Concrete decorators
+class Mozzarella(PizzaDecorator):
+    def __init__(self, pizza: Pizza) -<｜begin▁of▁sentence｜>uper().__init__(pizza)
 
     def get_cost(self):
-        return self.pizza.get_cost() + 2
+        return self.pizza.get_cost() + 5
 
-    def get_ingredients(self):
-        return self.pizza.get_ingredients() + ['extra cheese']
+    def get_description(self):
+        return f"{self.pizza.get_description()}, Mozzarella"
 ```
+
+In this example, `Margherita` is the component (the pizza we're adding toppings to), and `Mozzarella` is a decorator that adds cheese to our pizza. The cost of the pizza increases by $5 with each piece of mozzarella added.
+
 ## See Also
-The Python code for this lesson can be found [here](https://github.<｜begin▁of▁sentence｜>/
+
+The Python code for this lesson can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/decorator.py).

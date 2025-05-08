@@ -1,43 +1,53 @@
-# The Composite Pattern (Structural Design Patterns)
+# The Composite Pattern (Structural)
 
 ## Intent
-The Composite pattern allows you to compose objects into tree structures and then work with these structures as if they were individual objects. This is particularly useful for representing part-whole hierarchies, such as an organizational structure where every employee has a boss except for the CEO who doesn't have any.
+
+The Composite pattern is used to organize and structure complex tree structures made up of objects where each object can be treated individually or collectively. It provides a way to compose objects into tree structures and then work with these structures as if they were individual objects.
 
 ## Problem It Solves
-The Composite pattern addresses the problem of wanting to treat individual objects and compositions uniformly. In other words, it provides a way to compose objects into tree structures and then manipulate these structures as if they were singular entities. This is particularly useful in situations where you need to operate on an entire group of objects at once, but also want to be able to handle single objects individually.
+
+This design pattern addresses the problem of treating individual objects and compositions uniformly, which simplifies code management and organization. It allows clients to treat complex trees structured as well-defined data structures (individual objects) in a uniform manner.
 
 ## When to Use It
-The Composite pattern should be used when you have a complex tree structure, and you want to provide simple interface for traversing or manipulating the whole structure without worrying about whether it's a leaf node (single object) or a composite node (group of objects). 
+
+The Composite pattern is ideal when you want to create complex tree structures where each node can be treated individually or collectively, making it suitable for use cases such as file systems, HTML documents, and database queries.
 
 ## When NOT to Use It
-The Composite pattern should not be used when dealing with a flat, one-level hierarchy. For such cases, simpler object relationships would suffice and no need for the pattern. Also, if you don't foresee needing to add new types of components in the future, it might be overkill to use this pattern.
+
+It's not a good idea to overuse the Composite pattern because it might make code more complicated than necessary. If your application doesn’t require complex tree structures or hierarchies, using simpler patterns like classes could be sufficient.
 
 ## How It Works
-The Composite pattern involves three key classes: Component (the base class that declares common methods for both simple and complex objects), Leaf (a class representing leaf nodes of a tree structure, which don't have children) and Composite (a class representing complex components that hold child components). The operations performed on these structures are uniform.
+
+The Composite pattern involves three main components: Component (abstract base class), Leaf (concrete component with no children) and Composite (concrete component with sub-components). The Component interface declares common operations for both simple and complex objects of a composition. A client uses these classes to work with the compositions in a uniform manner.
 
 ## Real-World Analogy
-Imagine you're managing an organization with multiple levels of hierarchy. Each person in the organization is a leaf node, but they can also be part of larger groups or teams which are composite nodes. You can add new people to teams without needing to change how you handle individual people, because both types of entities (individuals and team compositions) have similar interfaces.
+
+Imagine you have a family tree, where each person can be an individual leaf (you), or they could be part of a larger group (your siblings). If your family grows, it's not uncommon for new members to join the group - just like how a composite object can contain other composites or leaves.
 
 ## Simplified Example
-Here's a simplified example:
+
+Here is a simplified example:
+
 ```python
-class Component:  # The base class that declares common methods for both simple and complex objects
-    def operation(self):
-        pass
+class Component:  # Abstract base class
+    def operation(self) -> str: pass
 
-class Leaf(Component):  # A class representing leaf nodes of a tree structure, which don't have children
-    def operation(self):
-        return "Leaf"
+class Leaf(Component):  # Concrete component with no children
+    def __init__(self, name: str) -> None: self.name = name
+    def operation(self) -> str: return f"Leaf({self.name})"
 
-class Composite(Component):  # A class representing complex components that hold child components
-    def __init__(self):
-        self.children = []
-        
-    def add(self, component: Component):
-        self.children.append(component)
+class Composite(Component):  # Concrete component with sub-components
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self._children: List[Component] = []
     
-    def operation(self):
-        return " + ".join([child.operation() for child in self.children])
+    def add(self, component: Component) -> None: self._children.append(component)
+    def remove(self, component: Component) -> None: self._children.remove(component)
+    def operation(self) -> str: 
+        results = [child.operation() for child in self._children]
+        return f"Composite({self.name})[{' + '.join(results)}]"
 ```
+
 ## See Also
-The Composite pattern is often used in conjunction with other structural patterns like Decorator or Facade, which can provide additional functionality to the objects without affecting their structure. The corresponding Python file in this repo is [composite_pattern.py](https://github.com/username/repo/blob/main/patterns/structural/composite_pattern.py).
+
+The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/composite.py).

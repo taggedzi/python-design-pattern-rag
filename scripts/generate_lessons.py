@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
+# pylint: disable=broad-exception-caught,logging-fstring-interpolation,line-too-long
+"""Generate lessons from the patterns folder."""
 import argparse
 import logging
 import json
-import httpx
+import re
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
+import httpx
 
 # --- Directory setup ---
 script_dir = Path(__file__).resolve().parent
@@ -13,7 +16,9 @@ project_root = script_dir.parent
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
 
 SYSTEM_PROMPT = """
-You are a senior Python instructor. When given a Python file that demonstrates a design pattern, generate a well-structured, beginner-friendly Markdown lesson.
+You are a senior Python instructor. When given a Python file that demonstrates a design pattern you generate a well-structured and very comprehensive lesson for a user with a 10th grade level education who is familiar with the basics of python..
+You use properly formatted Markdown with its allowed attributes to make your lesson easy to read and engaging. 
+You verify each section for completeness and acuracy before moving to the next. 
 
 Structure your output like this:
 
@@ -52,7 +57,27 @@ Include a short example or pseudocode. Use Markdown code block syntax.
 Provide a Markdown link to the corresponding Python file in the repo.
 """
 
+# Required headers in each lesson
+REQUIRED_SECTIONS = [
+    r"^# The .+ Pattern",
+    r"^## Intent",
+    r"^## Problem It Solves",
+    r"^## When to Use It",
+    r"^## When NOT to Use It",
+    r"^## How It Works",
+    r"^## Real-World Analogy",
+    r"^## Simplified Example",
+    r"^## See Also"
+]
+
+
+def is_valid_lesson(text: str) -> bool:
+    """Check that all required sections are present in the lesson text."""
+    return all(re.search(pat, text, re.MULTILINE) for pat in REQUIRED_SECTIONS)
+
+
 def call_ollama_model(model: str, system_prompt: str, user_prompt: str) -> Optional[str]:
+    """Call the Ollama model and return the output."""
     try:
         response = httpx.post(
             "http://localhost:11434/api/chat",
@@ -70,8 +95,7 @@ def call_ollama_model(model: str, system_prompt: str, user_prompt: str) -> Optio
 
         full_output = []
         for line in response.iter_lines():
-            line = line.strip()
-            if not line:
+            if not line or line.strip() == '':
                 continue
             try:
                 data = json.loads(line)
@@ -88,29 +112,39 @@ def call_ollama_model(model: str, system_prompt: str, user_prompt: str) -> Optio
 
 
 def extract_title_and_category(path: Path) -> Tuple[str, str]:
-    parts = path.parts
-    category = parts[-2].capitalize() if len(parts) > 1 else "General"
+    """Extract the title and category of a file in the patterns directory."""
+    parts = path.relative_to(script_dir.parent / 'patterns').parts
+    category = parts[0].capitalize() if parts else 'General'
     name = path.stem.replace('_', ' ').title()
     return name, category
 
 
-def generate_lessons(source_dir: str, output_dir: str, model: str = "lesson-planner") -> None:
-    source_path = Path(source_dir)
-    output_path = Path(output_dir)
-    if output_path.exists():
-        for f in output_path.iterdir():
-            if f.is_file():
-                f.unlink()
-    else:
-        output_path.mkdir(parents=True, exist_ok=True)
+def generate_lessons(
+    source_dir: Path,
+    output_dir: Path,
+    model: str = "lesson-planner:latest"
+) -> None:
+    """Generate lessons from Python files."""
+    # Prepare output
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    failures: List[Path] = []
 
-    py_files = list(source_path.rglob("*.py"))
-    logging.info(f"Found {len(py_files)} Python pattern files in {source_path}.")
+    # Walk source patterns
+    py_files = sorted(source_dir.rglob("*.py"))
+    logging.info(f"Found {len(py_files)} Python pattern files in {source_dir}.")
 
     for file_path in py_files:
         name, category = extract_title_and_category(file_path)
-        logging.info(f"Generating lesson for {name} ({category})")
+        filename = f"{category.lower()}_{file_path.stem}.md"
+        out_path = output_dir / filename
 
+        # Skip if lesson already exists
+        if out_path.exists():
+            logging.info(f"Skipping existing lesson: {out_path.name}")
+            continue
+
+        logging.info(f"Generating lesson for {name} ({category})")
         code = file_path.read_text(encoding="utf-8")
         user_prompt = f"""
 Below is the full implementation of the Python '{name}' pattern from the '{category}' category:
@@ -123,22 +157,33 @@ Please generate a Markdown-based educational lesson as described in the system p
 """
         lesson = call_ollama_model(model, SYSTEM_PROMPT, user_prompt)
 
-        if lesson:
-            filename = f"{category.lower()}_{file_path.stem}.md"
-            out_path = output_path / filename
+        # Validate before saving
+        if lesson and is_valid_lesson(lesson):
             out_path.write_text(lesson, encoding="utf-8")
-            logging.info(f"✅ Wrote lesson: {out_path}")
+            logging.info(f"✅ Wrote lesson: {out_path.name}")
         else:
-            logging.warning(f"❌ Failed lesson for {file_path}")
+            logging.warning(f"❌ Invalid or empty lesson for {file_path.stem}")
+            failures.append(file_path)
+
+    # Log failures
+    if failures:
+        fail_log = output_dir / 'failed_lessons.log'
+        with fail_log.open('w', encoding='utf-8') as lf:
+            for p in failures:
+                lf.write(p.as_posix() + '\n')
+        logging.warning(f"{len(failures)} lessons failed; see {fail_log}")
+    else:
+        logging.info("All lessons generated successfully.")
 
 
 def main() -> None:
+    """The Main function."""
     logging.basicConfig(
         level=logging.INFO,
         format='[%(asctime)s] %(levelname)s: %(message)s'
     )
     parser = argparse.ArgumentParser(
-        description="Generate Python lesson Markdown files using Ollama."
+        description="Generate Python lesson Markdown files using Ollama, with incremental and validation features."
     )
     parser.add_argument(
         '--source',
@@ -158,8 +203,8 @@ def main() -> None:
     args = parser.parse_args()
 
     generate_lessons(
-        source_dir=args.source,
-        output_dir=args.output,
+        source_dir=Path(args.source),
+        output_dir=Path(args.output),
         model=args.model
     )
 

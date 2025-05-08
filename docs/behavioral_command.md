@@ -2,70 +2,70 @@
 
 ## Intent
 
-The Command pattern is a behavioral design pattern that turns a request into a standalone object, thereby allowing you to parameterize clients with queues, requests, and operations, or support undoable actions.
+The Command pattern is a behavioral design pattern that turns a request into a standalone object, which allows you to parameterize methods with different requests, delay or queue them, and support undoable operations. It provides the means to encapsulate all information needed to perform an action at a later time.
 
 ## Problem It Solves
 
-In complex software systems, it's often necessary to issue requests in various forms - simple ones like turning on/off the light, more complicated ones involving data manipulation, etc. The problem this pattern solves is that of decoupling senders and receivers. Senders don't need to know anything about the receiver's implementation; they just need to call a method (the command).
+The Command Pattern solves problems related to requesting operations to be performed on objects without knowing anything about the operation being requested (e.g., turning lights on or off). This separation of client and receiver makes it possible for clients to send requests independently from when, where, or who sends them. It also allows for undoable actions by keeping track of previous commands.
 
 ## When to Use It
 
-This pattern should be used when you want to:
+The Command Pattern is useful in scenarios where you want to:
 
-- Parameterize methods, actions or operations as objects.
-- Create and execute requests at different times.
+- Parameterize methods with different requests.
+- Delay or queue operations.
 - Support undoable operations.
-- Implement multilevel undo/redo functionality.
+- Encapsulate all information needed to perform an action at a later time.
 
 ## When NOT to Use It
 
-The Command Pattern is not a good fit when you need to encapsulate simple tasks that can be done with few lines of code, or when the command is very small and does not have many parameters.
+The Command Pattern should not be used in scenarios where you need to execute commands immediately, because it doesn't support immediate execution of commands.
 
 ## How It Works
 
-In this pattern, there are four main components:
+In the Command pattern:
 
-1. `Command` interface - declares a method for executing an operation.
-2. `Concrete Command` class - implements the `execute()` method to carry out the request.
-3. `Invoker` class - asks the command to carry out the request.
-4. `Receiver` class - knows how to perform the operations associated with carrying out the request.
+- `Command` interface declares an `execute()` method for executing a command.
+- `ConcreteCommand` class extends the `Command` base and implements the `execute()` method, which defines how to perform the operation.
+- `Client` creates a ConcreteCommand object and sets its receiver.
+- The invoker is responsible for keeping a history of requests (commands). It can queue commands, execute them in sequence or parallel, and support undoable operations.
 
 ## Real-World Analogy
 
-Imagine you're a waiter at a restaurant. You take orders from customers, and when they're ready to be served, you hand them over to the chef. In this analogy, your role as an Invoker is taking customer orders (Commands), and serving food (Receiver).
+Imagine you are at a restaurant and the waiter serves your order to you. Instead of communicating with the kitchen directly, you communicate with the waiter who takes care of all communication between you and the kitchen. The waiter is like an Invoker in this scenario, serving as an interface for ordering food (commands) from the kitchen (receiver).
 
 ## Simplified Example
 
-Here's a simplified example of how it works:
+Here's a simplified example:
 
 ```python
-class Command(ABC):  # Abstract base class for all commands
+class Command(ABC):
     @abstractmethod
     def execute(self) -> None:
         pass
 
-# Concrete command to turn on the light
-class TurnOnLightCommand(Command):
-    def __init__(self, light: 'Light') -> None:
+# Receiver
+class Light:
+    def turn_on(self) -> None:
+        print("Light is ON")
+
+    def turn_off(self) -> None:
+        print("Light is OFF")
+
+# Concrete commands
+class TurnOnCommand(Command):
+    def __init__(self, light: Light) -> None:
         self._light = light
 
     def execute(self) -> None:
         self._light.turn_on()
 
-# Invoker class
-class RemoteControl:
-    def submit(self, command: Command):
-        command.execute()
+class TurnOffCommand(Command):
+    def __init__(self, light: Light) -> None:
+        self._light = light
 
-# Receiver class (Light)
-class Light:
-    def turn_on(self):
-        print("The light is on.")
-
-light = Light()
-turn_on_command = TurnOnLightCommand(light)  # Client creates a concrete command
-remote = RemoteControl()   # Invoker object
-remote.submit(turn_on_command)  # Invoker calls the command
+    def execute(self) -> None:
+        self._light.turn_off()
 ```
 
 ## See Also

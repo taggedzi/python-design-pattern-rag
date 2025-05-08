@@ -1,46 +1,57 @@
 # The Prototype Pattern (Creational)
 
 ## Intent
-The prototype pattern is used when creating new objects from existing ones, especially complex ones which require extensive initialization or are time consuming to create. It provides an efficient way to clone objects without coupling implementation details.
+
+The prototype pattern is a creational design pattern that allows cloning objects, even complex ones, without coupling to their specific classes. This pattern provides a mechanism for creating object instances via cloning an existing instance and changing its internal state.
 
 ## Problem It Solves
-This design pattern addresses the problem of object creation in a costly and complex process that requires deep cloning capabilities. 
+
+This pattern addresses the problem of creating new objects by copying an existing one. The complexity can be high if we have to create complex objects with many dependencies, or if creation is time-consuming. This pattern allows us to define a prototype object that acts as a blueprint for creating other objects.
 
 ## When to Use It
-The prototype pattern is ideal when:
-1. The class to instantiate is expensive or time-consuming to create.
-2. A class can't be or shouldn'<｜begin▁of▁sentence｜> not be responsible for knowing how to create its own instances.
-3. A class wants to delegate instantiation to run-time, i.e., the client explicity asks for an object and supplies the necessary data.
+
+The Prototype Pattern should be used when:
+
+1. We need to create an instance of a class at runtime based on some configuration or parameters.
+2. The class instances are expensive in terms of resources and time, we have a similar object ready that can be cloned instead of creating new one from scratch.
+3. When the classes to instantiate are specified at run-time, for example, through a user interface or config file.
 
 ## When NOT to Use It
-1. If a subclass needs to override the clone method. 
-2. In cases where the objects are not complex or expensive to create.
-3. If you need to maintain different hierarchies of prototypes.
+
+The Prototype Pattern should not be used when:
+
+1. The class is simple and does not have many fields that need setting.
+2. If the objects are immutable. In this case, we can use simpler creation patterns like Factory Method or Builder.
+3. If a class has a complex initialization process. In such cases, it might be better to use Constructor-based instantiation.
 
 ## How It Works
-The prototype pattern works by creating an abstract class (Prototype) that provides a clone() interface, and then concrete classes implementing this interface. The Prototype's clone method returns a deep copy of the current object. 
 
-In our example, Shape is a subclass of Prototype which implements the clone() method. It creates a new instance with same color and position as its own but without any reference to it.
+The Prototype Pattern works by defining an interface for creating objects that is implemented by the actual classes. The `clone()` method in the prototype class returns a deep copy of itself which can then be modified as required.
 
 ## Real-World Analogy
-Imagine you have a blue shape at (10,20). You want to create another identical shape at (15,15), instead of creating it from scratch, you can clone the original one and move it to new position. This is how prototype pattern works in real world too.
+
+Imagine you have a blueprint (prototype) of a house. You can use this blueprint to build many houses, each with its unique features and decorations. The blueprint acts as the prototype from where new houses are built by cloning it.
 
 ## Simplified Example
-Here's a simplified example:
+
+Here's an example in Python:
+
 ```python
-class Prototype:
-    def clone(self): ...  # Returns a deep copy of the current object.
-    
 class Shape(Prototype):
-    def __init__(self, color: str, position: tuple[int, int]):
+    def  __init__(self, color: str, position: tuple[int, int]) -> None:
         self.color = color
         self.position = position
-        
-    def move(self, dx: int, dy: int): 
+
+    def move(self, dx: int, dy: int) -<｜begin▁of▁sentence｜> None:
         x, y = self.position
         self.position = (x + dx, y + dy)
-    
-    # other methods...
+
+    def  __str__(self) -> str:
+        return f"Shape(color={self.color}, position={self.position})"
 ```
+
+In this example, `Shape` is a subclass of the `Prototype` class and it overrides the `clone()` method to create a deep copy of itself.
+
 ## See Also
-[Prototype Python File](https://github.<｜begin▁of▁sentence｜>.com/faif/python-patterns/blob/master/creational/prototype.py)
+
+You can find the full implementation of the Prototype pattern in the Python file [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/prototype.py) in our GitHub repository.

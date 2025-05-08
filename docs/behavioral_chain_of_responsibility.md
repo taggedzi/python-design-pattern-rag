@@ -2,37 +2,31 @@
 
 ## Intent
 
-The Chain of Responsibility pattern is used to process varied requests in a chain of handlers, where each handler decides whether it can handle the request or passes it along the chain. This promotes loose coupling between sender and receiver.
+The Chain of Responsibility pattern is used to process varied requests from different types of objects, without specifying their classes. It allows an object to bypass the rest of the chain and perform its operation without passing the request along the chain.
 
 ## Problem It Solves
 
-In complex systems, there might be many different components that could potentially handle a given task. The Chain of Responsibility pattern allows us to create a chain of handlers where each handler decides whether or not it can process the request. This makes our code more flexible and easier to maintain as we don't have to know in advance which component will be able to handle a particular request.
+This design pattern addresses issues related to decoupling senders and receivers by allowing a chain of handlers (objects) to process requests one after another, until it reaches a handler that can handle the request. This way, each handler has the chance to process the request without knowing about others in the chain.
 
 ## When to Use It
 
-The Chain of Responsibility pattern is best used when:
-
-- There are multiple potential handlers for a single request.
-- You want to decouple senders and receivers, making your code easier to change and maintain.
+The Chain of Responsibility pattern is ideal when you have multiple potential handlers for processing a particular request and you want to decouple senders from receivers. It's also useful when you need to execute several handlers in specific order or randomly.
 
 ## When NOT to Use It
 
-The Chain of Responsibility pattern should not be used in situations where:
-
-- The sender needs to know whether the receiver has handled the request (e.g., for error handling).
-- There are a small number of handlers, as this makes the code more complex than it needs to be.
+If the chain of responsibility needs to be modified frequently, as it can become complex and hard to maintain, Chain of Responsibility might not be the best choice. If there are many levels of indirection involved, this pattern may lead to performance issues.
 
 ## How It Works
 
-The Chain of Responsibility pattern involves three components: Handler, ConcreteHandler, and Client. The Handler class defines an interface for all concrete handlers to follow (e.g., `handle()` method). ConcreteHandlers are classes that extend the base Handler class and override its `handle()` method. Clients create these handlers and chain them together using the `set_next()` method, which allows each handler in the chain to pass on requests it cannot handle itself.
+The Chain of Responsibility pattern involves a chain of handlers (objects) where each handler decides whether it can process the request or pass it on to the next one in the chain. The `set_next()` method is used for setting up this chain and the `handle()` method is responsible for processing the request.
 
 ## Real-World Analogy
 
-Imagine a long line of people waiting for buses. The first person in line (the first ConcreteHandler) knows when the bus is coming, so they let someone else take their place. If no one takes their place, then they go and get on the bus. This is similar to how each handler in the chain can pass a request along if it's not its turn to handle it.
+Imagine a group of friends who are passing an item (request) around until it's found by someone who can handle it (handler). Each friend in the group could be considered a handler, each with its own way to process or pass on the item.
 
 ## Simplified Example
 
-Here's a simplified example of the Chain of Responsibility pattern:
+Here is a simplified example:
 
 ```python
 class Handler:  # Abstract base class
@@ -40,28 +34,28 @@ class Handler:  # Abstract base class
         self._successor = successor
 
     def handle_request(self, request):
-        if not self._successor is None:
-            return self._successor.handle_request(request)
+        if not self._successor:
+            return None
         else:
-            return f"{self.__class__} can't handle the {request}"
+            return self._successor.handle_request(request)
 
 class ConcreteHandler1(Handler):  # Inherits from Handler
     def handle_request(self, request):
-        if request == "ConcreteHandler1":
-            return f"{self.__class__} handled {request}"
+        if request == "RequestType1":
+            return f"ConcreteHandler1 handles {request}"
         else:
             return super().handle_request(request)
 
 class ConcreteHandler2(Handler):  # Inherits from Handler
     def handle_request(self, request):
-        if request == "ConcreteHandler2":
-            return f"{self.__class__} handled {request}"
+        if request == "RequestType2":
+            return f"ConcreteHandler2 handles {request}"
         else:
             return super().handle_request(request)
 ```
 
-In this example, `ConcreteHandler1` and `ConcreteHandler2` are both subclasses of the abstract base class `Handler`. They override the `handle_request()` method to handle requests of their own type. If a request is not handled by one of them, they pass it on to the next handler in the chain (if there is one).
+In this example, `ConcreteHandler1` and `ConcreteHandler2` are handlers that can process a specific type of request. The chain is created by setting the successor for each handler to the next one in line. If a handler cannot handle a request (i.e., its condition in `handle_request()` returns `None`), it passes the request on to its successor.
 
 ## See Also
 
-The corresponding Python file for this lesson can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/chain_of_responsibility.py).
+The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/chain_of_responsibility.py).

@@ -1,31 +1,61 @@
-# The Visitor Pattern (Behavioral)
+# The Visitor Pattern (Behavioral Design Patterns)
 
 ## Intent
-The Visitor pattern allows you to perform an operation on each element of a complex data structure without modifying the classes of those elements. It's useful for separating concerns across many element types.
+
+The Visitor pattern is a way of separating an algorithm from the objects on which it operates. It allows you to add new operations to classes without modifying those classes, and also provides a central place to manage these new operations.
 
 ## Problem It Solves
-Traditional iteration over collections of objects (like lists or trees) often involves checking the type of each object and then performing an operation specific to that type, leading to a lot of conditional logic that can be difficult to maintain. The Visitor pattern addresses this by allowing you to define new operations on elements without changing their classes.
+
+This design pattern addresses the problem of adding new operations to classes without changing their structure or code. This is particularly useful when you have an existing inheritance hierarchy with many different types that need to perform additional actions on each type, but those actions are not part of the base class's interface. The Visitor pattern allows you to separate these actions into a centralized place, making your code more maintainable and flexible.
 
 ## When to Use It
-The Visitor pattern is useful in scenarios where there are multiple types of objects and each object needs to perform different actions based on its type. This includes data structures like trees or graphs, but can also be used with any other kind of complex structure that contains heterogeneous elements.
+
+The Visitor pattern is best used when:
+
+- You have an inheritance hierarchy with many different types that need additional operations performed on them.
+- These new operations are not part of the base class's interface (i.e., they don't affect subclasses).
+- The operations you need to perform should be centralized and not spread across your codebase.
 
 ## When NOT to Use It
-While the Visitor pattern is useful for separating concerns across multiple types of objects, it's not a suitable choice if you only have a few different object types and their operations are simple enough to fit into one or two methods. The pattern can also be overkill if your data structure isn't complex enough to benefit from its complexity.
+
+The Visitor pattern is not suitable when:
+
+- You have a small number of classes that do not require additional operations.
+- Your inheritance hierarchy is simple, or the changes made by the visitor are minimal.
+- The operations you need to perform are spread across your codebase and can be easily added without changing existing classes.
 
 ## How It Works
-The Visitor pattern involves three key components: the `Visitor` interface, which declares a set of methods corresponding to possible operations on elements; the `Element` interface, which declares an `accept()` method that takes a `Visitor` as a parameter; and concrete `Visitor` classes implementing all the possible combinations of operations.
+
+The Visitor pattern involves two key components: a `Visitor` interface that declares methods for each operation to be performed, and an object (the visitor) that implements these methods. The `Element` interface has a single method `accept()` which takes a `Visitor` as its argument. This allows the element to delegate the work of performing an operation to the visitor.
 
 ## Real-World Analogy
-Imagine you're at a party with several types of guests (the elements), each having different behaviors (their own methods). Now, if there are new guest types that need to perform special actions, you can simply add them as new concrete visitors without changing the existing guest classes. This is similar to how the Visitor pattern allows you to extend your data structure's functionality without modifying its elements.
+
+Imagine you have a large family tree with many different types of people (like grandparents, uncles, cousins etc.). Now imagine each type of person has certain characteristics or actions that need to be performed on them. Instead of adding these new operations directly into the classes representing individual types of people, you can create a visitor object that knows how to perform these operations and simply ask each individual in the family tree to accept this visitor.
 
 ## Simplified Example
-Here's a simplified example of the Visitor pattern:
+
+Here's a simplified example:
 
 ```python
-class ElementA:
-    def accept(self, visitor):
-        visitor.visit_element_a(self)
+class Visitor(ABC):
+    @abstractmethod
+    def visit_element_a(self, element: ElementA) -> None:
+        pass
 
-class ElementB:
-    def accept(self, visitor):
-        visitor.visit<｜begin▁of▁sentence｜>ElementB(self)
+    @abstractmethod
+    def visit_element_b(self, element: ElementB) -> None:
+        pass
+
+class ConcreteVisitor(Visitor):
+    def visit_element_a(self, element: ElementA) -> None:
+        print("Visiting Element A")
+
+    def visit_element_b(self, element: ElementB) -> None:
+        print("Visiting Element B")
+```
+
+In this example, `ConcreteVisitor` is a visitor that knows how to perform operations on elements of type A and B. When an element accepts a visitor, it delegates the work of performing its operation to the visitor.
+
+## See Also
+
+The Python code for the Visitor pattern can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/visitor.py).

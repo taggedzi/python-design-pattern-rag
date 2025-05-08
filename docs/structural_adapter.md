@@ -1,44 +1,62 @@
 # The Adapter Pattern (Structural)
 
 ## Intent
-The Adapter pattern is used to make two unrelated interfaces work together. It's an alternative way of saying "wire up" or "hook these two things together".
+
+The Adapter pattern is a design pattern that allows the interface of an existing class to be used as another interface without modifying the original class. It's often used when you want to use an existing class, but its interface isn't what you need. The Adapter makes the incompatible classes work together by wrapping its own methods and properties into a new format that is compatible with the client’s code.
 
 ## Problem It Solves
-Imagine you have a class that has an incompatible interface with another class, and you want them to work together. The Adapter pattern solves this problem by creating a wrapper around the existing class, which makes it compatible with the client's expectations.
+
+The problem this pattern addresses is when we have a class with an incompatible interface, but we want to use it as if it had a different interface. This can be due to various reasons like legacy systems, third-party libraries or simply because you're trying to follow the Single Responsibility Principle (SRP).
 
 ## When to Use It
-You would use the Adapter pattern when:
-- You want some existing classes to be used as if they were a different class (e.g., an old class that has an incompatible interface).
-- You need to make unrelated classes work together, but you don't want to change their interfaces or create subclasses just for the sake of compatibility.
+
+This pattern is best used when:
+
+1. You want to use an existing class but its interface isn’t what you need.
+2. You have a working class, but it lacks some of the functionality that you require.
+3. The classes are incompatible and cannot work together as they do not share the same interface.
+4. You're trying to follow the Single Responsibility Principle (SRP).
 
 ## When NOT to Use It
-You should not use the Adapter pattern when:
-- The client code is expected to operate with a specific class (e.<｜begin▁of▁sentence｜>craps and bangs, I know you're thinking about it).
-- You need to make a large number of classes work together, or all classes in your system must be compatible. In that case, consider using the Bridge pattern instead.
+
+This pattern should be avoided when:
+
+1. If you have control over the original class, it would be better to modify that class directly.
+2. The classes are highly compatible and there's no need for an adapter.
+3. You're working with a legacy system where modifying the code is not feasible or desirable.
+4. When the Adapter introduces complexity into your design.
 
 ## How It Works
-The Adapter wraps one of the existing interfaces and translates the method calls into something else, which is expected by the client code. The wrapped object (Adaptee) remains unaware of this translation. 
+
+The Adapter wraps the original class in an interface that clients expect, and it translates between the client’s expectations and the original class's interface. This translation is done by implementing a set of methods that make sense for the client to use.
 
 ## Real-World Analogy
-Imagine you're at a party where everyone has a different kind of drink (Target), but the bar keeps giving you a mixed drink (Adaptee). You can order drinks, but they have to be mixed for you (Adapter). The Adapter pattern is about making this process more manageable.
+
+Imagine you have a foreign book which has words in your language but written in another language. The Adapter pattern provides an interface where this foreign book can be read, even though it's not understandable yet. It acts as a translator between the original (foreign) and desired (native) languages.
 
 ## Simplified Example
-Here's a simplified example:
+
+Here is a simplified example of how the Adapter pattern works:
+
 ```python
-class Target:  # Existing interface
-    def request(self) -> str:
+class Target:  # The domain-specific interface that clients expect
+    def request(self):
         return "Target: The default behavior."
 
-class Adaptee:  # Incompatible interface
-    def specific_request(self) -> str:
-        return ".eetpadA eht fo roivaheb laicepS"  
+class Adaptee:  # A class with an incompatible interface
+    def specific_request(self):
+        return ".eetpadA eht fo roivaheb laicepS"   # reversed string
 
-class Adapter(Target):  # Adapter that makes the incompatible work with compatible
-    def __init__(self, adaptee: Adaptee) -> None:
+class Adapter(Target):  # Adapts the Adaptee to the Target interface
+    def __init__(self, adaptee: Adaptee):
         self.adaptee = adaptee
 
-    def request(self) -> str:
+    def request(self):
         return f"Adapter: (TRANSLATED) {self.adaptee.specific_request()[::-1]}"
 ```
+
+In this example, `Target` is the interface that we expect to use. However, `Adaptee` has a different interface and cannot be used directly. The `Adapter` class wraps `Adaptee` in such a way that it can be used as if it had the expected interface.
+
 ## See Also
-The Python code for this lesson can be found [here](https://github.com/username/repo/blob/main/python_patterns/structural/adapter.py).
+
+The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/adapter.py).
