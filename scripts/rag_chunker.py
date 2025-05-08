@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+# Path: scripts/rag_chunker.py
+# pylint: disable=broad-exception-caught,logging-fstring-interpolation,line-too-long
+"""Script to generate a Markdown summary of python design patterns for us in RAG systems."""
 import sys
 import argparse
 import json
@@ -16,6 +18,7 @@ project_root = script_dir.parent
 
 
 def setup_logging():
+    """Sets up logging with a basic configuration."""
     logging.basicConfig(
         level=logging.INFO,
         format='[%(asctime)s] %(levelname)s: %(message)s'
@@ -24,15 +27,16 @@ def setup_logging():
 
 logger = setup_logging()
 
-
 # System prompt for structured JSON output
 def get_system_prompt() -> str:
+    """Returns a system prompt for the AI to use to generate a structured JSON output."""
     return (
         "You are a professional Python code summarizer. "
         "Given the Python source code, return a JSON object with two keys: "
         "`summary` (a 1-2 sentence summary) and `docstrings` (a list of strings, each representing a suggested docstring for a class or function). "
         "Respond with valid JSON only, no additional text."
     )
+
 
 def annotate_code(
     code: str,
@@ -70,11 +74,16 @@ def annotate_code(
         logger.warning(f"Annotation failed: {e}")
         return None
 
-def write_chunk(file_path: Path, summary: str, docstrings: list, output_dir: Path) -> Path:
+
+def write_chunk(
+    file_path: Path,
+    summary: str,
+    docstrings: list,
+    output_dir: Path,
+    source_dir: Path) -> Path:
     """
     Write the annotated chunk to Markdown and return its path.
     """
-    # uses module-level source_dir set in main()
     rel = file_path.relative_to(source_dir)
     chunk_name = rel.with_suffix('').as_posix().replace('/', '_').replace('\\', '_') + '.md'
     out_path = output_dir / chunk_name
@@ -117,7 +126,7 @@ def generate_index(chunks_dir: Path, index_file: Path):
         str(index_script),
         str(chunks_dir),
         str(index_file)
-    ])
+    ], check=False)
     if result.returncode == 0:
         logger.info(f"Summary index created at {index_file}")
         return True
@@ -125,8 +134,9 @@ def generate_index(chunks_dir: Path, index_file: Path):
         logger.error("Failed to generate summary index.")
         return False
 
+
 def main():
-    global source_dir
+    """Main function."""
     parser = argparse.ArgumentParser(
         description="RAG chunker: processes Python files into Markdown chunks with retry logic."
     )
@@ -150,33 +160,35 @@ def main():
         help='Path for the summary JSON index')
     args = parser.parse_args()
 
-    # assign module-level for write_chunk
     source_dir = Path(args.source)
     output_dir = Path(args.output)
     index_file = Path(args.index)
     failures_log = output_dir / 'failed_chunks.log'
 
-    # clear or create output_dir
-    if output_dir.exists():
-        for item in output_dir.iterdir():
-            if item.is_file():
-                item.unlink()
-    else:
-        output_dir.mkdir(parents=True)
+    # Ensure the output directory exists; do not delete existing files
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     py_files = sorted(source_dir.rglob('*.py'))
     logger.info(f"Found {len(py_files)} Python files to process in {source_dir}.")
 
     failures = []
     for file_path in py_files:
-        logger.info(f"Processing {file_path.relative_to(source_dir)}")
+        rel = file_path.relative_to(source_dir)
+        chunk_name = rel.with_suffix('').as_posix().replace('/', '_').replace('\\', '_') + '.md'
+        md_path = output_dir / chunk_name
+
+        if md_path.exists():
+            logger.info(f"Skipping existing chunk: {chunk_name}")
+            continue
+
+        logger.info(f"Processing {rel}")
         attempt = 1
         success = False
         while attempt <= args.retries:
             result = annotate_code(file_path.read_text(encoding='utf-8'), args.model)
             if result:
                 summary, docstrings = result
-                md_path = write_chunk(file_path, summary, docstrings, output_dir)
+                md_path = write_chunk(file_path, summary, docstrings, output_dir, source_dir)
                 missing = validate_chunk(md_path)
                 if not missing:
                     success = True
@@ -192,7 +204,7 @@ def main():
             failures.append(file_path.relative_to(source_dir))
             logger.error(f"Failed to process {file_path} after {args.retries} attempts")
 
-    # write failures log
+    # Write failures log if any
     if failures:
         with failures_log.open('w', encoding='utf-8') as lf:
             for f in failures:
@@ -201,13 +213,10 @@ def main():
     else:
         logger.info("All files processed successfully.")
 
-    # generate summary index
+    # Generate summary index
     generate_index(output_dir, index_file)
 
     sys.exit(1 if failures else 0)
 
 if __name__ == '__main__':
     main()
-
-
-

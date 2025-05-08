@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+# Path: scripts/build_doc_index.py
+# pylint: disable=logging-fstring-interpolation
+"""Builds a documentation index file from all .md files in a directory."""
 import argparse
 import logging
 from pathlib import Path
@@ -8,6 +10,7 @@ script_dir = Path(__file__).resolve().parent
 project_root = script_dir.parent
 
 def setup_logging():
+    """Sets up logging with a basic configuration."""
     logging.basicConfig(
         level=logging.INFO,
         format='[%(asctime)s] %(levelname)s: %(message)s'
@@ -35,6 +38,7 @@ def build_index(docs_dir: Path, index_file: Path) -> None:
     logger.info(f'Wrote documentation index: {index_file}')
 
 def main():
+    """Main entry point."""
     parser = argparse.ArgumentParser(
         description='Build an index.md in the docs folder listing all Markdown files.'
     )

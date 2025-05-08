@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# Path: scripts/generate_lessons.py
 # pylint: disable=broad-exception-caught,logging-fstring-interpolation,line-too-long
 """Generate lessons from the patterns folder."""
 import argparse
