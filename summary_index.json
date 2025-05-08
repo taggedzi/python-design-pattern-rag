@@ -66,6 +66,12 @@
     "summary": "Abstract Factory pattern implementation in Python for creating GUI components."
   },
   {
+    "file": "creational/borg.py",
+    "chunk": "creational_borg.md",
+    "pattern": "Borg",
+    "summary": "Demonstration of the Borg pattern in Python, showcasing shared state across multiple instances."
+  },
+  {
     "file": "creational/builder.py",
     "chunk": "creational_builder.md",
     "pattern": "Builder",
