@@ -126,10 +126,10 @@ This project was created and maintained by Matthew Craig (TaggedZi) with assista
 
 This project also relies on:
 
-* [Ollama](https://ollama.com) for running local LLMs
-* [Falcon 3](https://ollama.com/library/falcon3) by [TII](https://www.tii.ae/ai-and-digital-science) for AI-based contributions including scaffolding, documentation, and refinement recommendations.
-* [Deepseek Coder](https://ollama.com/library/deepseek-coder) by DeepSeek for AI-based contributsions producing the lesson files.
-
+* [Ollama](https://ollama.com)
+* [Falcon 3](https://ollama.com/library/falcon3) by TII
+* [DeepSeek Coder](https://ollama.com/library/deepseek-coder) by DeepSeek
+  
 ---
 
 ### 📄 License
