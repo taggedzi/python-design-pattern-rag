@@ -3,7 +3,7 @@
     "file": "behavioral/chain_of_responsibility.py",
     "chunk": "behavioral_chain_of_responsibility.md",
     "pattern": "Chain Of Responsibility",
-    "summary": "Implementation of the Chain of Responsibility pattern in Python."
+    "summary": "Implementation of the Chain of Responsibility pattern in Python, demonstrating a request-passing mechanism through a series of handlers."
   },
   {
     "file": "behavioral/command.py",
