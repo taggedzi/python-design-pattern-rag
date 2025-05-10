@@ -1,51 +1,61 @@
 # The Strategy Pattern (Behavioral)
 
-## Intent
+## Purpose
 
-The strategy pattern is a design pattern that enables selecting an algorithm's behavior at runtime based on certain conditions. It provides a way to define a family of algorithms, put each of them into separate classes, and make their objects interchangeable. This allows the same client code to use different strategies without being modified.
+The Strategy pattern lets you define a group of related algorithms, encapsulate each one in its own class, and switch between them at runtime. This allows you to change the behavior of a program without modifying its core logic.
 
-## Problem It Solves
+## The Problem It Solves
 
-The Strategy pattern is useful when you want to choose an algorithm at runtime based on certain conditions or requirements. For instance, if you have a sorting function that needs to perform different types of sorts (ascending, descending, unique), the strategy pattern allows for these different behaviors to be defined in separate classes and then selected as needed. This can help avoid complex conditional statements and make your code more modular and maintainable.
+If you have a function that needs to perform similar actions in different ways—like sorting data in multiple formats—your code might end up cluttered with `if-else` or `switch` statements. The Strategy pattern helps you avoid this by moving each behavior into its own class, making the code cleaner and easier to maintain.
 
 ## When to Use It
 
-The Strategy pattern is best used when you have a variety of algorithms that are similar enough so they can be grouped together, but different enough from each other for them to still be considered the same "family". This could include sorting functions (like ascending, descending, unique), rendering functions, or any situation where there's a need to switch between different behaviors.
+Use this pattern when:
+
+* You have multiple algorithms that solve the same problem in different ways.
+* You want to switch between these algorithms at runtime.
+* You want to avoid long conditional logic in your code.
+* You want to keep your algorithms flexible and independent from the code that uses them.
 
 ## When NOT to Use It
 
-The Strategy pattern should not be used when:
+Avoid this pattern if:
 
-1. The client code needs to execute the same behavior regardless of the algorithm chosen.
-2. There are few algorithms that can be grouped together and they all have similar conformance to an interface.
-3. You need a simple, one-off change in behaviour without needing to modify existing classes.
+* The algorithm never changes or only changes in very rare, simple cases.
+* You only need a quick, one-off solution that doesn’t require a reusable structure.
+* All the algorithms behave nearly the same and don’t need separate classes.
 
 ## How It Works
 
-The Strategy pattern involves three components:
+The Strategy pattern includes three main parts:
 
-1. A Context class which uses the strategy. This is typically where you'll see the if/else or switch statements that decide which algorithm to use.
-2. An abstract base class (Strategy) with a method for executing the algorithm. All strategies should implement this method.
-3. Concrete Strategy classes, each implementing the execute() method in a way suitable for their specific strategy.
+1. **Strategy (interface or abstract base class)** – Defines the method each algorithm must implement.
+2. **Concrete Strategies** – Implement the actual behavior.
+3. **Context** – Uses a Strategy object to perform a task. It delegates the actual work to the selected strategy.
 
 ## Real-World Analogy
 
-Imagine you're at a restaurant and there are multiple menus (strategies). You can choose to order from one menu or another based on what you want to eat (the context decides which strategy to use).
+Think of a restaurant with multiple menus (strategies). You choose a menu depending on what you’re in the mood for. The restaurant (context) serves your meal based on your choice, without changing how the kitchen works behind the scenes.
 
 ## Simplified Example
 
-Here is a simplified example of the Strategy pattern:
+Here’s a simple Python example:
 
 ```python
+from abc import ABC, abstractmethod
+
+# Strategy interface
 class SortStrategy(ABC):
     @abstractmethod
     def sort(self, data: list[int]) -> list[int]:
         pass
 
+# Concrete strategy
 class AscendingSortStrategy(SortStrategy):
     def sort(self, data: list[int]) -> list[int]:
         return sorted(data)
 
+# Context
 class Context:
     def __init__(self, strategy: SortStrategy):
         self._strategy = strategy
@@ -57,8 +67,17 @@ class Context:
         return self._strategy.sort(data)
 ```
 
-In this example, `AscendingSortStrategy` is a concrete strategy that implements the `sort()` method to provide an ascending sort. The `Context` class uses this strategy by default but can also change its active strategy at runtime.
+### Usage
 
-## See Also
+```python
+data = [5, 2, 9, 1]
+context = Context(AscendingSortStrategy())
+print(context.sort(data))  # Output: [1, 2, 5, 9]
+```
 
-You can find the full implementation of the Strategy pattern in the Python file [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/strategy.py) in our GitHub repository.
+The strategy can be changed at runtime by calling `set_strategy()` with a different sorting class.
+
+## Learn More
+
+To see the full implementation in Python, visit:
+[Strategy Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/strategy.py)

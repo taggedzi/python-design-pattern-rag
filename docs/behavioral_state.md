@@ -1,39 +1,44 @@
 # The State Pattern (Behavioral)
 
-## Intent
+## Purpose
 
-The State pattern allows an object to alter its behavior when its internal state changes. This is particularly useful for managing complex states within an application, where each state could have a different set of behaviors associated with it.
+The State pattern lets an object change its behavior when its internal state changes. Instead of using many `if` or `switch` statements, the pattern helps you organize state-specific behavior into separate classes.
 
-## Problem It Solves
+## The Problem It Solves
 
-In software development, we often encounter objects that behave differently based on their current state. For example, a UI button might change color or label when its state changes (pressed vs unpressed). This pattern helps to encapsulate these variations and makes the code more readable and maintainable by separating each possible state into its own class.
+In many programs, an object’s behavior depends on its current state. For example, a button may behave differently when pressed, hovered, or disabled. If you manage these behaviors using conditionals spread throughout your code, it can become hard to understand and update. The State pattern solves this by letting each state be handled by its own class, keeping logic organized and easier to modify.
 
 ## When to Use It
 
-The State pattern is best used in situations where an object's behavior depends on its current state, and you want to separate the different states into their own classes. This can make your code easier to understand and modify as it grows over time.
+Use this pattern when:
+
+* An object’s behavior changes based on its state.
+* You want to avoid a mess of `if`/`else` or `switch` statements.
+* You want to make it easy to add new states without modifying existing code.
 
 ## When NOT to Use It
 
-While the State pattern provides a powerful way to manage complex state transitions, it should not be used if:
+Avoid this pattern if:
 
-1. The object's behavior doesn't change based on its current state (in which case, other design patterns like Strategy might be more appropriate).
-2. There are only a few distinct states that need encapsulation (in which case, using an enum or a switch-case statement might be simpler).
+* The object's behavior doesn’t really depend on state.
+* There are only a couple of simple states—using an `enum` or basic conditionals might be easier.
+* Adding classes for each state would overcomplicate your design.
 
 ## How It Works
 
-The State pattern involves three key components:
+The pattern has three main components:
 
-1. **Context** - This is the object whose behavior changes based on its state. It maintains a reference to one of several possible states and delegates requests for behavior to that state object.
-2. **State abstract class** - This provides an interface for all concrete state classes, including methods for setting the context (which is common to all states) and defining the interface for handling requests from the context.
-3. **Concrete State classes** - These are each of the different possible states that the Context can be in. Each one implements the handle() method to define what happens when a request is made by the Context.
+1. **Context** – The object whose behavior changes depending on its state. It holds a reference to the current state and delegates behavior to it.
+2. **State (abstract class or interface)** – Defines a common method (like `handle()`) that all concrete states must implement.
+3. **Concrete State classes** – Represent specific states. Each implements the behavior for that state and often triggers transitions to other states.
 
 ## Real-World Analogy
 
-Imagine you're at a restaurant and your table has a waiter who serves you food based on your order (the current state). If you order a burger, the waiter might serve you a hamburger (state A); if you order a salad, the waiter might serve you a fresh garden salad (state B), etc. Each of these states could have different behaviors associated with them.
+Imagine ordering food at a restaurant. If you order a burger, you get a burger; if you order a salad, you get a salad. Each order represents a state, and the waiter delivers a different result depending on what you asked for. The waiter (context) changes behavior based on your order (state).
 
 ## Simplified Example
 
-Here's a simplified example:
+Here’s a basic example in Python:
 
 ```python
 class Context:
@@ -67,8 +72,17 @@ class ConcreteStateB(State):
         self._context.transition_to(ConcreteStateA())
 ```
 
-In this example, `Context` maintains a reference to the current state and delegates behavior to it. The states are represented by `ConcreteStateA` and `ConcreteStateB` classes, each implementing the `handle()` method to define what happens when a request is made by the Context.
+### Usage
 
-## See Also
+```python
+context = Context(ConcreteStateA())
+context.request()  # ConcreteStateA handles request
+context.request()  # ConcreteStateB handles request
+```
 
-You can find this Python code for this pattern [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/state.py).
+Here, the context starts in `ConcreteStateA`, handles a request, and transitions to `ConcreteStateB`, which then transitions back on the next request. Each state is responsible for its own behavior and any transitions.
+
+## Learn More
+
+For a complete implementation in Python, visit:
+[State Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/state.py)

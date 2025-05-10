@@ -1,44 +1,51 @@
 # The Command Pattern (Behavioral)
 
-## Intent
+## Purpose
 
-The Command pattern is a behavioral design pattern that turns a request into a standalone object, which allows you to parameterize methods with different requests, delay or queue them, and support undoable operations. It provides the means to encapsulate all information needed to perform an action at a later time.
+The Command pattern turns a request into an object, allowing you to store, queue, or undo it later. This makes it easy to separate the object that issues a request from the one that carries it out.
 
-## Problem It Solves
+## The Problem It Solves
 
-The Command Pattern solves problems related to requesting operations to be performed on objects without knowing anything about the operation being requested (e.g., turning lights on or off). This separation of client and receiver makes it possible for clients to send requests independently from when, where, or who sends them. It also allows for undoable actions by keeping track of previous commands.
+Sometimes you want to issue a command without knowing exactly how it will be carried out. For example, a user interface might need to perform actions like turning a light on or off, but it shouldn't need to know how the light works. The Command pattern lets you wrap requests as objects, allowing them to be passed around, delayed, or undone.
 
 ## When to Use It
 
-The Command Pattern is useful in scenarios where you want to:
+Use this pattern when:
 
-- Parameterize methods with different requests.
-- Delay or queue operations.
-- Support undoable operations.
-- Encapsulate all information needed to perform an action at a later time.
+* You want to store or delay actions (e.g., in a queue or scheduler).
+* You want to support undo/redo functionality.
+* You need to pass commands as arguments.
+* You want to decouple objects that issue requests from those that handle them.
 
 ## When NOT to Use It
 
-The Command Pattern should not be used in scenarios where you need to execute commands immediately, because it doesn't support immediate execution of commands.
+Avoid this pattern if:
+
+* You only need simple, immediate method calls.
+* Storing or delaying operations adds unnecessary complexity.
 
 ## How It Works
 
-In the Command pattern:
+The pattern has several roles:
 
-- `Command` interface declares an `execute()` method for executing a command.
-- `ConcreteCommand` class extends the `Command` base and implements the `execute()` method, which defines how to perform the operation.
-- `Client` creates a ConcreteCommand object and sets its receiver.
-- The invoker is responsible for keeping a history of requests (commands). It can queue commands, execute them in sequence or parallel, and support undoable operations.
+* **Command**: An interface that defines an `execute()` method.
+* **ConcreteCommand**: Implements `execute()` and defines what action to take.
+* **Receiver**: The object that actually performs the action (e.g., a light).
+* **Invoker**: Stores commands and decides when to run them (e.g., a remote control).
+* **Client**: Creates commands and assigns them to the invoker.
 
 ## Real-World Analogy
 
-Imagine you are at a restaurant and the waiter serves your order to you. Instead of communicating with the kitchen directly, you communicate with the waiter who takes care of all communication between you and the kitchen. The waiter is like an Invoker in this scenario, serving as an interface for ordering food (commands) from the kitchen (receiver).
+Think of a restaurant. You (the client) tell the waiter (invoker) what you want. The waiter takes your order (command) and gives it to the kitchen (receiver). The waiter doesn’t cook, and you don’t need to know how the food is prepared—everyone has a clear role.
 
 ## Simplified Example
 
-Here's a simplified example:
+Here’s a basic implementation in Python:
 
 ```python
+from abc import ABC, abstractmethod
+
+# Command interface
 class Command(ABC):
     @abstractmethod
     def execute(self) -> None:
@@ -68,6 +75,9 @@ class TurnOffCommand(Command):
         self._light.turn_off()
 ```
 
-## See Also
+In this example, the commands encapsulate actions on a `Light` object. You could then store these commands in a queue, execute them on demand, or add undo functionality.
 
-You can find the full Python implementation of this pattern [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/command.py).
+## Learn More
+
+View the complete implementation here:
+[command.py on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/command.py)

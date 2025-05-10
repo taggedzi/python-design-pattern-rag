@@ -1,28 +1,36 @@
 # The Sentinel Object Pattern (Behavioral)
 
-## Intent
+## Purpose
 
-The Sentinel Object pattern signals special conditions or end-of-sequence markers in a program. It helps distinguish between user-provided values and missing values, which is useful for handling optional arguments or data stream termination.
+The Sentinel Object pattern is used to represent special values or conditions in a program—like missing data or the end of a sequence. It helps you clearly distinguish between user-provided values, `None`, and control signals.
 
-## Problem It Solves
+## The Problem It Solves
 
-This Sentinel Object pattern solves the problem of distinguishing between user input (including `None`) and the absence of a value. It's especially useful with optional parameters, allowing you to tell whether a value was explicitly provided or left out.
+Sometimes, it's hard to tell whether a function parameter was explicitly passed as `None` or not provided at all. This pattern solves that by introducing a unique sentinel object that signals a special condition, helping you avoid confusion and write cleaner, more predictable code.
 
 ## When to Use It
 
-Use Sentinel Object pattern when you need to handle special cases in your code and clearly separate user-provided values, `None`, and control signals like end-of-sequence markers.
+Use this pattern when:
+
+* You need to detect whether an argument was passed at all.
+* You want to avoid using `None` for multiple meanings (e.g., both "no value" and "explicitly set to none").
+* You’re working with iterators or streams and need to indicate the end of input.
 
 ## When NOT to Use It
 
-Avoid using the Sentinel Object pattern for required arguments. In those cases, inputs should be validated at the start of the function or method.
+Avoid this pattern when:
+
+* You're dealing with required arguments—just validate those directly.
+* Simpler constructs like `None` or empty lists are sufficient for your use case.
+* You need thread safety, and the sentinels might be shared across threads (you’ll need to take extra care in those cases).
 
 ## How It Works
 
-Create a unique, identifiable object—a "sentinel"—for each special condition. These are usually instances of a `Sentinel` class with a clear name. The `process_items` function in the example shows how sentinels can signal different conditions.
+A sentinel is a unique object—often an instance of a class like `Sentinel`—used to represent a specific condition. It doesn’t equal any other value and is used with identity checks (e.g., `is FOOD`). You can define as many sentinels as you need for different scenarios.
 
 ## Real-World Analogy
 
-Imagine a party with two special guests: one always brings food and the other drinks. If a guest brings neither, it signals the party is over. These roles represent different sentinel values.
+Imagine a party where certain guests bring either food or drinks. If someone arrives with neither, it means the party is over. Each role (food, drinks, no more guests) can be represented by a distinct sentinel object.
 
 ## Simplified Example
 
@@ -31,7 +39,7 @@ class Sentinel:
     def __init__(self, name):
         self.name = name
 
-# Define sentinels for special conditions
+# Create unique sentinel objects
 FOOD = Sentinel("Food")
 DRINK = Sentinel("Drink")
 END_OF_PARTY = Sentinel("End of Party")
@@ -50,6 +58,9 @@ party_guest(DRINK)
 party_guest(END_OF_PARTY)
 ```
 
-## See Also
+In this example, `FOOD`, `DRINK`, and `END_OF_PARTY` are sentinel values used to represent different conditions. The function uses identity checks (`is`) to decide what to do.
 
-The Sentinel Object Pattern appears in many programming languages, including Python. A sample implementation can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/sentinel.py).
+## Learn More
+
+For a full example, check the Python implementation here:
+[Sentinel Object Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/sentinel.py)

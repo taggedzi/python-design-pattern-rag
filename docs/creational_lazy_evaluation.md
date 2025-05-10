@@ -2,41 +2,41 @@
 
 ## Purpose
 
-The Lazy Evaluation pattern delays computing a value until it's actually needed. This is useful when the computation is resource-heavy or time-consuming, like generating a detailed report or performing complex calculations.
+The Lazy Evaluation pattern delays a calculation until the result is actually needed. This can help improve performance and reduce memory usage, especially when dealing with expensive or unnecessary computations.
 
 ## The Problem It Solves
 
-Often, programs compute values upfront—even when those values may never be used. This wastes resources. Lazy Evaluation fixes that by waiting to compute a value until it’s actually requested, which can make programs faster and more efficient.
+Programs often compute values up front—even if they’re never used. This wastes time and resources. Lazy Evaluation solves this by postponing the computation until the value is specifically requested. Once computed, the result is stored (cached) and reused.
 
 ## When to Use It
 
-Use this pattern when:
+Use Lazy Evaluation when:
 
-* A computation might not always be needed.
-* The calculation takes a lot of time or memory.
-* You want to improve the performance of your program by avoiding unnecessary work.
+* A value might not always be needed.
+* A calculation is expensive (e.g., time-consuming or memory-intensive).
+* You want to avoid doing unnecessary work until it becomes necessary.
 
-An example might be generating a report only when a user opens it—not when the report object is first created.
+Common examples include generating reports, processing large datasets, or evaluating settings that may never be accessed.
 
 ## When NOT to Use It
 
-Avoid this pattern if:
+Avoid using Lazy Evaluation if:
 
-1. The value is always needed right away.
-2. The calculation is simple and quick, and delaying it adds unnecessary complexity.
-3. Your application requires thread safety—this basic version of Lazy Evaluation isn’t thread-safe.
+* The value is always needed immediately.
+* The computation is simple and doesn’t benefit from being delayed.
+* You need thread safety (this basic example isn’t thread-safe).
 
 ## How It Works
 
-The key part is a `@lazy_property` decorator. This turns a method into a property that’s calculated only the first time it’s accessed. After that, the result is stored and reused.
+Lazy Evaluation typically uses a decorator (like `@lazy_property`) to mark a method for delayed execution. The first time the property is accessed, the method runs, and its result is stored. Future accesses return the cached value without recomputation.
 
 ## Real-World Analogy
 
-Imagine reading a book where each chapter appears only when you open it. Instead of loading the whole book at once, each part is created on demand—saving time and effort if you don’t read every chapter.
+Think of a pop-up book that reveals a page’s content only when you open it. If you never open a page, the details stay hidden. Similarly, Lazy Evaluation defers the work until it’s needed.
 
 ## Simplified Example
 
-Here’s a basic example with a class that creates a report from a dataset:
+Here’s a basic example in Python:
 
 ```python
 import time
@@ -59,7 +59,7 @@ class ReportGenerator:
 
     @lazy_property
     def summary(self):
-        time.sleep(2)  # Simulates a slow computation
+        time.sleep(2)  # Simulate an expensive computation
         return {
             "total": len(self.data),
             "min": min(self.data),
@@ -67,16 +67,28 @@ class ReportGenerator:
             "average": sum(self.data) / len(self.data)
         }
 
-# Demonstration
+# Usage
 report = ReportGenerator([1, 2, 3, 4, 5])
+
 print("First access:")
 print(report.summary)  # Triggers computation
+
 print("\nSecond access:")
-print(report.summary)  # Uses cached result
+print(report.summary)  # Returns cached result
 ```
 
-The first time `report.summary` is accessed, it runs the computation and prints the result. The second time, it just returns the stored value—no waiting.
+### Output
+
+```text
+First access:
+Computing 'summary'...
+{'total': 5, 'min': 1, 'max': 5, 'average': 3.0}
+
+Second access:
+{'total': 5, 'min': 1, 'max': 5, 'average': 3.0}
+```
 
 ## Learn More
 
-For the full example, see the [lazy_evaluation.py](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/lazy_evaluation.py) file in the repository.
+You can find the complete implementation in Python here:
+[Lazy Evaluation on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/lazy_evaluation.py)

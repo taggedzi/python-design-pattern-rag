@@ -2,27 +2,35 @@
 
 ## Purpose
 
-The Borg pattern creates objects that share the same state without having to inherit from a common class. It helps simplify programs by allowing different objects to access and update shared data.
+The Borg pattern allows multiple instances of a class to share the same internal state. Unlike the Singleton pattern—which restricts you to a single instance—Borg lets you create many instances that all behave as if they share one brain.
 
 ## The Problem It Solves
 
-In complex systems, it's often hard to manage shared data across multiple objects. Normally, you’d use inheritance or global variables to do this, but those approaches can be messy or limiting. The Borg pattern solves this by letting every instance share the same internal state.
+In some applications, you need objects to share data—for example, configuration settings or a pool of reusable resources. While global variables or singletons can do this, they often come with drawbacks like tight coupling or reduced flexibility. Borg offers an alternative by letting multiple objects share state without being the same instance.
 
 ## When to Use It
 
-Use the Borg pattern when you need several objects to share and update the same data. For example, if you have many parts of a program that need to access the same settings or manage the same pool of resources, Borg can help keep things in sync without using global variables or inheritance.
+Use the Borg pattern when:
+
+* You want multiple instances to share the same internal data.
+* You need a lightweight way to synchronize state across objects.
+* You want to avoid singletons but still centralize shared information.
 
 ## When NOT to Use It
 
-Don’t use the Borg pattern if each object should keep its own separate data. Also, if you’re working in a multithreaded environment and need to prevent unexpected changes, Borg might not be the right choice—it's not designed to be thread-safe.
+Avoid the Borg pattern if:
+
+* Each object should have its own unique state.
+* You're working in a multithreaded environment—Borg is not thread-safe without extra precautions.
+* You're storing sensitive data that must be isolated per instance.
 
 ## How It Works
 
-The Borg class stores all shared data in a single dictionary called `_shared_state`. When you create a new Borg object, it links its internal data (`__dict__`) to this shared dictionary. So any change made by one object shows up in all others.
+The Borg pattern links every instance’s `__dict__` (its storage for instance variables) to a class-level shared dictionary. So any change made through one instance is immediately visible to all others.
 
 ## Real-World Analogy
 
-Think of a team of scientists using a shared notebook. Each scientist (object) may have their own pen (methods), but they all write in the same notebook (shared data). Whatever one writes, everyone else can see and change.
+Imagine several scientists using a single shared notebook. Each scientist can write or read from it, but there’s only one notebook. Whatever one scientist writes, the others will see—it’s a shared workspace for data.
 
 ## Simplified Example
 
@@ -37,10 +45,13 @@ class Borg:
 b1 = Borg()
 b2 = Borg()
 
-b1.x = 10  # Setting a value through one instance...
-print(b2.x)  # ...automatically affects the other.
+b1.x = 10  # Assigns x through one instance...
+print(b2.x)  # ...and it’s immediately visible in the other.
 ```
+
+In this example, both `b1` and `b2` have access to the same data, even though they're separate instances.
 
 ## Learn More
 
-You can see the full Borg pattern example on GitHub [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/borg.py)
+You can explore the full implementation here:
+[Borg Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/borg.py)

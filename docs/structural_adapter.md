@@ -1,53 +1,55 @@
 # The Adapter Pattern (Structural)
 
-## Intent
+## Purpose
 
-The Adapter pattern is a design pattern that allows the interface of an existing class to be used as another interface without modifying the original class. It's often used when you want to use an existing class, but its interface isn't what you need. The Adapter makes the incompatible classes work together by wrapping its own methods and properties into a new format that is compatible with the client’s code.
+The Adapter pattern allows objects with incompatible interfaces to work together. It acts as a bridge between a class you already have and the interface you need. Instead of changing existing code, you create an adapter that translates one interface into another.
 
-## Problem It Solves
+## The Problem It Solves
 
-The problem this pattern addresses is when we have a class with an incompatible interface, but we want to use it as if it had a different interface. This can be due to various reasons like legacy systems, third-party libraries or simply because you're trying to follow the Single Responsibility Principle (SRP).
+Sometimes you want to use a class, but its methods don't match what your code expects. This often happens when working with legacy code, third-party libraries, or when following the Single Responsibility Principle (SRP) and keeping classes focused. Rather than modifying the original class (which might be risky or impossible), the Adapter pattern lets you create a wrapper that makes it compatible with your code.
 
 ## When to Use It
 
-This pattern is best used when:
+Use the Adapter pattern when:
 
-1. You want to use an existing class but its interface isn’t what you need.
-2. You have a working class, but it lacks some of the functionality that you require.
-3. The classes are incompatible and cannot work together as they do not share the same interface.
-4. You're trying to follow the Single Responsibility Principle (SRP).
+* You want to use an existing class, but its interface doesn’t match what you need.
+* You’re integrating with legacy code or third-party libraries.
+* You want to follow SRP by not changing the original class.
+* Classes with different interfaces need to work together.
 
 ## When NOT to Use It
 
-This pattern should be avoided when:
+Avoid the Adapter pattern if:
 
-1. If you have control over the original class, it would be better to modify that class directly.
-2. The classes are highly compatible and there's no need for an adapter.
-3. You're working with a legacy system where modifying the code is not feasible or desirable.
-4. When the Adapter introduces complexity into your design.
+* You control the original class and can safely change its interface.
+* The classes already work together without modification.
+* Adding an adapter would unnecessarily complicate your design.
 
 ## How It Works
 
-The Adapter wraps the original class in an interface that clients expect, and it translates between the client’s expectations and the original class's interface. This translation is done by implementing a set of methods that make sense for the client to use.
+The Adapter pattern works by wrapping the incompatible class in a new class that implements the desired interface. This wrapper (the adapter) translates method calls or data between the expected interface and the actual one.
 
 ## Real-World Analogy
 
-Imagine you have a foreign book which has words in your language but written in another language. The Adapter pattern provides an interface where this foreign book can be read, even though it's not understandable yet. It acts as a translator between the original (foreign) and desired (native) languages.
+Imagine you have a power plug from Europe, but you're in the U.S. The plug won't fit the outlet directly. An adapter converts the shape of the plug so you can use your device without modifying it. The same idea applies in software—adapters help mismatched parts work together without changing their internal workings.
 
 ## Simplified Example
 
-Here is a simplified example of how the Adapter pattern works:
+Here's a simple Python example:
 
 ```python
-class Target:  # The domain-specific interface that clients expect
+# The interface expected by the client
+class Target:
     def request(self):
         return "Target: The default behavior."
 
-class Adaptee:  # A class with an incompatible interface
+# An existing class with a different interface
+class Adaptee:
     def specific_request(self):
-        return ".eetpadA eht fo roivaheb laicepS"   # reversed string
+        return ".eetpadA eht fo roivaheb laicepS"  # reversed string
 
-class Adapter(Target):  # Adapts the Adaptee to the Target interface
+# Adapter converts the interface of Adaptee to match Target
+class Adapter(Target):
     def __init__(self, adaptee: Adaptee):
         self.adaptee = adaptee
 
@@ -55,8 +57,21 @@ class Adapter(Target):  # Adapts the Adaptee to the Target interface
         return f"Adapter: (TRANSLATED) {self.adaptee.specific_request()[::-1]}"
 ```
 
-In this example, `Target` is the interface that we expect to use. However, `Adaptee` has a different interface and cannot be used directly. The `Adapter` class wraps `Adaptee` in such a way that it can be used as if it had the expected interface.
+### Usage
 
-## See Also
+```python
+adaptee = Adaptee()
+adapter = Adapter(adaptee)
+print(adapter.request())  # Output: Adapter: (TRANSLATED) Special behavior of the Adaptee.
+```
 
-The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/adapter.py).
+In this example:
+
+* `Target` is the expected interface.
+* `Adaptee` has an incompatible method.
+* `Adapter` wraps `Adaptee` and translates its output to match what the client expects.
+
+## Learn More
+
+You can find the complete implementation in Python here:
+[Adapter Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/adapter.py)

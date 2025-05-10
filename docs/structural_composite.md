@@ -1,53 +1,94 @@
 # The Composite Pattern (Structural)
 
-## Intent
+## Purpose
 
-The Composite pattern is used to organize and structure complex tree structures made up of objects where each object can be treated individually or collectively. It provides a way to compose objects into tree structures and then work with these structures as if they were individual objects.
+The Composite pattern is used to treat individual objects and groups of objects in a uniform way. It allows you to build tree-like structures (like folders, menus, or graphical elements) where each part of the tree can be treated the same—whether it's a single item or a group of items.
 
-## Problem It Solves
+## The Problem It Solves
 
-This design pattern addresses the problem of treating individual objects and compositions uniformly, which simplifies code management and organization. It allows clients to treat complex trees structured as well-defined data structures (individual objects) in a uniform manner.
+In many applications, you may need to work with structures made of both simple and complex elements. Without the Composite pattern, you’d have to write separate logic to handle individual items and groups, leading to repetitive code. This pattern unifies them under a common interface, simplifying how they’re managed and manipulated.
 
 ## When to Use It
 
-The Composite pattern is ideal when you want to create complex tree structures where each node can be treated individually or collectively, making it suitable for use cases such as file systems, HTML documents, and database queries.
+Use the Composite pattern when:
+
+* You need to represent part-whole hierarchies (e.g., file systems, document outlines).
+* You want to treat individual objects and groups of objects uniformly.
+* You need to support recursive structures, such as trees or nested containers.
 
 ## When NOT to Use It
 
-It's not a good idea to overuse the Composite pattern because it might make code more complicated than necessary. If your application doesn’t require complex tree structures or hierarchies, using simpler patterns like classes could be sufficient.
+Avoid this pattern if:
+
+* Your structure is flat and doesn’t benefit from a hierarchy.
+* Adding abstraction through a component interface makes your code unnecessarily complex.
+* Simpler class designs can get the job done more clearly.
 
 ## How It Works
 
-The Composite pattern involves three main components: Component (abstract base class), Leaf (concrete component with no children) and Composite (concrete component with sub-components). The Component interface declares common operations for both simple and complex objects of a composition. A client uses these classes to work with the compositions in a uniform manner.
+The pattern involves three core parts:
+
+1. **Component** – The base interface or abstract class that defines common operations.
+2. **Leaf** – Represents the individual objects with no children.
+3. **Composite** – Represents complex objects that can have child components (both leaves and other composites).
+
+The key is that both `Leaf` and `Composite` implement the same interface, allowing client code to interact with them the same way.
 
 ## Real-World Analogy
 
-Imagine you have a family tree, where each person can be an individual leaf (you), or they could be part of a larger group (your siblings). If your family grows, it's not uncommon for new members to join the group - just like how a composite object can contain other composites or leaves.
+Imagine a company org chart. An individual employee is a leaf, while a department head (composite) manages a group of employees and possibly other departments. Whether you're interacting with an individual or a department, you treat them the same when asking for a task report.
 
 ## Simplified Example
 
-Here is a simplified example:
+Here’s a basic example in Python:
 
 ```python
-class Component:  # Abstract base class
-    def operation(self) -> str: pass
+from typing import List
 
-class Leaf(Component):  # Concrete component with no children
-    def __init__(self, name: str) -> None: self.name = name
-    def operation(self) -> str: return f"Leaf({self.name})"
+class Component:
+    def operation(self) -> str:
+        pass
 
-class Composite(Component):  # Concrete component with sub-components
-    def __init__(self, name: str) -> None:
+class Leaf(Component):
+    def __init__(self, name: str):
+        self.name = name
+
+    def operation(self) -> str:
+        return f"Leaf({self.name})"
+
+class Composite(Component):
+    def __init__(self, name: str):
         self.name = name
         self._children: List[Component] = []
-    
-    def add(self, component: Component) -> None: self._children.append(component)
-    def remove(self, component: Component) -> None: self._children.remove(component)
-    def operation(self) -> str: 
+
+    def add(self, component: Component) -> None:
+        self._children.append(component)
+
+    def remove(self, component: Component) -> None:
+        self._children.remove(component)
+
+    def operation(self) -> str:
         results = [child.operation() for child in self._children]
         return f"Composite({self.name})[{' + '.join(results)}]"
 ```
 
-## See Also
+### Example Usage:
 
-The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/composite.py).
+```python
+root = Composite("root")
+leaf1 = Leaf("A")
+leaf2 = Leaf("B")
+subtree = Composite("branch")
+subtree.add(Leaf("C"))
+
+root.add(leaf1)
+root.add(subtree)
+root.add(leaf2)
+
+print(root.operation())  # Composite(root)[Leaf(A) + Composite(branch)[Leaf(C)] + Leaf(B)]
+```
+
+## Learn More
+
+For the full implementation in Python, visit:
+[Composite Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/composite.py)

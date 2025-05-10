@@ -2,37 +2,51 @@
 
 ## Purpose
 
-The Three-Tier pattern breaks an application into three layers. This helps organize the code, making it easier to build, understand, and update.
+The Three-Tier pattern organizes an application into three separate layers—data, logic, and presentation. This separation helps keep code clean, easier to maintain, and scalable as the application grows.
 
 ## The Problem It Solves
 
-Complex apps can be hard to manage. This pattern helps by dividing the app into smaller parts that can be developed and changed independently. It improves organization, makes testing easier, and helps the app grow over time without becoming too complicated.
+Large or complex applications often mix together data storage, business logic, and user interfaces. This makes the code harder to manage, test, and extend. The Three-Tier pattern addresses this by separating responsibilities into distinct layers that can be developed, tested, and updated independently.
 
 ## When to Use It
 
-Use this pattern for apps with complex rules or many users. It's helpful when your user interface (frontend) and internal systems (backend) are too connected and hard to manage separately.
+Use this pattern when:
+
+* Your application has complex logic or a user interface that needs to interact with stored data.
+* You want to clearly separate backend logic from the user interface.
+* You need to improve maintainability and testability in a growing codebase.
 
 ## When NOT to Use It
 
-If your app is small or doesn't have many rules, this pattern might be more trouble than it’s worth. In those cases, a simpler design is usually better.
+Avoid this pattern if:
+
+* The application is very simple or has minimal data and logic.
+* Adding extra structure would only increase complexity without much benefit.
+* You don’t expect the application to grow significantly in size or functionality.
 
 ## How It Works
 
-The app is split into three layers:
+The application is split into three layers:
 
-1. **Data Layer** – Stores and retrieves data (like from a database).
-2. **Logic Layer** – Applies rules and handles decisions (business logic).
-3. **Presentation Layer** – Shows the interface and handles user input.
+1. **Data Layer** – Handles storage and retrieval (e.g., databases, files).
+2. **Logic Layer** – Processes business rules and decisions.
+3. **Presentation Layer** – Manages the user interface and interactions.
 
-Each layer only talks to the one next to it using clear connections, which keeps things organized.
+Each layer communicates only with its adjacent layer, promoting modularity and clean separation of concerns.
 
 ## Real-World Analogy
 
-Think of this pattern like a three-layer brick wall. The bottom layers—the data and logic—are the bricks that give the system its strength and structure. The top layer, the user interface, is like a window built into the wall. It's how you interact with what’s behind the scenes.
+Think of a restaurant:
+
+* The **kitchen** (Data Layer) prepares the food.
+* The **chef** (Logic Layer) decides how to cook the food based on the recipe.
+* The **waiter** (Presentation Layer) interacts with customers and brings them their orders.
+
+Each part does its job without needing to know all the details of the others.
 
 ## Simplified Example
 
-Here's a simplified example:
+Here's a basic example in Python:
 
 ```python
 # Data Layer (in-memory database)
@@ -44,7 +58,7 @@ def save(item):
 def fetch():
     return list(_data)
 
-# Logic/Business Layer
+# Logic Layer (business rules)
 def add(item):
     if item:
         save(item)
@@ -54,7 +68,7 @@ def add(item):
 def get_all():
     return fetch()
 
-# User Interface Layer (Command Line Interface)
+# Presentation Layer (command-line interface)
 while True:
     print("\n=== Menu ===")
     print("1. Add Item")
@@ -78,6 +92,7 @@ while True:
                 print(f"{i}. {item}")
 ```
 
-## See Also
+## Learn More
 
-You can find the full implementation of this pattern in the provided Python file [three_tier.py](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/three_tier.py).
+For the full implementation, see:
+[Three-Tier Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/three_tier.py)

@@ -1,43 +1,50 @@
 # The Template Method Pattern (Behavioral)
 
-## Intent
+## Purpose
 
-The Template Method pattern is a behavioral design pattern that defines the program skeleton of an algorithm in an operation, deferring some steps to subclasses. It allows subclasses to redefine certain steps of an algorithm without changing its structure.
+The Template Method pattern defines the basic structure (or “template”) of an algorithm in a base class and allows subclasses to change specific steps of the algorithm without altering its overall flow.
 
-## Problem It Solves
+## The Problem It Solves
 
-This pattern addresses the problem of having algorithms with varying implementations and structures. Rather than forcing a client to use one specific implementation or structure, it provides a base template that clients can fill in with their own behavior. This separation allows for greater flexibility and reusability across different scenarios.
+Sometimes, different classes need to follow the same overall process but with slight variations in specific steps. Instead of rewriting the entire process for each class, this pattern lets you define the common parts once and let subclasses handle the parts that vary. This promotes code reuse and simplifies maintenance.
 
 ## When to Use It
 
-The Template Method pattern is suitable when you have an algorithm composed of steps that are common to all subclasses but may require different or additional implementation by each subclass.
+Use this pattern when:
+
+* You have multiple classes that share the same algorithm structure.
+* Most of the behavior is common, but some steps need to be customized.
+* You want to keep control over the overall process but allow flexibility in specific areas.
 
 ## When NOT to Use It
 
-It's not a good idea to use the Template Method pattern if:
+Avoid this pattern if:
 
-1. The operations to be performed are simple and do not vary between subclasses.
-2. You need to override every single method in the base class, which can lead to code that is hard to maintain.
+* All the steps are so simple that subclassing adds unnecessary complexity.
+* You end up needing to override most or all of the methods in the base class, making inheritance harder to manage.
 
 ## How It Works
 
-The main component of this pattern is an abstract base class (AbstractClass) that defines a template method (template_method). This template method includes calls to other methods:
+The pattern involves:
 
-- Base operations (base_operation_1 and base_operation_2), which are called by the template method. These represent the invariant parts of the algorithm.
-- Required operations (required_operations_1 and required_operations_2), which must be implemented by subclasses. These represent the variant parts of the algorithm.
-- Hooks (hook_1 and hook_2) are optional methods that can be overridden in subclasses to provide additional behavior before or after certain steps in the template method.
+1. **Abstract Class** – Defines the template method that outlines the steps of the algorithm. It may include:
 
-Subclasses then extend AbstractClass, providing their own implementations for the required operations. The template method is invoked by calling it on an instance of a concrete subclass.
+   * **Base operations**: Common steps that shouldn’t be changed.
+   * **Required operations**: Steps that subclasses must implement.
+   * **Hooks**: Optional steps that subclasses can override if needed.
+2. **Concrete Subclass** – Implements the required steps of the algorithm while using the shared structure provided by the template method.
 
 ## Real-World Analogy
 
-You can think of the Template Method pattern as a recipe. It defines the steps to cook a meal (the template method), with some ingredients being common and others specific to each dish (base operations, required operations). The chef (client) fills in the blanks by providing their own preparation methods for each step.
+Think of a cooking recipe. The recipe outlines the general process—gather ingredients, cook, and serve. However, the specific ingredients and cooking methods vary by dish. The recipe provides the template, and the chef (the subclass) fills in the details for each dish.
 
 ## Simplified Example
 
-Here's a simplified example of how you might use this pattern:
+Here's a simple Python implementation:
 
 ```python
+from abc import ABC, abstractmethod
+
 class CookingRecipe(ABC):
     def prepare_meal(self) -> None:
         self.add_ingredients()
@@ -64,9 +71,20 @@ class PizzaRecipe(CookingRecipe):
 
 # Example usage
 recipe = PizzaRecipe()
-recipe.prepare_meal()  # Outputs: Adding pizza ingredients., Cooking the pizza., Meal is ready to be served.
+recipe.prepare_meal()
 ```
 
-## See Also
+### Output
 
-You can find the full implementation of this pattern in the Python file [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/template_method.py) in our GitHub repository.
+```text
+Adding pizza ingredients.
+Cooking the pizza.
+Meal is ready to be served.
+```
+
+In this example, `prepare_meal()` is the template method. It defines the structure of the process, while the `PizzaRecipe` class customizes the steps for making a pizza.
+
+## Learn More
+
+To view the complete Python implementation, visit:
+[Template Method Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/template_method.py)

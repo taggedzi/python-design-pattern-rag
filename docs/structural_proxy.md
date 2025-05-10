@@ -1,32 +1,41 @@
 # The Proxy Pattern (Structural)
 
-## Intent
+## Purpose
 
-The Proxy pattern provides a surrogate or placeholder for another object to control access to it. It is used when we want to provide a simplified interface to complex subsystems, manage remote services, or restrict access to certain operations.
+The Proxy pattern provides a substitute or placeholder for another object. It lets you control access to the real object, often adding extra behavior like logging, access control, or lazy loading, without changing the original object’s code.
 
-## Problem It Solves
+## The Problem It Solves
 
-Without the need to change existing code and without exposing real objects, Proxy provides a surrogate for another object. This pattern allows us to control the interactions between clients and an object.
+Sometimes you don’t want clients to access an object directly. The object might be expensive to create, reside on a remote server, or require security checks before it can be used. The Proxy pattern introduces an intermediary that can manage access, delay creation, or add extra logic without modifying the original object.
 
 ## When to Use It
 
-When we want to provide controlled access to complex subsystems or when we need to manage remote services. The Proxy can be used in scenarios where we have a heavy network latency, or where we want to add additional functionality like logging before or after the request is processed.
+Use the Proxy pattern when:
+
+* You want to add access control or logging to an object.
+* You need to defer the creation of an expensive object until it's needed (lazy initialization).
+* You want to wrap a remote object (e.g., in a networked system) or simulate one locally.
+* You need to manage access to objects without changing their code.
+
+Common uses include virtual proxies (for lazy loading), protection proxies (for access control), and remote proxies (for representing objects over a network).
 
 ## When NOT to Use It
 
-It's not suitable for cases where you don’t need any control over interactions between clients and objects. Also, it should be used when there are many similar classes that only differ in one method.
+Avoid using this pattern when:
+
+* There’s no need to restrict access or add behavior around the object.
+* The overhead of using a proxy outweighs its benefits.
+* You're adding complexity without a clear benefit (e.g., for simple objects that don’t need guarding or extra logic).
 
 ## How It Works
 
-The Proxy class has the same interface as an object it represents. The RealSubject is the actual object being represented by the proxy. The client interacts with the Proxy instead of the RealSubject. Before forwarding a request to the RealSubject, the Proxy can perform some additional operations like checking access rights beforehand or logging requests after they have been processed.
+The Proxy and the real object (often called `RealSubject`) share the same interface. The client interacts with the Proxy, which decides whether or not to pass the request to the real object. The Proxy can add extra logic before and/or after delegating the request.
 
 ## Real-World Analogy
 
-Imagine you are at a movie theater and there's a person standing in front of all the screens (the Proxy). They check if your ID is valid, let you in (forwarding the request to the screen), and then log that you watched a movie (additional functionality). If they see you don’t have a valid ID, they can refuse entry.
+Think of a theater ticket checker at the entrance. Before letting you into the movie (the RealSubject), they verify your ticket (access control) and log your entry (logging). The ticket checker is the Proxy—controlling access to the real experience.
 
 ## Simplified Example
-
-Here's a simplified example of how the Proxy pattern might look:
 
 ```python
 class Subject:
@@ -34,7 +43,7 @@ class Subject:
         pass
 
 class RealSubject(Subject):
-    def request(self) -<｜begin▁of▁sentence｜> None:
+    def request(self) -> None:
         print("RealSubject: Handling request.")
 
 class Proxy(Subject):
@@ -52,16 +61,29 @@ class Proxy(Subject):
 
     def log_access(self) -> None:
         print("Proxy: Logging the time of request.")
+```
 
-# Example usage
+### Usage
+
+```python
 if __name__ == "__main__":
     real_subject = RealSubject()
-    proxy = Proxy(real<｜begin▁of▁sentence｜>ject)
+    proxy = Proxy(real_subject)
 
     print("Client: Executing request through the proxy:")
     proxy.request()
 ```
 
-## See Also
+### Output
 
-The Python code for this pattern can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/proxy.py).
+```text
+Client: Executing request through the proxy:
+Proxy: Checking access before forwarding request...
+RealSubject: Handling request.
+Proxy: Logging the time of request.
+```
+
+## Learn More
+
+View the full implementation in Python here:
+[Proxy Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/proxy.py)
