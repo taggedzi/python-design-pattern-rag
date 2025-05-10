@@ -14,6 +14,7 @@
 - [Creational Borg](creational_borg.md)
 - [Creational Builder](creational_builder.md)
 - [Creational Factory](creational_factory.md)
+- [Creational Lazy Evaluation](creational_lazy_evaluation.md)
 - [Creational Prototype](creational_prototype.md)
 - [Creational Singleton](creational_singleton.md)
 - [Structural Adapter](structural_adapter.md)

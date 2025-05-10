@@ -84,6 +84,12 @@
     "summary": "Implementation of the Factory Method design pattern in Python."
   },
   {
+    "file": "creational/lazy_evaluation.py",
+    "chunk": "creational_lazy_evaluation.md",
+    "pattern": "Lazy Evaluation",
+    "summary": "Demonstrates the Lazy Evaluation pattern in Python using a custom @lazy_property decorator. This pattern delays the evaluation of a resource-intensive property until it is accessed, thus optimizing performance."
+  },
+  {
     "file": "creational/prototype.py",
     "chunk": "creational_prototype.md",
     "pattern": "Prototype",
