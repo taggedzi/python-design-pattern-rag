@@ -1,61 +1,84 @@
 # The Bridge Pattern (Structural)
 
-## Intent
+## Purpose
 
-The Bridge pattern is a design pattern designed to "decouple an abstraction from its implementation so that the two can vary independently". It's useful when you want to avoid permanent binding between abstraction and implementation, which means one shouldn't have to change the other.
+The Bridge pattern is used to separate an abstraction from its implementation, so that both can evolve independently. It helps reduce tight coupling between code that defines what something does (abstraction) and code that defines how it does it (implementation).
 
-## Problem It Solves
+## The Problem It Solves
 
-Imagine you are designing a software system where there are different ways of rendering shapes (e.g., as lines or pixels). The problem is that this could lead to tight coupling if every shape has its own renderer, making it hard to add new shapes without modifying existing ones. This pattern helps to decouple the abstraction from the implementation so they can vary independently.
+Imagine you’re building shapes (like circles and squares) that can be rendered in different ways (like using pixels or lines). Without the Bridge pattern, you'd need a separate class for every combination—`PixelCircle`, `LineCircle`, `PixelSquare`, and so on. This quickly becomes unmanageable as the number of shapes and renderers grows. The Bridge pattern solves this by allowing shapes and renderers to be combined flexibly at runtime.
 
 ## When to Use It
 
-The Bridge Pattern should be used when you want to abstract and separate the implementation details from the high-level interface or abstraction, which makes them independent of each other.
+Use the Bridge pattern when:
+
+* You want to avoid creating a large number of subclasses to support combinations of features.
+* You want to be able to change the implementation details without touching the abstraction.
+* You need flexibility in assigning different behaviors (implementations) to high-level logic (abstractions).
 
 ## When NOT to Use It
 
-You shouldn't use the Bridge pattern if the "abstraction" and "implementation" are too tightly coupled. The key idea is that they should be able to vary independently, so a change in one should not require a change in the other.
+Avoid this pattern if:
+
+* The abstraction and implementation are already tightly bound and unlikely to change.
+* Introducing the pattern would add unnecessary complexity to a simple design.
 
 ## How It Works
 
-The Bridge Pattern involves an Abstraction (Shape) which has a reference to its Implementor (Renderer). This allows for different implementations of Renderer and Shape can use any implementation at runtime.
+The Bridge pattern breaks a class into two parts:
+
+1. **Abstraction** – The high-level control or logic (e.g., a shape like `Circle`).
+2. **Implementor** – The low-level implementation (e.g., how the shape is rendered).
+
+The abstraction holds a reference to the implementor. This means you can swap out implementations without modifying the abstraction.
 
 ## Real-World Analogy
 
-You could think of the Bridge pattern as a road bridge that connects two different types of roads (abstractions) with varying degrees of difficulty to navigate (implementations). The bridge itself is designed in such a way that it allows both types of vehicles to pass through, without having to change either type.
+Think of a remote control (abstraction) that can operate different types of TVs (implementation). The remote sends commands, but the way the TV responds depends on the model. You can change the TV or the remote without having to redesign the other.
 
 ## Simplified Example
 
-Here's a simplified example:
+Here’s a simple Python implementation:
 
 ```python
-class Shape:  # Abstraction
-    def __init__(self, renderer):
-        self.renderer = renderer  # Implementor
+# Implementor
+class Renderer:
+    def what_to_render(self):
+        raise NotImplementedError
 
-    def draw(self):
-        pass
+class VectorRenderer(Renderer):
+    def what_to_render(self):
+        return "lines"
 
-class Circle(Shape):  # Refined abstraction
+class RasterRenderer(Renderer):
+    def what_to_render(self):
+        return "pixels"
+
+# Abstraction
+class Shape:
+    def __init__(self, name, renderer: Renderer):
+        self.name = name
+        self.renderer = renderer
+
     def draw(self):
         return f"Drawing {self.name} as {self.renderer.what_to_render()}"
 
-class Renderer:  # Implementor
-    @staticmethod
-    def what_to_render():
-        pass
+# Usage
+circle = Shape("Circle", VectorRenderer())
+print(circle.draw())  # Drawing Circle as lines
 
-class VectorRenderer(Renderer):  # Concrete implementor
-    @staticmethod
-    def what_to_render():
-        return "lines"
-
-class RasterRenderer(Renderer):  # Another concrete implementor
-    @staticmethod
-    def what_to_render():
-        return "pixels"
+square = Shape("Square", RasterRenderer())
+print(square.draw())  # Drawing Square as pixels
 ```
 
-## See Also
+In this example:
 
-The corresponding Python file can be found [here](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/bridge.py).
+* `Shape` is the abstraction.
+* `Renderer` is the implementation interface.
+* `VectorRenderer` and `RasterRenderer` are concrete implementations.
+* The `Shape` can work with any renderer.
+
+## Learn More
+
+You can find the full implementation in Python here:
+[Bridge Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/bridge.py)
