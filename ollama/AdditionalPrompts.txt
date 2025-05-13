@@ -1,0 +1,18 @@
+Prompt for Editing Lessons POST creation:
+Concise Editor Propmt - OpenAI
+```prompt
+Could you please edit this for clarity, completeness, and check for accuracy. 
+The intended audience are the general public assuming at least a 10th grade education/reading level and a basic familiarity with python programming.
+The original repository for the python design pattern files are located at https://github.com/taggedzi/python-design-pattern-rag/ in the directory "patterns" sorted by pattern type and name. 
+```
+
+
+Prompt for improving Pattern POST creation:
+Python GPT from OpenAI ChatGPT
+```
+This file is intended to be used for instruction to teach readers how to fully implement the desired python design pattern.  
+I would like you to review this file for correctness, completeness, make sure this is up to professional standards, and is a through example of how to build and implement this pattern. 
+Add text based class diagrams and chain flow diagrams when appropriate. 
+Add unittest based unit tests for the code provided when appropriate.
+```
+
