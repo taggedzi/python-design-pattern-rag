@@ -2,45 +2,45 @@
 
 ## Purpose
 
-The Command pattern turns a request into an object, allowing you to store, queue, or undo it later. This makes it easy to separate the object that issues a request from the one that carries it out.
+The Command pattern turns a request into a standalone object. This allows you to store, queue, or undo the request later. It also separates the object making the request from the one carrying it out.
 
-## The Problem It Solves
+## Problem It Solves
 
-Sometimes you want to issue a command without knowing exactly how it will be carried out. For example, a user interface might need to perform actions like turning a light on or off, but it shouldn't need to know how the light works. The Command pattern lets you wrap requests as objects, allowing them to be passed around, delayed, or undone.
+Sometimes you need to issue a command without knowing how it's executed. For example, a user interface might need to turn a light on or off, but it shouldn’t need to know the details of how the light works. The Command pattern wraps actions as objects so they can be passed around, delayed, or undone.
 
 ## When to Use It
 
-Use this pattern when:
+Use this pattern if:
 
-* You want to store or delay actions (e.g., in a queue or scheduler).
-* You want to support undo/redo functionality.
-* You need to pass commands as arguments.
-* You want to decouple objects that issue requests from those that handle them.
+* You need to store or delay actions (e.g., in a queue or scheduler).
+* You want to add undo or redo functionality.
+* You need to pass actions as arguments.
+* You want to decouple the sender of a request from the handler.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* You only need simple, immediate method calls.
-* Storing or delaying operations adds unnecessary complexity.
+* Your needs are simple and only require immediate method calls.
+* Storing or delaying operations would overcomplicate your code.
 
 ## How It Works
 
-The pattern has several roles:
+The pattern defines five roles:
 
-* **Command**: An interface that defines an `execute()` method.
-* **ConcreteCommand**: Implements `execute()` and defines what action to take.
-* **Receiver**: The object that actually performs the action (e.g., a light).
-* **Invoker**: Stores commands and decides when to run them (e.g., a remote control).
-* **Client**: Creates commands and assigns them to the invoker.
+* **Command**: An interface with an `execute()` method.
+* **ConcreteCommand**: Implements `execute()` and defines the specific action.
+* **Receiver**: The object that performs the action (e.g., a light).
+* **Invoker**: Stores commands and decides when to execute them (e.g., a remote control).
+* **Client**: Creates commands and gives them to the invoker.
 
 ## Real-World Analogy
 
-Think of a restaurant. You (the client) tell the waiter (invoker) what you want. The waiter takes your order (command) and gives it to the kitchen (receiver). The waiter doesn’t cook, and you don’t need to know how the food is prepared—everyone has a clear role.
+Imagine a restaurant. You (the client) tell the waiter (invoker) what you want. The waiter writes down your order (command) and takes it to the kitchen (receiver). The waiter doesn’t cook, and you don’t need to know how the food is prepared. Each role is clearly defined.
 
 ## Simplified Example
 
-Here’s a basic implementation in Python:
+Here’s a basic Python implementation:
 
 ```python
 from abc import ABC, abstractmethod
@@ -75,9 +75,9 @@ class TurnOffCommand(Command):
         self._light.turn_off()
 ```
 
-In this example, the commands encapsulate actions on a `Light` object. You could then store these commands in a queue, execute them on demand, or add undo functionality.
+In this example, commands control a `Light` object. You could store these commands in a list, run them later, or add undo features.
 
 ## Learn More
 
-View the complete implementation here:
+See a full implementation on GitHub:
 [command.py on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/command.py)
