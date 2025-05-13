@@ -2,43 +2,43 @@
 
 ## Purpose
 
-The Observer pattern creates a one-to-many relationship between objects, where one object (the subject) notifies multiple other objects (observers) when its state changes. This is commonly used in event-driven systems to manage updates across different parts of a program.
+The Observer pattern defines a one-to-many relationship between objects. When one object (the subject) changes state, it automatically notifies all its dependents (observers). This pattern is commonly used in event-driven systems to keep different parts of a program in sync.
 
-## The Problem It Solves
+## Problem It Solves
 
-In many systems, different components need to respond to changes in another part of the system. For example, if a user updates a setting in the interface, other parts of the app might need to react. Hardcoding these relationships makes the system rigid and hard to maintain. The Observer pattern solves this by allowing objects to subscribe to updates without tight coupling.
+In many applications, multiple parts need to respond to changes in another part. For example, when a user updates a setting, other parts of the app might need to react. Hardcoding these relationships creates tight coupling, which makes the system hard to maintain. The Observer pattern solves this by allowing objects to subscribe to changes without needing direct links.
 
 ## When to Use It
 
 Use this pattern when:
 
-* You want multiple parts of your program to react to changes in another object.
-* You’re working in an event-driven or GUI system (e.g., buttons, sliders, or game state updates).
-* You want to avoid direct dependencies between components.
+* Several parts of your program need to react to changes in another object.
+* You're building event-driven or GUI systems (e.g., buttons, sliders, or game states).
+* You want to reduce dependencies between components.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid it if:
+Avoid this pattern if:
 
-* You have too many observers, making it hard to track who’s subscribed.
-* The update logic becomes too complex or hard to debug.
-* Subscriptions are constantly changing in ways that make the pattern hard to manage.
+* You have too many observers to manage easily.
+* The notification logic becomes overly complex.
+* The list of observers changes frequently, making it hard to track or debug.
 
 ## How It Works
 
-The pattern includes three main parts:
+The pattern involves three core components:
 
-1. **Subject** – Keeps a list of observers and notifies them when its state changes.
-2. **Observer** – Defines the `update()` method to receive changes.
-3. **Concrete Observer** – A real object that implements the `update()` method and reacts to changes in the subject.
+1. **Subject** – Maintains a list of observers and notifies them when its state changes.
+2. **Observer** – Defines an `update()` method that receives notifications.
+3. **Concrete Observer** – Implements `update()` and responds to changes in the subject.
 
 ## Real-World Analogy
 
-Think of a magazine subscription. When you subscribe, you’ll receive each new issue automatically. The magazine publisher is the Subject. You, as the subscriber, are the Observer. A Concrete Observer might be your email inbox or mailbox that receives the update.
+Think of a magazine subscription. When you subscribe, you receive each new issue automatically. The publisher is the subject. You, the subscriber, are the observer. A concrete observer might be your email or mailbox receiving the update.
 
 ## Simplified Example
 
-Here’s a basic outline in Python:
+Here’s a basic implementation in Python:
 
 ```python
 class Subject:
@@ -80,9 +80,13 @@ subject.detach(observer1)
 subject.notify("Another change occurred")
 ```
 
-This shows how multiple observers can be notified when something changes and how one can unsubscribe.
+In this example:
+
+* `Subject` manages a list of observers.
+* `ConcreteObserver` receives updates and reacts to them.
+* Observers can subscribe and unsubscribe at any time.
 
 ## Learn More
 
-You can explore the full implementation on GitHub:
+Explore the full implementation here:
 [Observer Pattern – Python Example](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/observer.py)
