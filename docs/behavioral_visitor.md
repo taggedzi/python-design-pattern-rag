@@ -2,44 +2,44 @@
 
 ## Purpose
 
-The Visitor pattern lets you define new operations on a group of related objects without changing their classes. Instead of modifying each class to add new functionality, you create a separate visitor object that “visits” each one and performs the desired operation.
+The Visitor pattern allows you to define new operations on a set of related objects without modifying their classes. Instead of changing each class to add functionality, you create a separate visitor object that "visits" each one to perform the desired action.
 
-## The Problem It Solves
+## Problem It Solves
 
-In object-oriented design, it's common to have a hierarchy of related classes. Over time, you might want to add new operations to these classes. However, modifying each class directly can be messy or even impossible if they come from external libraries. The Visitor pattern solves this by letting you define the new operations in a separate visitor class, keeping the original classes clean and untouched.
+In object-oriented design, you might have a class hierarchy where all the classes share a common interface. Over time, you may want to add operations to these classes. Modifying each one can get messy—especially if you can't change the original code (e.g., it comes from a third-party library). The Visitor pattern solves this by moving those new operations into a visitor class, keeping your data classes clean and unchanged.
 
 ## When to Use It
 
 Use the Visitor pattern when:
 
-* You need to add many unrelated operations to objects in an existing class hierarchy.
-* You want to keep those operations separate from the objects themselves.
-* You want to group related operations in one place, making your code easier to maintain.
+* You need to apply multiple, unrelated operations to objects in a class hierarchy.
+* You want to separate operations from the objects they work on.
+* You want to group operations in one place for easier management and updates.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* You only have a few types of objects or only need a small number of operations.
-* Your class hierarchy changes frequently (you'll need to update the visitor every time).
-* Simpler solutions like method overloading or polymorphism already work for your needs.
+* You have only a few object types or don’t need many operations.
+* Your object structure changes often—you’ll need to update the visitor each time.
+* Polymorphism or method overloading is enough for your use case.
 
 ## How It Works
 
-The pattern has two main parts:
+The pattern involves two key roles:
 
-1. **Visitor interface** – Declares a `visit` method for each type of object it can handle.
-2. **Element classes** – Implement an `accept()` method that takes a visitor and calls the appropriate `visit` method.
+1. **Visitor** – An interface that declares `visit` methods for each object type.
+2. **Elements** – Classes that implement an `accept()` method, which passes control to the visitor.
 
-This setup lets each object delegate the operation to the visitor without needing to know what the visitor does.
+Each element delegates the operation to the visitor, which knows how to handle it based on its type.
 
 ## Real-World Analogy
 
-Imagine visiting a zoo where each animal (element) can accept a tour guide (visitor). The guide knows how to interact with each animal differently: feeding the giraffes, photographing the lions, etc. The animals don’t need to know the details—they just accept the guide and let them do their job.
+Imagine you're on a zoo tour. Each animal (element) allows a tour guide (visitor) to interact with it. The guide knows how to handle each animal—feeding the giraffes, photographing the lions, etc. The animals don’t need to know what the guide is doing—they just accept the guide.
 
 ## Simplified Example
 
-Here's a basic Python example:
+Here's a basic example in Python:
 
 ```python
 from abc import ABC, abstractmethod
@@ -76,8 +76,11 @@ class ElementA(Element):
 class ElementB(Element):
     def accept(self, visitor: Visitor):
         visitor.visit_element_b(self)
+```
 
-# Usage
+### Usage
+
+```python
 visitor = ConcreteVisitor()
 a = ElementA()
 b = ElementB()
@@ -86,9 +89,9 @@ a.accept(visitor)  # Visiting Element A
 b.accept(visitor)  # Visiting Element B
 ```
 
-In this example, `ElementA` and `ElementB` accept a visitor that performs different actions based on the element type.
+Each element accepts the visitor, which then performs a type-specific operation.
 
 ## Learn More
 
-For the full implementation, check the Python example here:
+See the complete implementation on GitHub:
 [Visitor Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/visitor.py)

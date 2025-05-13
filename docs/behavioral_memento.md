@@ -2,43 +2,43 @@
 
 ## Purpose
 
-The Memento pattern lets you save and restore the state of an object without exposing its internal details. It’s often used to implement features like undo and rollback.
+The Memento pattern allows an object to save and restore its state without exposing its internal details. It's commonly used for undo and rollback features.
 
-## The Problem It Solves
+## Problem It Solves
 
-When you want to allow an object to revert to a previous state, you might be tempted to expose its internal data. But that breaks encapsulation. The Memento pattern solves this by letting an object save its state in a separate object (a memento) and restore it later—without revealing the details to others.
+Sometimes you need an object to revert to a previous state. One way is to expose its internal data, but that breaks encapsulation. The Memento pattern solves this by using a separate object (a memento) to store the state. The object can later restore itself from this memento without revealing internal details to other parts of the system.
 
 ## When to Use It
 
 Use this pattern when:
 
-* You need to save snapshots of an object’s state to support undo/redo or rollback.
-* You want to keep the internal structure of an object hidden from other parts of the system.
-* You want to control access to saved states.
+* You need to implement undo, redo, or rollback.
+* You want to hide an object's internal structure.
+* You want precise control over saved states.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid using it if:
+Avoid this pattern if:
 
-* The object changes too often—saving and managing states frequently can be inefficient.
-* You need to save states between sessions (in which case, a persistent storage system would be better).
-* Your application requires many undo/redo actions and the system can’t reliably manage consistent states.
+* The object’s state changes too often, making frequent saves inefficient.
+* You need to store states between sessions—use a database or file instead.
+* Your application needs many undo/redo levels and can’t manage memory or consistency well.
 
 ## How It Works
 
-The Memento pattern has three key parts:
+The pattern includes three main components:
 
-1. **Memento** – Stores the state of an object. It doesn’t expose any details about that state.
-2. **Originator** – The object whose state we want to save and restore. It creates and uses mementos.
-3. **Caretaker** – Manages the saved mementos. It doesn’t look inside them, it just stores and retrieves them when needed.
+1. **Memento** – Stores an object's state privately.
+2. **Originator** – The object whose state is saved and restored. It creates and applies mementos.
+3. **Caretaker** – Manages mementos. It stores and retrieves them but doesn’t examine their contents.
 
 ## Real-World Analogy
 
-Imagine you’re a chef taking photos of your kitchen as you cook. If something goes wrong, you can look back at a photo and restore the kitchen to how it looked. You don’t need to remember every step—you just need the snapshot.
+Think of a chef taking photos of their kitchen while cooking. If a mistake happens, they can use a photo to reset the kitchen to how it was. They don’t need to remember every detail—just refer to the snapshot.
 
 ## Simplified Example
 
-Here’s a basic Python example:
+Here's a basic Python example:
 
 ```python
 # Originator
@@ -87,9 +87,9 @@ In this example:
 
 * `TextEditor` is the originator.
 * `History` is the caretaker.
-* The editor can write, save its state, and restore it later.
+* The editor can save and restore its text.
 
 ## Learn More
 
-For the full implementation, see the Python example here:
-[Memento Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/observer.py)
+See the full implementation on GitHub:
+[Memento Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/memento.py)

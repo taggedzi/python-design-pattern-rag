@@ -1,9 +1,8 @@
 Prompt for Editing Lessons POST creation:
 Concise Editor Propmt - OpenAI
 ```prompt
-Could you please edit this for clarity, completeness, and check for accuracy. 
+Could you please edit this lesson plan for clarity, completeness, and check for accuracy. 
 The intended audience are the general public assuming at least a 10th grade education/reading level and a basic familiarity with python programming.
-The original repository for the python design pattern files are located at https://github.com/taggedzi/python-design-pattern-rag/ in the directory "patterns" sorted by pattern type and name. 
 ```
 
 

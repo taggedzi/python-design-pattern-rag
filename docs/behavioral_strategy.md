@@ -2,44 +2,44 @@
 
 ## Purpose
 
-The Strategy pattern lets you define a group of related algorithms, encapsulate each one in its own class, and switch between them at runtime. This allows you to change the behavior of a program without modifying its core logic.
+The Strategy pattern defines a set of interchangeable algorithms, each in its own class. It lets you switch between these algorithms at runtime without changing the core logic of your program.
 
-## The Problem It Solves
+## Problem It Solves
 
-If you have a function that needs to perform similar actions in different ways—like sorting data in multiple formats—your code might end up cluttered with `if-else` or `switch` statements. The Strategy pattern helps you avoid this by moving each behavior into its own class, making the code cleaner and easier to maintain.
+When a function needs to perform similar tasks in different ways—like sorting data using different criteria—you might end up with a lot of `if-else` or `switch` statements. The Strategy pattern helps by isolating each variation into its own class, making the code cleaner and easier to extend.
 
 ## When to Use It
 
 Use this pattern when:
 
-* You have multiple algorithms that solve the same problem in different ways.
-* You want to switch between these algorithms at runtime.
-* You want to avoid long conditional logic in your code.
-* You want to keep your algorithms flexible and independent from the code that uses them.
+* You have several algorithms that solve the same problem differently.
+* You want to switch between these algorithms during runtime.
+* You want to avoid hardcoding conditional logic.
+* You want your algorithms to be reusable and independent of the main program logic.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* The algorithm never changes or only changes in very rare, simple cases.
-* You only need a quick, one-off solution that doesn’t require a reusable structure.
-* All the algorithms behave nearly the same and don’t need separate classes.
+* The algorithm is fixed and unlikely to change.
+* The behavior differences are minor and don’t require separate classes.
+* A simple conditional is sufficient for the task.
 
 ## How It Works
 
-The Strategy pattern includes three main parts:
+The Strategy pattern includes three parts:
 
-1. **Strategy (interface or abstract base class)** – Defines the method each algorithm must implement.
-2. **Concrete Strategies** – Implement the actual behavior.
-3. **Context** – Uses a Strategy object to perform a task. It delegates the actual work to the selected strategy.
+1. **Strategy** – An abstract class or interface that defines a method all strategies must implement.
+2. **Concrete Strategies** – Classes that implement different versions of the method.
+3. **Context** – Holds a reference to a Strategy and uses it to perform operations. You can change the strategy at runtime.
 
 ## Real-World Analogy
 
-Think of a restaurant with multiple menus (strategies). You choose a menu depending on what you’re in the mood for. The restaurant (context) serves your meal based on your choice, without changing how the kitchen works behind the scenes.
+Imagine a restaurant with different menus. You pick the menu based on your mood—vegetarian, vegan, or seafood. The kitchen (context) prepares your meal based on your choice, without changing how it operates behind the scenes.
 
 ## Simplified Example
 
-Here’s a simple Python example:
+Here’s a basic Python example:
 
 ```python
 from abc import ABC, abstractmethod
@@ -59,10 +59,10 @@ class AscendingSortStrategy(SortStrategy):
 class Context:
     def __init__(self, strategy: SortStrategy):
         self._strategy = strategy
-    
+
     def set_strategy(self, strategy: SortStrategy):
         self._strategy = strategy
-        
+
     def sort(self, data: list[int]) -> list[int]:
         return self._strategy.sort(data)
 ```
@@ -75,9 +75,9 @@ context = Context(AscendingSortStrategy())
 print(context.sort(data))  # Output: [1, 2, 5, 9]
 ```
 
-The strategy can be changed at runtime by calling `set_strategy()` with a different sorting class.
+You can switch the strategy by calling `set_strategy()` with a different sorting class.
 
 ## Learn More
 
-To see the full implementation in Python, visit:
+See the complete Python implementation here:
 [Strategy Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/behavioral/strategy.py)
