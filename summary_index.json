@@ -78,6 +78,12 @@
     "summary": "Implementation of the Builder creational design pattern in Python."
   },
   {
+    "file": "creational/chaining.py",
+    "chunk": "creational_chaining.md",
+    "pattern": "Chaining",
+    "summary": "A Creational Design Pattern using Method Chaining and Fluent Interface\n\nPizzaBuilder Demo:\nThis script demonstrates the Builder Pattern with method chaining to configure a customizable pizza object. It includes validation, undo functionality, and is ideal for teaching fluent interface and creational design principles in Python."
+  },
+  {
     "file": "creational/factory.py",
     "chunk": "creational_factory.md",
     "pattern": "Factory",

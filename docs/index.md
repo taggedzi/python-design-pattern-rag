@@ -13,6 +13,7 @@
 - [Creational Abstract Factory](creational_abstract_factory.md)
 - [Creational Borg](creational_borg.md)
 - [Creational Builder](creational_builder.md)
+- [Creational Chaining](creational_chaining.md)
 - [Creational Factory](creational_factory.md)
 - [Creational Lazy Evaluation](creational_lazy_evaluation.md)
 - [Creational Prototype](creational_prototype.md)
