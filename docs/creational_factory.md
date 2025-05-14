@@ -2,44 +2,44 @@
 
 ## Purpose
 
-The Factory pattern provides a way to create objects without having to specify the exact class of the object that will be created. It promotes loose coupling by shifting the responsibility of object creation from the client code to a factory method.
+The Factory pattern provides a way to create objects without specifying the exact class. It centralizes object creation, which promotes flexibility and reduces direct dependencies in your code.
 
-## The Problem It Solves
+## Problem It Solves
 
-Sometimes, your code needs to create different types of objects based on certain conditions. Hardcoding `if` or `switch` statements to decide which class to instantiate can make your code rigid and hard to maintain. The Factory pattern helps by centralizing the creation logic, allowing the program to decide which object to create at runtime without modifying the client code.
+Sometimes your code needs to create different types of objects depending on conditions. Using hardcoded `if` or `switch` statements to decide which class to use can make your code harder to maintain. The Factory pattern simplifies this by putting the creation logic into one place. This allows you to add new object types without changing the code that uses them.
 
 ## When to Use It
 
 Use the Factory pattern when:
 
-* Your application needs to create many types of related objects.
-* You want to decouple object creation from the business logic.
-* New object types might be added in the future.
-* You need to create objects based on dynamic input or configuration.
+* Your program needs to create different types of related objects.
+* You want to separate creation logic from business logic.
+* You expect to add new types of objects in the future.
+* Object creation depends on dynamic conditions or configuration.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* There’s only one type of object to create.
-* Object creation is simple and doesn't vary.
-* Adding a factory adds unnecessary complexity.
+* There's only one type of object being created.
+* The creation logic is simple and unlikely to change.
+* Introducing a factory adds more complexity than benefit.
 
 ## How It Works
 
-The pattern involves:
+The Factory pattern includes:
 
-1. A base class or interface for the type of object to be created.
-2. A factory method that creates and returns instances of those types.
-3. The client code calls the factory method instead of using `new` or direct class instantiation.
+1. A base class or interface that defines the object type.
+2. A factory method that creates and returns objects.
+3. Client code that calls the factory method instead of instantiating objects directly.
 
 ## Real-World Analogy
 
-Think of a pizza restaurant. You don’t tell the chef how to make a Margherita pizza—you just place the order. The kitchen (factory) knows what ingredients to use and how to prepare it. Similarly, the Factory pattern lets the client request an object without knowing the creation steps.
+Think of ordering pizza at a restaurant. You don’t give instructions for how to make a Margherita—you just order it by name. The kitchen knows how to prepare it. In the same way, a factory method lets you request an object without knowing the details of how it’s created.
 
 ## Simplified Example
 
-Here’s a simple Python example using static factory methods:
+Here’s a basic Python example using static factory methods:
 
 ```python
 class Pizza:
@@ -61,11 +61,11 @@ print(p1.ingredients)  # Output: ['mozzarella', 'tomatoes']
 
 In this example:
 
-* `Pizza` is the product class.
-* `margherita()` and `prosciutto()` are factory methods.
-* The client (you) gets the right object without worrying about how it’s made.
+* `Pizza` is the main product class.
+* `margherita()` and `prosciutto()` are factory methods that return pre-configured pizza objects.
+* The client code gets the right type of pizza without needing to know how it’s built.
 
 ## Learn More
 
-You can find the full implementation in Python here:
+Explore the full Python implementation here:
 [Factory Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/factory.py)
