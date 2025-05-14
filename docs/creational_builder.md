@@ -2,52 +2,56 @@
 
 ## Purpose
 
-The Builder pattern helps you construct complex objects step by step. It separates the construction process from the final product, making it easier to create different versions or configurations of the same type of object.
+The Builder pattern helps construct complex objects step by step. It separates how an object is made from the final product, allowing you to create different variations using the same construction process.
 
-## The Problem It Solves
+## Problem It Solves
 
-Sometimes an object is too complex to create in one step—like building a house with a foundation, walls, windows, and furniture. You might want different versions of the house, such as a basic layout or a luxury model. The Builder pattern lets you construct such objects gradually, using a consistent process, while still allowing flexibility in the final result.
+Some objects are too complex to build all at once—for example, a house that requires a foundation, walls, windows, and furniture. You might want to build different versions, like a basic model or a luxury one. The Builder pattern lets you create these step by step with consistent structure while still supporting variations.
 
 ## When to Use It
 
-Use the Builder pattern when:
+Use this pattern when:
 
-* You need to build complex objects with many parts.
-* You want to reuse the same construction process for different representations.
-* You want to isolate the construction logic from the actual product.
+* An object has many parts or steps in its construction.
+* You want to reuse the construction process to build different results.
+* You want to keep the construction logic separate from the object itself.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* The object is simple and doesn’t require step-by-step construction.
-* You only ever need one version of the object, and its structure rarely changes.
-* Adding builders introduces unnecessary complexity for your use case.
+* The object is simple and doesn’t need multiple steps.
+* There’s only one fixed way to build the object.
+* Introducing builders would make the code more complex than necessary.
 
 ## How It Works
 
-The pattern has four key components:
+The Builder pattern has four main parts:
 
-1. **Product** – The final object being built (e.g., a house).
-2. **Builder** – Defines methods to build each part of the product (e.g., walls, windows).
-3. **ConcreteBuilder** – Implements the builder’s steps to build and assemble parts of the product.
-4. **Director** – Controls the construction process and calls builder methods in a specific order.
+1. **Product** – The object that’s being built.
+2. **Builder** – Defines the steps for building parts of the product.
+3. **ConcreteBuilder** – Implements the building steps and assembles the product.
+4. **Director** – Controls the order and combination of steps to create the product.
 
-The **Client** sets up the builder and director, then triggers the construction.
+The client sets up the builder and director, and the director manages the build sequence.
 
 ## Real-World Analogy
 
-Think of building a house. You use a blueprint (the builder interface), hire a contractor (the concrete builder), and follow a schedule (the director) to build it step by step. The builder adds pieces like the foundation, walls, and roof. The director decides what to build first and when.
+Building a house follows a plan (builder interface), with a contractor (concrete builder) performing the work. The construction manager (director) decides when each part—foundation, walls, roof—is added. The builder follows those instructions to complete the house.
 
 ## Simplified Example
 
 ```python
+from abc import ABC, abstractmethod
+
 # Builder interface
 class Builder(ABC):
     @abstractmethod
     def build_part_a(self): pass
+
     @abstractmethod
     def build_part_b(self): pass
+
     @abstractmethod
     def get_product(self): pass
 
@@ -55,16 +59,16 @@ class Builder(ABC):
 class ConcreteBuilder(Builder):
     def __init__(self):
         self.reset()
-    
+
     def reset(self):
         self._product = Product()
-    
+
     def build_part_a(self):
         self._product.add("PartA")
-    
+
     def build_part_b(self):
         self._product.add("PartB")
-    
+
     def get_product(self):
         product = self._product
         self.reset()
@@ -74,10 +78,10 @@ class ConcreteBuilder(Builder):
 class Product:
     def __init__(self):
         self.parts = []
-    
+
     def add(self, part):
         self.parts.append(part)
-    
+
     def list_parts(self):
         return ", ".join(self.parts)
 
@@ -85,15 +89,15 @@ class Product:
 class Director:
     def __init__(self, builder: Builder):
         self._builder = builder
-    
+
     def build_minimal_viable_product(self):
         self._builder.build_part_a()
-    
+
     def build_full_featured_product(self):
         self._builder.build_part_a()
         self._builder.build_part_b()
 
-# Example usage
+# Usage
 builder = ConcreteBuilder()
 director = Director(builder)
 
@@ -106,12 +110,12 @@ print("Full product:", builder.get_product().list_parts())
 
 ### Output
 
-```text
+```
 Minimal product: PartA
 Full product: PartA, PartB
 ```
 
 ## Learn More
 
-For a full implementation and examples, check:
+See the full implementation and more examples here:
 [Builder Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/builder.py)

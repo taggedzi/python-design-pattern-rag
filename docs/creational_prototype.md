@@ -2,39 +2,39 @@
 
 ## Purpose
 
-The Prototype pattern allows you to create new objects by copying existing ones, rather than building them from scratch. This is especially helpful for creating complex or expensive-to-initialize objects.
+The Prototype pattern lets you create new objects by copying existing ones instead of creating them from scratch. It’s useful when objects are complex or costly to initialize.
 
-## The Problem It Solves
+## Problem It Solves
 
-Creating objects can sometimes be slow or resource-intensive—especially when they have many attributes or dependencies. Rather than recreating these objects from the ground up, the Prototype pattern lets you make copies (clones) of a pre-existing object and modify them if needed.
+Creating certain objects can take time or use a lot of resources, especially if they have many attributes or dependencies. Rather than rebuilding these objects each time, the Prototype pattern allows you to clone an existing object and modify the copy if needed.
 
 ## When to Use It
 
-Use the Prototype pattern when:
+Use this pattern when:
 
-* You need to create objects based on a runtime configuration or input.
-* Creating objects from scratch is slow or resource-heavy.
-* You want to avoid tightly coupling code to specific classes.
+* You need to create objects at runtime based on an existing template.
+* Creating an object from scratch is slow or resource-intensive.
+* You want to reduce coupling between your code and specific classes.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid using this pattern when:
+Avoid using this pattern if:
 
-* The object is simple and cheap to create with a constructor.
-* Objects are immutable (since they can’t be modified after creation).
-* Initialization logic is complex and cloning would skip critical setup steps.
+* The object is simple and easy to construct.
+* The object is immutable (cannot be changed after creation).
+* The object requires complex initialization that cloning might skip.
 
 ## How It Works
 
-You define a `clone()` method that returns a copy of the object. This method is typically part of a base `Prototype` class or interface that other classes inherit from. The `clone()` method often performs a deep copy so the cloned object doesn’t share references with the original.
+Each object defines a `clone()` method that returns a new copy. This method is usually part of a base `Prototype` class or interface. In many cases, `clone()` uses a deep copy to ensure the new object doesn’t share references with the original.
 
 ## Real-World Analogy
 
-Imagine having a house blueprint (prototype). Instead of designing every new house from scratch, you use the blueprint to create new houses and then customize things like paint color or interior layout. This saves time and ensures consistency.
+Think of using a house blueprint. Instead of designing each house from scratch, you copy the blueprint and customize the new house as needed. This saves time and ensures consistency.
 
 ## Simplified Example
 
-Here’s an example in Python using a simple `Shape` class:
+Here’s a basic Python implementation:
 
 ```python
 import copy
@@ -59,8 +59,11 @@ class Shape(Prototype):
 
     def clone(self):
         return copy.deepcopy(self)
+```
 
-# Example usage
+### Usage
+
+```python
 original = Shape("blue", (0, 0))
 copy1 = original.clone()
 copy1.move(5, 10)
@@ -71,11 +74,11 @@ print(copy1)     # Shape(color=blue, position=(5, 10))
 
 In this example:
 
-* `Shape` is the concrete class implementing the `Prototype` interface.
-* `clone()` returns a deep copy of the shape.
-* The original and cloned shapes can be changed independently.
+* `Shape` implements the `Prototype` interface.
+* `clone()` returns a deep copy of the object.
+* The original and the copy are separate objects that can be modified independently.
 
 ## Learn More
 
-You can find the full implementation on GitHub:
-[Prototype Pattern in Python](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/prototype.py)
+See the full Python implementation here:
+[Prototype Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/prototype.py)

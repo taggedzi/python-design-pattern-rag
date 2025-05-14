@@ -2,43 +2,43 @@
 
 ## Purpose
 
-The Abstract Factory pattern provides an interface for creating groups of related or dependent objects without needing to specify their exact classes. It’s used to make systems more flexible and easier to extend by abstracting the creation of product families.
+The Abstract Factory pattern provides a way to create families of related or dependent objects without specifying their exact classes. It helps make your code more flexible and easier to extend by grouping object creation into a unified interface.
 
-## The Problem It Solves
+## Problem It Solves
 
-In some programs, you need to support multiple sets of objects that should work together—for example, GUI elements for different operating systems like Windows and macOS. Instead of scattering `if-else` or `switch` logic across your code to decide which object to create, you can use an abstract factory to centralize and simplify that decision. This makes it easier to support new platforms or themes in the future.
+In some applications, you need to support multiple sets of objects that should work together—such as GUI components for different platforms like Windows or macOS. Without this pattern, you might end up using `if-else` or `switch` statements scattered throughout your code to choose the right object. Abstract Factory centralizes this logic, making it easier to manage and extend, especially when supporting new platforms or styles.
 
 ## When to Use It
 
-Use the Abstract Factory pattern when:
+Use this pattern when:
 
-* Your code needs to work with multiple families of related objects (e.g., a GUI that supports different platforms).
-* You want to avoid hard-coding specific class names throughout your codebase.
-* You want to provide a way to switch between different product families at runtime.
+* You need to work with families of related objects (e.g., buttons and checkboxes that match in style).
+* You want to avoid hardcoding class names throughout your application.
+* You want to switch product families at runtime.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* Your app only uses a small number of related classes, and adding abstraction would complicate the design.
-* You don’t need to support multiple interchangeable families of products.
+* Your app only needs a few objects and doesn't benefit from abstraction.
+* You don’t plan to support multiple interchangeable families of objects.
 
 ## How It Works
 
-The pattern includes four main parts:
+The pattern includes four key parts:
 
-1. **Abstract Products** – Interfaces that define common operations (e.g., `Button`, `Checkbox`).
-2. **Concrete Products** – Actual implementations of those interfaces for each product family (e.g., `WindowsButton`, `MacButton`).
-3. **Abstract Factory** – An interface for creating each type of product (e.g., `GUIFactory`).
-4. **Concrete Factories** – Implementations of the abstract factory for each product family (e.g., `WindowsFactory`, `MacFactory`).
+1. **Abstract Products** – Interfaces or base classes that define a common set of behaviors (e.g., `Button`, `Checkbox`).
+2. **Concrete Products** – Specific implementations for each product family (e.g., `WindowsButton`, `MacButton`).
+3. **Abstract Factory** – An interface that declares methods to create each type of product.
+4. **Concrete Factories** – Classes that implement the abstract factory and create a set of related products.
 
 ## Real-World Analogy
 
-Think of a supermarket that adapts to your dietary needs. If you choose "vegan," you’re directed to vegan fruit, vegan dairy alternatives, and vegan baked goods—all tailored to that lifestyle. Similarly, an abstract factory delivers a full set of products matched to a specific family or context, without mixing them up.
+Think of a supermarket that adjusts its offerings based on your dietary choice. If you choose “vegan,” you’re directed to vegan-friendly versions of fruits, dairy alternatives, and baked goods—all tailored to that preference. Similarly, an abstract factory supplies a consistent set of products from the same family.
 
 ## Simplified Example
 
-Here’s a basic structure in Python:
+Here's a basic Python example:
 
 ```python
 from abc import ABC, abstractmethod
@@ -61,12 +61,12 @@ class ConcreteProductA2(ProductA):
 
 In this example:
 
-* `ProductA` is the abstract product.
-* `ConcreteProductA1` and `ConcreteProductA2` are platform- or theme-specific implementations.
+* `ProductA` is the abstract product interface.
+* `ConcreteProductA1` and `ConcreteProductA2` are different versions tailored to specific themes or platforms.
 
-In a full version, you’d also have a factory interface and one or more factory classes to create the products.
+A full implementation would also include a factory interface and one or more factory classes to handle product creation.
 
 ## Learn More
 
-You can view the complete implementation in Python here:
+See the complete implementation in Python here:
 [Abstract Factory on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/creational/abstract_factory.py)
