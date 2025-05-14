@@ -2,39 +2,39 @@
 
 ## Purpose
 
-The Facade pattern provides a simple, unified interface to a larger and more complex system of classes. It hides the internal details of how the system works, making it easier for users to interact with.
+The Facade pattern provides a simple, unified interface to a complex system of classes. It hides internal complexity, making the system easier to use and understand.
 
-## The Problem It Solves
+## Problem It Solves
 
-In many software systems, the inner workings involve multiple classes or APIs that need to be used together correctly. This can make the system hard to understand and use. The Facade pattern addresses this by wrapping the complexity behind a cleaner, higher-level interface. It simplifies usage and reduces the need for users to understand the full structure of the system.
+Many software systems rely on multiple classes or APIs that must be used together in a specific way. This complexity can make them hard to work with. The Facade pattern solves this by introducing a high-level wrapper class that exposes a cleaner interface, allowing clients to interact with the system without needing to understand or manage its internal details.
 
 ## When to Use It
 
-Use the Facade pattern when:
+Use this pattern when:
 
-* You have a complex subsystem with many components or classes.
-* You want to provide an easier or more consistent interface for clients.
-* You want to separate the implementation of a system from its usage, making it easier to maintain or refactor.
+* You want to simplify a system made up of many classes or components.
+* You want to provide a clear and consistent interface for clients.
+* You need to separate system implementation from how it’s used, helping with maintenance or future changes.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid using the Facade pattern if:
 
-* Clients need full access to every feature of the subsystem.
-* The subsystem is simple and doesn’t benefit from abstraction.
-* You don’t want to introduce an extra layer that might become outdated or tightly coupled to the subsystem.
+* Clients need full control over or access to the subsystem’s details.
+* The subsystem is already simple and adding a facade doesn’t reduce complexity.
+* A facade would introduce tight coupling or redundancy.
 
 ## How It Works
 
-The Facade pattern creates a wrapper class (the facade) that delegates tasks to the right classes in the subsystem. The client interacts only with the facade, not with the individual classes. This makes the system easier to use and reduces dependencies between components.
+The Facade pattern introduces a wrapper class that internally manages interactions with multiple components. Clients use only this facade to interact with the system. This reduces the number of dependencies and simplifies the client’s view of the system.
 
 ## Real-World Analogy
 
-Think of a restaurant menu. Instead of asking the chef how to cook each dish, you choose from a menu. The kitchen handles the rest. You don’t need to know how everything works behind the scenes—just what you want to order. That’s what a facade does in software.
+A restaurant menu is a facade. Diners don’t talk to the chef or learn how to prepare each meal. Instead, they choose from a list, and the kitchen handles everything. The menu hides complexity and simplifies interaction—just like a facade in software.
 
 ## Simplified Example
 
-Imagine a text editor system with two subsystems: one for text files and one for word documents.
+Imagine a system that handles both text files and Word documents:
 
 ```python
 class TextFile:
@@ -58,7 +58,7 @@ class WordDocument:
         print(f"Saving Word document as {filename}")
 ```
 
-The facade simplifies access to both:
+Now, we create a facade to simplify usage:
 
 ```python
 class TextEditorFacade:
@@ -84,9 +84,9 @@ editor.new_document("Hello, world!")
 print(editor.open_and_read("file.txt"))
 ```
 
-This approach simplifies how a developer interacts with the system, hiding unnecessary details.
+The client code only deals with `TextEditorFacade`, not the individual components, making it easier to use and maintain.
 
 ## Learn More
 
-For the full Python implementation, visit:
+See the full Python implementation here:
 [Facade Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/facade.py)

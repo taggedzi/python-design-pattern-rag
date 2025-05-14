@@ -2,40 +2,40 @@
 
 ## Purpose
 
-The Adapter pattern allows objects with incompatible interfaces to work together. It acts as a bridge between a class you already have and the interface you need. Instead of changing existing code, you create an adapter that translates one interface into another.
+The Adapter pattern allows objects with incompatible interfaces to work together. It acts as a bridge between an existing class and the interface your code expects. Rather than modifying existing code, you write a separate adapter that converts one interface to another.
 
-## The Problem It Solves
+## Problem It Solves
 
-Sometimes you want to use a class, but its methods don't match what your code expects. This often happens when working with legacy code, third-party libraries, or when following the Single Responsibility Principle (SRP) and keeping classes focused. Rather than modifying the original class (which might be risky or impossible), the Adapter pattern lets you create a wrapper that makes it compatible with your code.
+Sometimes you want to use a class, but its methods don't match what your code expects. This often happens with legacy code or third-party libraries. Changing the original class might be risky, impractical, or violate good design principles like the Single Responsibility Principle. The Adapter pattern lets you create a wrapper that makes the class compatible without altering its original code.
 
 ## When to Use It
 
 Use the Adapter pattern when:
 
-* You want to use an existing class, but its interface doesn’t match what you need.
-* You’re integrating with legacy code or third-party libraries.
-* You want to follow SRP by not changing the original class.
-* Classes with different interfaces need to work together.
+* You need to integrate a class with an incompatible interface.
+* You're working with legacy code or external libraries you can’t change.
+* You want to avoid modifying existing classes.
+* You need to enable classes with different interfaces to collaborate.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid the Adapter pattern if:
+Avoid this pattern if:
 
-* You control the original class and can safely change its interface.
-* The classes already work together without modification.
-* Adding an adapter would unnecessarily complicate your design.
+* You own and can safely modify the original class.
+* The classes already work together as-is.
+* Adding an adapter would overcomplicate a simple design.
 
 ## How It Works
 
-The Adapter pattern works by wrapping the incompatible class in a new class that implements the desired interface. This wrapper (the adapter) translates method calls or data between the expected interface and the actual one.
+You create a new class—the adapter—that wraps the existing class. This adapter implements the interface your code expects and translates calls or data to match the behavior of the wrapped class.
 
 ## Real-World Analogy
 
-Imagine you have a power plug from Europe, but you're in the U.S. The plug won't fit the outlet directly. An adapter converts the shape of the plug so you can use your device without modifying it. The same idea applies in software—adapters help mismatched parts work together without changing their internal workings.
+Think of using a travel plug adapter. If your European charger doesn’t fit a U.S. outlet, the adapter converts the plug shape so your device works without needing to redesign the charger. In code, adapters serve the same purpose: making two mismatched pieces work together.
 
 ## Simplified Example
 
-Here's a simple Python example:
+Here’s a basic Python example:
 
 ```python
 # The interface expected by the client
@@ -67,11 +67,11 @@ print(adapter.request())  # Output: Adapter: (TRANSLATED) Special behavior of th
 
 In this example:
 
-* `Target` is the expected interface.
-* `Adaptee` has an incompatible method.
-* `Adapter` wraps `Adaptee` and translates its output to match what the client expects.
+* `Target` is the interface the client expects.
+* `Adaptee` has a different, incompatible method.
+* `Adapter` wraps `Adaptee` and makes it compatible with `Target`.
 
 ## Learn More
 
-You can find the complete implementation in Python here:
+See the complete Python example here:
 [Adapter Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/adapter.py)
