@@ -2,39 +2,39 @@
 
 ## Purpose
 
-The Global Object pattern provides a simple way to share data—such as configuration settings or environment information—across different parts of an application. Unlike the Singleton pattern, it doesn’t enforce that only one instance exists but instead makes a shared instance easily accessible.
+The Global Object pattern provides a simple way to share information—like configuration settings or environment flags—across different parts of an application. Unlike the Singleton pattern, it doesn't restrict you to one instance; instead, it offers a shared object that’s easy to access.
 
-## The Problem It Solves
+## Problem It Solves
 
-In large applications, it can be difficult to manage shared settings like debug mode, API keys, or environment flags. Passing these values around through every function or class creates clutter. The Global Object pattern solves this by storing shared state in one central place, which any part of the application can access directly.
+Large applications often need shared settings like debug mode, API keys, or environment labels (e.g., `"development"` or `"production"`). Passing these values through every function or class can clutter your code. The Global Object pattern centralizes this shared data in one place, making it accessible without repeated arguments or tightly coupled code.
 
 ## When to Use It
 
 Use this pattern when:
 
-* You need to share config or global settings across multiple modules.
-* The settings don’t change often during runtime.
+* You need to share global settings across multiple modules.
+* These settings don’t change frequently at runtime.
 * You want a lightweight alternative to Singleton or dependency injection.
 
-Typical examples include debug flags, environment modes (`"development"`, `"production"`), API tokens, feature toggles, and other app-wide variables.
+Common uses include configuration flags, logging levels, feature toggles, and environment modes.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid using this pattern when:
+Avoid using this pattern if:
 
-* Your app is small, and passing data explicitly is simpler and clearer.
-* You need strict control over object creation (use Singleton instead).
-* You want to avoid tight coupling or make unit testing easier.
+* Your app is small and simpler with explicitly passed variables.
+* You need strict control over object creation (Singleton may be better).
+* You want to write highly testable or decoupled code—global objects can make testing harder.
 
-Too much reliance on global state can make testing harder and the flow of data harder to follow.
+Too much reliance on global state can lead to hidden dependencies and unpredictable behavior in tests.
 
 ## How It Works
 
-You define a module-level object (usually in a separate file like `config.py`) and import it wherever needed. Since Python modules are cached after their first import, all parts of the application share the same instance of the object.
+You define a shared object in a module (like `config.py`) and import it wherever needed. Python ensures that each module is only loaded once, so all imports reference the same instance—effectively making it a shared global.
 
 ## Real-World Analogy
 
-Think of a wall-mounted thermostat in a building. Everyone can check it and see the current temperature setting. No one needs to carry around their own copy—it's in a fixed, shared spot. Similarly, the Global Object pattern gives your application one central reference point for shared settings.
+Think of a wall-mounted thermostat in a building. Everyone can read the same display to see the temperature setting—no need for every room to have its own. Similarly, a global object offers a shared reference for application-wide data.
 
 ## Simplified Example
 
@@ -47,7 +47,7 @@ class AppConfig:
         self.debug_mode = False
         self.api_key = None
 
-# This instance is shared throughout the app
+# Shared instance used across the app
 global_config = AppConfig()
 ```
 
@@ -62,10 +62,9 @@ def initialize_service():
         print("[Service] Debug mode is ON")
 ```
 
-### Usage
+### Usage Example (`main.py`)
 
 ```python
-# main.py
 from config import global_config
 from service import initialize_service
 
@@ -77,12 +76,14 @@ initialize_service()
 
 ### Output
 
-```text
+```bash
 [Service] Running in production mode.
 [Service] Debug mode is ON
 ```
 
+This shows how different modules can access and modify shared settings without tightly coupling them.
+
 ## Learn More
 
-For a full implementation, see:
+View the complete implementation here:
 [Global Object Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/global_object.py)

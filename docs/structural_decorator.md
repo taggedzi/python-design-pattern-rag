@@ -2,44 +2,44 @@
 
 ## Purpose
 
-The Decorator pattern lets you add new behavior to individual objects—either at runtime or compile time—without changing the structure of the original class. It supports the Open/Closed Principle by allowing behavior to be extended without modifying existing code.
+The Decorator pattern lets you add new behavior to individual objects without changing their original structure. It supports the Open/Closed Principle, allowing classes to be extended without being modified.
 
-## The Problem It Solves
+## Problem It Solves
 
-If you need to add features to an object, one option is to create subclasses. But this quickly becomes unmanageable if you need many combinations of features. The Decorator pattern solves this by allowing you to wrap objects with other objects (decorators) that add specific functionality, reducing code duplication and improving flexibility.
+If you want to enhance an object’s behavior, one approach is to use inheritance. But this can lead to a large number of subclasses to cover all combinations of features. The Decorator pattern solves this by wrapping objects in other objects (decorators) that add or modify behavior, allowing you to build features dynamically and flexibly.
 
 ## When to Use It
 
-Use the Decorator pattern when:
+Use this pattern when:
 
-* You need to add responsibilities to individual objects without affecting others of the same class.
-* You want to add behavior dynamically, at runtime.
-* You want to avoid subclassing for every new feature combination.
+* You want to add behavior to an object without affecting other instances of the same class.
+* You need to add features at runtime.
+* You want to avoid creating many subclasses for different feature combinations.
 
-Common use cases include logging, authentication, formatting, or adding user interface behaviors like scrollbars or borders.
+Typical use cases include logging, input validation, user interface enhancements, or formatting.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid this pattern when:
+Avoid this pattern if:
 
-* You only need simple inheritance or static behavior that doesn’t change.
-* The added complexity of multiple layers makes the code harder to read or debug.
-* The functionality you're adding is better handled by a different design (like a strategy or observer).
+* Inheritance is simpler and sufficient for your needs.
+* The layering of decorators makes your code hard to follow.
+* The behavior you're adding is better handled by other patterns, such as Strategy or Observer.
 
 ## How It Works
 
-The pattern includes:
+The pattern includes four main parts:
 
-1. **Component interface** – Defines the base behavior.
-2. **Concrete component** – The original object being decorated.
-3. **Decorator base class** – Wraps a component and delegates calls to it.
-4. **Concrete decorators** – Extend the behavior of the component by overriding or adding methods.
+1. **Component interface** – Defines the standard methods.
+2. **Concrete component** – The object to which behavior will be added.
+3. **Base decorator** – Wraps a component and passes method calls to it.
+4. **Concrete decorators** – Add or override functionality by extending the base decorator.
 
-Each decorator wraps another object, so you can chain multiple decorators to build up complex behavior.
+You can stack multiple decorators to build up the desired behavior.
 
 ## Real-World Analogy
 
-Think of ordering a pizza. You start with a base (like a Margherita), then add toppings—mozzarella, olives, mushrooms. Each topping adds something new, but the base pizza stays the same. You don’t need a separate class for every combination of toppings—you just wrap the base with decorators.
+Think of customizing a pizza. You start with a base (like Margherita), then add toppings such as mozzarella, olives, or mushrooms. Each topping adds a feature, but you don’t need a separate class for every topping combination—just layer decorators.
 
 ## Simplified Example
 
@@ -82,17 +82,17 @@ class Mozzarella(PizzaDecorator):
         return f"{super().get_description()}, Mozzarella"
 ```
 
-### Example Usage:
+### Usage
 
 ```python
 pizza = Mozzarella(Margherita())
-print(pizza.get_description())  # Margherita, Mozzarella
-print(pizza.get_cost())         # 15
+print(pizza.get_description())  # Output: Margherita, Mozzarella
+print(pizza.get_cost())         # Output: 15
 ```
 
-Each decorator can be stacked to add more features.
+You can stack decorators like `Olives`, `Mushrooms`, and so on, to build complex combinations.
 
 ## Learn More
 
-You can explore the full implementation here:
+View the complete implementation here:
 [Decorator Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/decorator.py)

@@ -2,46 +2,46 @@
 
 ## Purpose
 
-The Flyweight pattern is used to reduce memory usage and improve performance by sharing common data between similar objects instead of storing it multiple times. This is especially useful when working with large numbers of similar objects.
+The Flyweight pattern reduces memory use and improves performance by sharing common data between many similar objects. It's especially useful when working with large numbers of objects that have repeated data.
 
-## The Problem It Solves
+## Problem It Solves
 
-Some applications create many objects that use a lot of memory—even when many of those objects are mostly the same. The Flyweight pattern helps reduce this overhead by sharing the repeated (intrinsic) parts of an object and only storing the unique (extrinsic) data separately.
+In many applications, you might create thousands of objects—many of which store the same data. This can waste memory. The Flyweight pattern helps by splitting objects into shared (intrinsic) and unique (extrinsic) parts, so that only the unique data is stored separately, and the shared part is reused.
 
 ## When to Use It
 
-Use the Flyweight pattern when:
+Use this pattern when:
 
-* Your program creates a huge number of similar objects.
+* You need to create a large number of similar objects.
 * Many objects share common data that can be reused.
-* You want to reduce memory consumption and improve performance.
-* The shared part of an object can be separated from the unique part.
+* You want to reduce memory consumption or speed up performance.
+* The shared and unique parts of the data can be clearly separated.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid this pattern when:
+Avoid the pattern if:
 
-* Most objects have unique data and don’t share common parts.
-* The overhead of managing shared data is greater than the memory saved.
-* Object sharing would make your code harder to read or maintain.
-* You need each object to be truly independent from the others.
+* Most of your objects have unique data that can't be shared.
+* Managing shared state adds more complexity than benefit.
+* Sharing objects would hurt readability or create unwanted side effects.
+* Each object needs to be fully independent.
 
 ## How It Works
 
-The Flyweight pattern separates an object into two parts:
+The pattern divides an object into:
 
-* **Shared (intrinsic) state** – the data that's common across many objects.
-* **Unique (extrinsic) state** – the data that's specific to each object.
+* **Shared (intrinsic) state**: data that is common and reused.
+* **Unique (extrinsic) state**: data that is specific to each use.
 
-A `Flyweight` object stores the shared state. A `FlyweightFactory` ensures that shared states are reused rather than duplicated. The client code supplies the unique state when calling the flyweight’s method.
+A `Flyweight` class holds the shared state. A `FlyweightFactory` checks if that shared state already exists. If so, it reuses it; if not, it creates and stores it. When using the flyweight, the client provides the unique state.
 
 ## Real-World Analogy
 
-Think of a library where multiple people check out copies of the same book. The content (title, author, chapters) is the shared state. Each reader’s specific notes or the return date is unique to their copy. Flyweight is like using one shared version of the content across all users while only tracking the differences separately.
+Think of a public library. Everyone borrows the same book titles (shared content), but each reader may have a different return date or borrow history (unique data). The Flyweight pattern uses the same idea—share the common parts, track only what’s unique per user.
 
 ## Simplified Example
 
-Here’s a basic example in Python:
+Here’s a basic implementation in Python:
 
 ```python
 class Flyweight:
@@ -73,12 +73,12 @@ flyweight1.operation("Unique-A")
 flyweight2 = factory.get_flyweight("Shared-1")
 flyweight2.operation("Unique-B")
 
-print(flyweight1 is flyweight2)  # True — same shared object
+print(flyweight1 is flyweight2)  # Output: True — same instance reused
 ```
 
-This shows how two objects with the same shared state use a single instance, saving memory.
+This example shows how objects with the same shared data reuse a single instance, saving memory.
 
 ## Learn More
 
-View the complete implementation here:
+View the full Python implementation here:
 [Flyweight Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/flyweight.py)

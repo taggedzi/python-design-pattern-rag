@@ -2,43 +2,47 @@
 
 ## Purpose
 
-The Prebound Method pattern improves performance and reduces overhead by storing a method reference in a local variable. This is especially useful when you need to call the same method repeatedly, such as inside loops or when registering callbacks.
+The Prebound Method pattern improves performance by storing a method reference in a local variable before calling it repeatedly. It’s especially helpful in loops or callback-heavy code, where method lookups would otherwise happen over and over.
 
-## The Problem It Solves
+## Problem It Solves
 
-In Python, calling an instance method involves a dynamic lookup—it checks the object’s dictionary and method resolution order every time. While this is fine for occasional calls, it can be a performance bottleneck in tight loops or high-frequency callback systems. Prebinding the method to a local variable removes the repeated lookup, making method calls faster.
+In Python, each time you call an instance method (e.g., `obj.method()`), Python performs a dynamic lookup to resolve the method. This is fine for occasional calls, but in tight loops or high-frequency callbacks, this lookup adds unnecessary overhead. By assigning the method to a local variable first, you can avoid the repeated lookup and make calls faster.
 
 ## When to Use It
 
 Use this pattern when:
 
-* You're calling an instance method many times in a loop or frequently within performance-sensitive code.
-* You're registering or reusing the same method as a callback in multiple places.
-* You want to minimize the slight but cumulative cost of repeated method lookup.
+* You call the same method many times in a loop or performance-critical section.
+* You’re registering the same method as a callback in multiple places.
+* You want to optimize by reducing small but repeated overhead.
 
-## When NOT to Use It
+## When Not to Use It
 
-Avoid this pattern when:
+Skip this pattern if:
 
-* The method is called infrequently or only once.
-* The logic is simple and the performance gain would be negligible.
-* You're working in a context where clarity or readability is more important than micro-optimization.
+* The method is only called a few times.
+* Readability matters more than micro-optimization.
+* The performance gain is too small to justify the extra step.
 
 ## How It Works
 
-Instead of repeatedly calling `obj.method()`, you assign the method to a local variable once:
+Instead of calling the method like this each time:
+
+```python
+obj.method()
+```
+
+You assign it once to a local variable:
 
 ```python
 method = obj.method
 ```
 
-Now you can call `method()` directly, avoiding the overhead of repeated attribute access.
-
-This works because in Python, methods are objects too, and accessing a bound method returns a callable that includes both the function and its associated object (`self`).
+Then use `method()` directly. In Python, this works because accessing a bound method returns a callable object that includes the instance (`self`), so you're effectively storing a preconfigured function.
 
 ## Real-World Analogy
 
-Imagine you're a librarian looking up a specific book title thousands of times. Rather than going to the shelf and scanning every row repeatedly, you write the book’s location on a sticky note once. Then you use the note to go straight to the book every time—that’s what prebinding does for method calls.
+Think of a librarian who looks up a specific book multiple times. Rather than scanning all the shelves each time, they write the book’s location on a sticky note and go directly to it. That’s what prebinding does—it skips the repeated search.
 
 ## Simplified Example
 
@@ -52,14 +56,14 @@ proc = Processor()
 # Prebind the method
 process_text = proc.process_text
 
-# Use it repeatedly
+# Use it multiple times
 for _ in range(3):
     process_text("Hello, world!")
 ```
 
-This avoids repeating the `proc.process_text` lookup each time through the loop.
+By prebinding `proc.process_text` to `process_text`, you avoid the repeated attribute lookup during the loop.
 
 ## Learn More
 
-You can view a full implementation of this pattern here:
+Explore the full Python example here:
 [Prebound Method Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/prebound_method.py)

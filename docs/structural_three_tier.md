@@ -2,54 +2,54 @@
 
 ## Purpose
 
-The Three-Tier pattern organizes an application into three separate layers—data, logic, and presentation. This separation helps keep code clean, easier to maintain, and scalable as the application grows.
+The Three-Tier pattern divides an application into three distinct layers: data, logic, and presentation. This structure helps keep code organized, easier to maintain, and more scalable as the application grows.
 
-## The Problem It Solves
+## Problem It Solves
 
-Large or complex applications often mix together data storage, business logic, and user interfaces. This makes the code harder to manage, test, and extend. The Three-Tier pattern addresses this by separating responsibilities into distinct layers that can be developed, tested, and updated independently.
+In many applications, data handling, business logic, and user interfaces are mixed together. This can make the code hard to manage, test, or update. The Three-Tier pattern solves this by assigning each responsibility to its own layer, allowing you to change one part without affecting the others.
 
 ## When to Use It
 
 Use this pattern when:
 
-* Your application has complex logic or a user interface that needs to interact with stored data.
-* You want to clearly separate backend logic from the user interface.
-* You need to improve maintainability and testability in a growing codebase.
+* Your application includes both user interaction and data storage.
+* You want to separate the business logic from the interface.
+* You need a maintainable, testable structure for a growing codebase.
 
-## When NOT to Use It
+## When Not to Use It
 
 Avoid this pattern if:
 
-* The application is very simple or has minimal data and logic.
-* Adding extra structure would only increase complexity without much benefit.
-* You don’t expect the application to grow significantly in size or functionality.
+* The app is small, with little or no business logic.
+* Adding structure would make the design unnecessarily complex.
+* You don’t expect the app to scale or grow in functionality.
 
 ## How It Works
 
-The application is split into three layers:
+The application is divided into three layers:
 
-1. **Data Layer** – Handles storage and retrieval (e.g., databases, files).
-2. **Logic Layer** – Processes business rules and decisions.
-3. **Presentation Layer** – Manages the user interface and interactions.
+1. **Data Layer** – Manages data storage and retrieval (e.g., databases or files).
+2. **Logic Layer** – Handles rules, processing, and decision-making.
+3. **Presentation Layer** – Manages how users interact with the app (e.g., UI or command-line interface).
 
-Each layer communicates only with its adjacent layer, promoting modularity and clean separation of concerns.
+Each layer communicates only with its neighboring layer, promoting clean separation of responsibilities.
 
 ## Real-World Analogy
 
 Think of a restaurant:
 
 * The **kitchen** (Data Layer) prepares the food.
-* The **chef** (Logic Layer) decides how to cook the food based on the recipe.
-* The **waiter** (Presentation Layer) interacts with customers and brings them their orders.
+* The **chef** (Logic Layer) decides how to prepare the food based on the order.
+* The **waiter** (Presentation Layer) takes orders from customers and delivers food.
 
-Each part does its job without needing to know all the details of the others.
+Each part does its job without needing full knowledge of the others.
 
 ## Simplified Example
 
-Here's a basic example in Python:
+Here’s a basic example in Python:
 
 ```python
-# Data Layer (in-memory database)
+# Data Layer
 _data = []
 
 def save(item):
@@ -58,7 +58,7 @@ def save(item):
 def fetch():
     return list(_data)
 
-# Logic Layer (business rules)
+# Logic Layer
 def add(item):
     if item:
         save(item)
@@ -68,13 +68,13 @@ def add(item):
 def get_all():
     return fetch()
 
-# Presentation Layer (command-line interface)
+# Presentation Layer
 while True:
     print("\n=== Menu ===")
     print("1. Add Item")
     print("2. View Items")
     choice = input("Choose an option: ")
-    
+
     if choice == "1":
         item = input("Enter the item: ")
         try:
@@ -82,7 +82,6 @@ while True:
             print("Item added.")
         except ValueError as e:
             print(f"Error: {e}")
-            
     elif choice == "2":
         items = get_all()
         if not items:
@@ -92,7 +91,9 @@ while True:
                 print(f"{i}. {item}")
 ```
 
+This example separates storage, processing, and user interaction into three simple layers, each with a single responsibility.
+
 ## Learn More
 
-For the full implementation, see:
+View the full implementation in Python here:
 [Three-Tier Pattern on GitHub](https://github.com/taggedzi/python-design-pattern-rag/blob/main/patterns/structural/three_tier.py)
